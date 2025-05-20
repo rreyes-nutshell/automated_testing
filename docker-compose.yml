@@ -1,0 +1,47 @@
+services:
+  web:
+    build: .
+    container_name: flask_app
+    ports:
+      - "5050:5000"
+    env_file:
+      - .env
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+      - ollama
+    entrypoint: >
+      sh -c "playwright install --with-deps && python app.py"
+
+
+  db:
+    image: postgres:15
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: nsadmin
+      POSTGRES_PASSWORD: nsadmin
+      POSTGRES_DB: ns_ai_tester
+    ports:
+      - "5555:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U nsadmin -d ns_ai_tester"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+     - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    entrypoint: >
+      sh -c "ollama serve & sleep 2 && ollama run mistral && tail -f /dev/null"
+
+volumes:
+  pgdata:
+  ollama_data:

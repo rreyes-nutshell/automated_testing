@@ -1,0 +1,10 @@
+
+
+curl -X POST http://127.0.0.1:5000/run-test-script \
+  -H "Content-Type: application/json" \
+  -d '{
+        "script_text": "Navigate to Scheduled Processes screen",
+        "username": "mgonzalez@mfa.org",
+        "password": "Welcome!23",
+        "login_url": "https://login-ibnijb-dev1.fa.ocs.oraclecloud.com"
+      }'

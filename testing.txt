@@ -1,0 +1,6 @@
+Login to Oracle as admin
+Navigate to Invoices
+Click Create Invoice
+Enter Vendor Info
+Submit Invoice
+

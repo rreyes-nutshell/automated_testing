@@ -1,0 +1,8 @@
+git add .
+git commit -m "🧹 Local changes before branch switch"
+git checkout login-stable-20250503
+
+
+git add .
+git commit -m "✨ Working Oracle nav: Show More opens, Tools skipped, links normalized"
+git push

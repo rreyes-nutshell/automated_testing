@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oracle Test Runner</title>
+</head>
+<body>
+    <h1>Upload Test Script</h1>
+    <form method="POST" enctype="multipart/form-data" onsubmit="showLoader()">
+        <input type="file" name="test_file">
+        <input type="submit" value="Run Test">
+    </form>
+
+    <div id="loader" style="display:none; margin-top:10px;">
+        <strong>🧠 Processing… please wait.</strong>
+    </div>
+
+    <script>
+    function showLoader() {
+        document.getElementById("loader").style.display = "block";
+    }
+    </script>
+
+    {% if result %}
+    <hr>
+    <h2>📝 Generated Test Cases</h2>
+    <pre>{{ result }}</pre>
+    {% endif %}
+</body>
+</html>

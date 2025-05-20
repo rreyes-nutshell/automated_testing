@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Crawl Status</title>
+	<meta http-equiv="refresh" content="6">
+	<style>
+		body { font-family: monospace; background: #f7f7f7; padding: 20px; }
+		pre { background: #fff; padding: 10px; border-radius: 5px; border: 1px solid #ccc; }
+		form { margin-top: 15px; display: inline-block; }
+		button { padding: 8px 16px; font-size: 14px; margin-right: 10px; }
+	</style>
+</head>
+<body>
+	<h2>🩺 Oracle UI Crawler Status</h2>
+	<pre>
+{% for line in log_lines %}
+{{ line }}
+{% endfor %}
+	</pre>
+
+	<form method="POST" action="/cancel">
+		<button type="submit">❌ Stop Crawl</button>
+	</form>
+
+	<form method="GET" action="/">
+		<button type="submit">🔙 Back to Login</button>
+	</form>
+
+	<p>🔄 Auto-refreshing every 6 seconds...</p>
+</body>
+</html>
