@@ -1,12 +1,14 @@
 import os
 import importlib
 from flask import Blueprint
+from utils.logging import debug_log
 
 
 def register_blueprints(app):
-    """Auto-discover and register all blueprints in routes/ and providers/."""
+    """Auto-discover and register all blueprints in routes/, providers/, oracle/, and sap/."""
+    debug_log("Entered")
 
-    for base_folder in ["routes", "providers"]:
+    for base_folder in ["routes", "providers", "oracle", "sap"]:
         folder_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', base_folder))
         if not os.path.isdir(folder_path):
             continue
@@ -31,3 +33,5 @@ def register_blueprints(app):
 
                     except Exception as e:
                         print(f"⚠️ Failed to load {module_name}: {e}")
+
+    debug_log("Exited")
