@@ -8,12 +8,17 @@ import os
 from datetime import datetime
 
 async def crawl_oracle_ui(username, password):
-	debug_log("Entered")
-	conn = get_db_connection()
-	cur = conn.cursor()
-	cur.execute("DELETE FROM ui_pages")
-	conn.commit()
-	cur.close()
+        """Login to Oracle and capture navigation metadata."""
+        debug_log("Entered")
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+
+        # Clear existing data so each crawl is fresh
+        cur.execute("DELETE FROM ui_pages")
+        cur.execute("DELETE FROM ui_map")
+        conn.commit()
+        cur.close()
 
 	async with async_playwright() as p:
 		browser = await p.chromium.launch(headless=os.getenv("HEADLESS", "true").lower() == "true")
@@ -41,20 +46,51 @@ async def crawl_oracle_ui(username, password):
 
 		await browser.close()
 
-		cur = conn.cursor()
-		for row in extracted:
-			cur.execute("""
-				INSERT INTO ui_pages (
-					page_name, selector, url, category, captured_at, page_id,
-					is_external, has_real_url, aria_label, title_attr
-				) VALUES (%s, %s, %s, %s, %s, %s, false, false, NULL, %s)
-			""", (
-				row["label"], row["selector"], row["url"], row["category"],
-				datetime.utcnow(), row.get("page_id"), row.get("page_title")
-			))
-		conn.commit()
-		cur.close()
-		conn.close()
+                cur = conn.cursor()
+                for row in extracted:
+                        # Persist basic page metadata
+                        cur.execute(
+                                """
+                                INSERT INTO ui_pages (
+                                        page_name, selector, url, category, captured_at, page_id,
+                                        is_external, has_real_url, aria_label, title_attr
+                                ) VALUES (%s, %s, %s, %s, %s, %s, false, false, NULL, %s)
+                                """,
+                                (
+                                        row["label"], row["selector"], row["url"], row["category"],
+                                        datetime.utcnow(), row.get("page_id"), row.get("page_title")
+                                )
+                        )
+
+                        # Store selector details used for navigation
+                        cur.execute(
+                                """
+                                INSERT INTO ui_map (
+                                        label, parent_label, selector, page_id, action_type, value,
+                                        url, category, is_actionable, created_by, last_updated_by
+                                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, 'crawler', 'crawler')
+                                ON CONFLICT (page_id) DO UPDATE
+                                    SET selector = EXCLUDED.selector,
+                                        url = EXCLUDED.url,
+                                        last_update_date = CURRENT_TIMESTAMP,
+                                        last_updated_by = 'crawler'
+                                """,
+                                (
+                                        row["label"],
+                                        row.get("parent_label"),
+                                        row["selector"],
+                                        row.get("page_id"),
+                                        row.get("action_type"),
+                                        row.get("value"),
+                                        row["url"],
+                                        row["category"],
+                                        row.get("is_actionable", True),
+                                )
+                        )
+
+                conn.commit()
+                cur.close()
+                conn.close()
 	debug_log("Exited")
 
 if __name__ == "__main__":

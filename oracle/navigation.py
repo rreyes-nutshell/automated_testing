@@ -40,20 +40,21 @@ def load_ui_map(jsonl_path):
 
 
 def resolve_navigation_path(ui_map, target_page):
-	debug_log("Entered")
-	path = []
-	try:
-		current = next((item for item in ui_map.values() if item["page_id"] == target_page), None)
-		if not current:
-			raise NavigationError(f"Target page '{target_page}' not found in UI map")
-		while current:
-			path.insert(0, current)
-			parent_id = current.get("parent_id")
-			current = next((item for item in ui_map.values() if item["page_id"] == parent_id), None)
-	except Exception as e:
-		raise NavigationError(f"Failed to resolve path: {e}")
-	debug_log("Exited")
-	return path
+        """Return a list of steps leading to the desired page_id."""
+        debug_log("Entered")
+        path = []
+        try:
+                current = next((item for item in ui_map if isinstance(item, dict) and item.get("page_id") == target_page), None)
+                if not current:
+                        raise NavigationError(f"Target page '{target_page}' not found in UI map")
+                while current:
+                        path.insert(0, current)
+                        parent_id = current.get("parent_id")
+                        current = next((item for item in ui_map if isinstance(item, dict) and item.get("page_id") == parent_id), None)
+        except Exception as e:
+                raise NavigationError(f"Failed to resolve path: {e}")
+        debug_log("Exited")
+        return path
 
 async def execute_navigation(page: Page, navigation_path):
 	debug_log("Entered")
