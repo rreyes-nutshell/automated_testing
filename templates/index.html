@@ -1,124 +1,86 @@
 <!DOCTYPE html>
-<<<<<<< HEAD
-<html>
+<html lang="en">
 <head>
-    <title>Oracle Test Runner</title>
+    <meta charset="UTF-8">
+    <title>ERP Test Runner</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>Upload Oracle Test Script</h1>
-    <form method="POST" enctype="multipart/form-data" onsubmit="showLoader()">
-        <input type="file" name="test_file">
-        <input type="submit" value="Run Test">
-    </form>
+<body class="bg-light p-4">
+    <div class="container">
+        <h1 class="mb-4">🧪 ERP Test Runner</h1>
 
-    <div id="loader" style="display:none; margin-top:10px;">
-        <strong>🧠 Processing… please wait.</strong>
+        <form onsubmit="submitTest(); return false;" class="mb-5">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label for="login_url" class="form-label">Login URL</label>
+                    <input type="text" class="form-control" id="login_url" value="https://login-ibnijb-dev1.fa.ocs.oraclecloud.com">
+                </div>
+                <div class="col-md-3">
+                    <label for="username" class="form-label">Username</label>
+                    <input type="text" class="form-control" id="username">
+                </div>
+                <div class="col-md-3">
+                    <label for="password" class="form-label">Password</label>
+                    <input type="password" class="form-control" id="password">
+                </div>
+            </div>
+
+            <div class="row g-3 mt-2">
+                <div class="col-md-6">
+                    <label for="instruction" class="form-label">Instruction</label>
+                    <input type="text" class="form-control" id="instruction" value="Under General Accounting click Journals">
+                </div>
+                <div class="col-md-3">
+                    <label for="timeout" class="form-label">Step Timeout (sec)</label>
+                    <input type="number" class="form-control" id="timeout" value="30" min="5" max="120">
+                </div>
+                <div class="col-md-3 d-flex align-items-end">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="preview">
+                        <label class="form-check-label" for="preview">Preview Only</label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+        </form>
+
+        <div id="result" class="mt-4 alert alert-info" style="display: none;"></div>
     </div>
 
     <script>
-    function showLoader() {
-        document.getElementById("loader").style.display = "block";
+    async function submitTest() {
+        const login_url = document.getElementById("login_url").value;
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+        const instruction = document.getElementById("instruction").value;
+        const timeout = parseInt(document.getElementById("timeout").value) || 30;
+        const preview = document.getElementById("preview").checked;
+
+        const payload = {
+            llm_instruction: instruction,
+            login_url,
+            username,
+            password,
+            timeout,
+            preview_only: preview
+        };
+
+        const response = await fetch("/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+        });
+
+        const result = await response.json();
+        const resultBox = document.getElementById("result");
+        resultBox.style.display = "block";
+        resultBox.innerHTML = `<strong>${result.status || result.error}</strong><br><pre>${result.result || ""}</pre>`;
     }
     </script>
-
-    {% if grouped_result %}
-    <hr>
-    <h2>📊 Summary</h2>
-    <p><strong>Sheets Processed:</strong> {{ sheet_count }}</p>
-    <p><strong>Total Test Cases:</strong> {{ total_test_cases }}</p>
-
-    {% for sheet, data in grouped_result.items() %}
-        <hr>
-        <h3>📄 {{ sheet }} ({{ data.test_case_count }} test cases)</h3>
-        <pre>{{ data.content }}</pre>
-    {% endfor %}
-    {% endif %}
 </body>
 </html>
-=======
-<html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<title>ERP Test Runner</title>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light p-4">
-	<div class="container">
-		<h1 class="mb-4">🧪 ERP Test Runner</h1>
-
-		<form onsubmit="submitTest(); return false;" class="mb-5">
-			<div class="row g-3">
-				<div class="col-md-6">
-					<label for="login_url" class="form-label">Login URL</label>
-					<input type="text" class="form-control" id="login_url" value="https://login-ibnijb-dev1.fa.ocs.oraclecloud.com">
-				</div>
-				<div class="col-md-3">
-					<label for="username" class="form-label">Username</label>
-					<input type="text" class="form-control" id="username">
-				</div>
-				<div class="col-md-3">
-					<label for="password" class="form-label">Password</label>
-					<input type="password" class="form-control" id="password">
-				</div>
-			</div>
-
-			<div class="row g-3 mt-2">
-				<div class="col-md-6">
-					<label for="instruction" class="form-label">Instruction</label>
-					<input type="text" class="form-control" id="instruction" value="Under General Accounting click Journals">
-				</div>
-				<div class="col-md-3">
-					<label for="timeout" class="form-label">Step Timeout (sec)</label>
-					<input type="number" class="form-control" id="timeout" value="30" min="5" max="120">
-				</div>
-				<div class="col-md-3 d-flex align-items-end">
-					<div class="form-check">
-						<input class="form-check-input" type="checkbox" id="preview">
-						<label class="form-check-label" for="preview">Preview Only</label>
-					</div>
-				</div>
-			</div>
-
-			<div class="mt-4">
-				<button type="submit" class="btn btn-primary">Submit</button>
-			</div>
-		</form>
-
-		<div id="result" class="mt-4 alert alert-info" style="display: none;"></div>
-	</div>
-
-	<script>
-	async function submitTest() {
-		const login_url = document.getElementById("login_url").value;
-		const username = document.getElementById("username").value;
-		const password = document.getElementById("password").value;
-		const instruction = document.getElementById("instruction").value;
-		const timeout = parseInt(document.getElementById("timeout").value) || 30;
-		const preview = document.getElementById("preview").checked;
-
-		const payload = {
-			llm_instruction: instruction,
-			login_url,
-			username,
-			password,
-			timeout,
-			preview_only: preview
-		};
-
-		const response = await fetch("/", {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json"
-			},
-			body: JSON.stringify(payload)
-		});
-
-		const result = await response.json();
-		const resultBox = document.getElementById("result");
-		resultBox.style.display = "block";
-		resultBox.innerHTML = `<strong>${result.status || result.error}</strong><br><pre>${result.result || ""}</pre>`;
-	}
-	</script>
-</body>
-</html>
->>>>>>> 61b9b8f (Patch UI Mapper: crawler, extractor, schema updates, HTML fixes)
