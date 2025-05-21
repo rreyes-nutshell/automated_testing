@@ -1,4 +1,5 @@
 import asyncio
+import os
 from playwright.async_api import async_playwright
 from oracle.login_steps import run_oracle_login_steps
 from oracle.ui_mapper.extractor import extract_nav_metadata
@@ -17,8 +18,8 @@ async def crawl_navigation(login_url, username, password, log_callback):
 
 	writer = DBWriter()
 
-	async with async_playwright() as p:
-		browser = await p.chromium.launch(headless=False, slow_mo=200)
+        async with async_playwright() as p:
+                browser = await p.chromium.launch(headless=os.getenv("HEADLESS", "true").lower() == "true", slow_mo=200)
 		page = await browser.new_page()
 
 		safe_log("🌐 Navigating to Oracle login page")

@@ -22,7 +22,7 @@ async def run_browser_script(steps, session_id=None, login_url=None, username=No
         return "Preview mode — no browser actions executed."
 
     try:
-        headless_mode = os.getenv("HEADLESS_MODE", "true").lower() == "true"
+        headless_mode = os.getenv("HEADLESS", "true").lower() == "true"
 
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=headless_mode)
