@@ -39,15 +39,11 @@ async def run_selected_ui_item():
 	login_url = request.form.get("login_url")
 
 	steps = [
-		{"action": "goto", "value": login_url},
-		{"action": "fill", "selector": "input[name=userid]", "value": username},
-		{"action": "fill", "selector": "input[name=password]", "value": password},
-		{"action": "click", "selector": "button[type=submit]"},
-		{"action": "wait_for_selector", "selector": selector},
-		{"action": "click", "selector": selector},
-		{"action": "screenshot", "value": None},
-		{"action": "log_result", "value": None}
-	]
+				{"action": "wait_for_selector", "selector": selector},
+				{"action": "click", "selector": selector},
+				{"action": "screenshot", "value": None},
+				{"action": "log_result", "value": None}
+		]
 
 	result_html = await run_browser_script(
 		steps,

@@ -16,7 +16,10 @@
 </head>
 <body class="bg-light">
 	<div class="container py-4">
-		<h2 class="mb-4">UI Page Mapping Admin</h2>
+                <h2 class="mb-4">UI Page Mapping Admin</h2>
+                {% if session_id %}
+                <p class="text-muted">Current Session: {{ session_id }}</p>
+                {% endif %}
 
 		<form class="row g-3 mb-4" method="GET" id="credentials-form">
 			<div class="col-auto">
