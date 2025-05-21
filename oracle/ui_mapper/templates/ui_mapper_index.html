@@ -23,21 +23,29 @@
 				<label for="username" class="form-label">Username</label>
 				<input type="text" id="username" name="username" class="form-control" placeholder="Enter Oracle username">
 			</div>
-			<div class="col-auto">
-				<label for="password" class="form-label">Password</label>
-				<input type="password" id="password" name="password" class="form-control" placeholder="Enter Oracle password">
-			</div>
-			<div class="col-auto">
-				<label for="headerless" class="form-label">Headerless</label>
-				<select id="headerless" name="headerless" class="form-select">
-					<option value="true" {% if headerless %}selected{% endif %}>True</option>
-					<option value="false" {% if not headerless %}selected{% endif %}>False</option>
+                        <div class="col-auto">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Enter Oracle password">
+                        </div>
+                        <div class="col-auto">
+                                <label for="crawler_name" class="form-label">Crawler Name</label>
+                                <input type="text" id="crawler_name" name="crawler_name" class="form-control" placeholder="Name this crawl">
+                        </div>
+                        <div class="col-auto">
+                                <label for="headerless" class="form-label">Headerless</label>
+                                <select id="headerless" name="headerless" class="form-select">
+                                        <option value="true" {% if headerless %}selected{% endif %}>True</option>
+                                        <option value="false" {% if not headerless %}selected{% endif %}>False</option>
 				</select>
 			</div>
 			<div class="col-auto d-flex align-items-end">
 				<button type="submit" formaction="{{ url_for('ui_map_admin.run_crawler') }}" formmethod="POST" class="btn btn-warning">🕷️ Run Crawler</button>
 			</div>
-		</form>
+                </form>
+
+                {% if session_id %}
+                <div class="alert alert-info">Session ID: {{ session_id }}</div>
+                {% endif %}
 
 		{% with messages = get_flashed_messages(with_categories=true) %}
 			{% if messages %}
@@ -78,10 +86,12 @@
 						<th>External</th>
 						<th>Real URL</th>
 						<th>ARIA</th>
-						<th>Title</th>
-						<th>Captured</th>
-					</tr>
-				</thead>
+                                               <th>Title</th>
+                                               <th>Captured</th>
+                                               <th>Crawler</th>
+                                               <th>Session</th>
+                                        </tr>
+                                </thead>
 				<tbody>
 					{% for page in pages %}
 					<tr>
@@ -106,18 +116,20 @@
 								<span class="badge bg-success">Included</span>
 							{% endif %}
 						</td>
-						<td>{{ page[1] }}</td>
-						<td>{{ page[2] }}</td>
-						<td class="truncate" title="{{ page[3] }}">{{ page[3] }}</td>
-						<td class="truncate" title="{{ page[4] }}">{{ page[4] }}</td>
-						<td>{{ page[5] }}</td>
-						<td>{{ page[6] }}</td>
-						<td>{{ page[7] }}</td>
-						<td>{{ page[8] }}</td>
-						<td>{{ page[9] }}</td>
-						<td>{{ page[10] }}</td>
-						<td>{{ page[11] }}</td>
-					</tr>
+                                                <td>{{ page[1] }}</td>
+                                                <td>{{ page[2] }}</td>
+                                                <td class="truncate" title="{{ page[3] }}">{{ page[3] }}</td>
+                                                <td class="truncate" title="{{ page[4] }}">{{ page[4] }}</td>
+                                                <td>{{ page[5] }}</td>
+                                                <td>{{ page[6] }}</td>
+                                                <td>{{ page[7] }}</td>
+                                                <td>{{ page[8] }}</td>
+                                                <td>{{ page[9] }}</td>
+                                                <td>{{ page[10] }}</td>
+                                                <td>{{ page[11] }}</td>
+                                                <td>{{ page[13] }}</td>
+                                                <td>{{ page[14] }}</td>
+                                        </tr>
 					{% endfor %}
 				</tbody>
 			</table>
