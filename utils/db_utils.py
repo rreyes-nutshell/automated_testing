@@ -10,12 +10,10 @@ def _connect_via_url(database_url):
     return psycopg2.connect(database_url)
 
 def get_db_connection():
-    """Return a psycopg2 connection using env vars or DATABASE_URL."""
     debug_log("Entered")
-
     database_url = os.getenv("DATABASE_URL")
     if database_url:
-        conn = _connect_via_url(database_url)
+        conn = psycopg2.connect(database_url)
     else:
         conn = psycopg2.connect(
             host=os.getenv("DB_HOST", "localhost"),
@@ -24,10 +22,8 @@ def get_db_connection():
             user=os.getenv("DB_USER"),
             password=os.getenv("DB_PASSWORD"),
         )
-
-    params = conn.get_dsn_parameters()
     debug_log(
-        f"Connected to database {params.get('dbname')} at {params.get('host')}:{params.get('port')}"
+        f"Connected to database {os.getenv('DB_NAME')} at {os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}"
     )
     debug_log("Exited")
     return conn
