@@ -6,11 +6,13 @@ async def extract_nav_metadata(page, selector, parent_label=None):
 	if not element:
 		return None
 
-	label = (await element.inner_text()).strip()
-	url = page.url
-	href = await element.get_attribute("href")
-	title_div = await page.query_selector("div.pageTitle")
-	page_title = await title_div.inner_text() if title_div else None
+		label = (await element.inner_text()).strip()
+		href = await element.get_attribute("href")
+		url = href or page.url
+		title_div = await page.query_selector("div.pageTitle")
+		page_title = await title_div.inner_text() if title_div else None
+		aria_label = await element.get_attribute("aria-label")
+		title_attr = await element.get_attribute("title")
 
 	is_actionable = bool(href and href != "#")
 	page_id = f"{parent_label.lower().replace(' ', '_')}::{label.lower().replace(' ', '_')}" if parent_label else None
@@ -23,7 +25,9 @@ async def extract_nav_metadata(page, selector, parent_label=None):
 		"value": None,
 		"url": url,
 		"category": "Navigation",
-		"page_title": page_title,
+				"page_title": page_title,
+				"aria_label": aria_label,
+				"title_attr": title_attr,
 		"is_actionable": is_actionable,
 		"page_id": page_id,
 	}

@@ -23,6 +23,8 @@ def import_jsonl_to_db(path, conn):
 				has_real_url = data.get("has_real_url", False)
 				aria_label = data.get("aria_label")
 				title_attr = data.get("title_attr")
+				crawler_name = data.get("crawler_name")
+				session_id = data.get("session_id")
 				captured_at = data.get("captured_at")
 
 				if not captured_at:
@@ -34,17 +36,17 @@ def import_jsonl_to_db(path, conn):
 					continue
 
 				cur.execute("""
-					INSERT INTO ui_pages (
-						page_name, page_id, url, selector, category, version, is_external,
-						has_real_url, aria_label, title_attr, captured_at,
-						created_by, last_updated_by
-					)
-					VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
-					ON CONFLICT (page_name, url) DO NOTHING
+						INSERT INTO ui_pages (
+								page_name, page_id, url, selector, category, version, is_external,
+								has_real_url, aria_label, title_attr, crawler_name, session_id,
+								captured_at, created_by, last_updated_by
+						)
+						VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+						ON CONFLICT (page_name, url) DO NOTHING
 				""", (
-					page_name, page_id, url, selector, category, version, is_external,
-					has_real_url, aria_label, title_attr, captured_at,
-					'importer', 'importer'
+						page_name, page_id, url, selector, category, version, is_external,
+						has_real_url, aria_label, title_attr, crawler_name, session_id,
+						captured_at, 'importer', 'importer'
 				))
 
 				if cur.rowcount == 1:

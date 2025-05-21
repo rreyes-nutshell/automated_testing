@@ -17,15 +17,17 @@ def index():
 	conn = get_db_connection()
 	cur = conn.cursor()
 	cur.execute("""
-		SELECT id, page_name, url, version, is_skipped 
-		FROM ui_pages 
-		ORDER BY page_name
-	""")
+				SELECT id, page_name, url, version, is_skipped, session_id
+				FROM ui_pages
+				ORDER BY page_name
+		""")
 	pages = cur.fetchall()
+	cur.execute("SELECT session_id FROM ui_pages ORDER BY captured_at DESC LIMIT 1")
+	current_session = cur.fetchone()
 	cur.close()
 	conn.close()
 	debug_log("Exited")
-	return render_template("ui_mapper_index.html", pages=pages)
+	return render_template("ui_mapper_index.html", pages=pages, session_id=current_session[0] if current_session else None)
 
 @ui_map_admin_bp.route("/run-crawler", methods=["POST"])
 def run_crawler():
@@ -33,13 +35,14 @@ def run_crawler():
 
 	username = request.form.get("username")
 	password = request.form.get("password")
+	crawler_name = request.form.get("crawler_name", "default")
 
 	if not username or not password:
 		flash("Missing credentials", "danger")
 		return redirect(url_for("ui_map_admin.index"))
 
-	from oracle.ui_mapper.crawler import crawl_oracle_ui
-	asyncio.run(crawl_oracle_ui(username, password))
+		from oracle.ui_mapper.crawler import crawl_oracle_ui
+		asyncio.run(crawl_oracle_ui(username, password, crawler_name))
 
 	debug_log("Exited")
 	return redirect(url_for("ui_map_admin.index"))

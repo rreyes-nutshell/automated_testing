@@ -16,7 +16,10 @@
 </head>
 <body class="bg-light">
 	<div class="container py-4">
-		<h2 class="mb-4">UI Page Mapping Admin</h2>
+                <h2 class="mb-4">UI Page Mapping Admin</h2>
+                {% if session_id %}
+                <p class="text-muted">Current Session: {{ session_id }}</p>
+                {% endif %}
 
 		<form class="row g-3 mb-4" method="GET" id="credentials-form">
 			<div class="col-auto">
@@ -27,13 +30,17 @@
 				<label for="password" class="form-label">Password</label>
 				<input type="password" id="password" name="password" class="form-control" placeholder="Enter Oracle password">
 			</div>
-			<div class="col-auto">
-				<label for="headerless" class="form-label">Headerless</label>
-				<select id="headerless" name="headerless" class="form-select">
-					<option value="true" {% if headerless %}selected{% endif %}>True</option>
-					<option value="false" {% if not headerless %}selected{% endif %}>False</option>
-				</select>
-			</div>
+                        <div class="col-auto">
+                                <label for="crawler_name" class="form-label">Crawler Name</label>
+                                <input type="text" id="crawler_name" name="crawler_name" class="form-control" placeholder="Run label">
+                        </div>
+                        <div class="col-auto">
+                                <label for="headerless" class="form-label">Headerless</label>
+                                <select id="headerless" name="headerless" class="form-select">
+                                        <option value="true" {% if headerless %}selected{% endif %}>True</option>
+                                        <option value="false" {% if not headerless %}selected{% endif %}>False</option>
+                                </select>
+                        </div>
 			<div class="col-auto d-flex align-items-end">
 				<button type="submit" formaction="{{ url_for('ui_map_admin.run_crawler') }}" formmethod="POST" class="btn btn-warning">🕷️ Run Crawler</button>
 			</div>

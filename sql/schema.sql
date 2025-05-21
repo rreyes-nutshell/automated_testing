@@ -1,5 +1,6 @@
 -- sql/schema.sql
 
+drop TABLE   ui_pages ;
 CREATE TABLE IF NOT EXISTS ui_pages (
 	id SERIAL PRIMARY KEY,
 	page_name TEXT,
@@ -12,8 +13,10 @@ CREATE TABLE IF NOT EXISTS ui_pages (
 	has_real_url BOOLEAN DEFAULT false,
 	aria_label TEXT,
 	title_attr TEXT,
-	is_skipped BOOLEAN DEFAULT false,
-	version TEXT,
+        is_skipped BOOLEAN DEFAULT false,
+        crawler_name TEXT,
+        session_id UUID DEFAULT gen_random_uuid(),
+        version TEXT,
 	creation_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 	created_by TEXT DEFAULT 'system',
 	last_update_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -33,6 +36,8 @@ CREATE TABLE IF NOT EXISTS ui_page_actions (
 	action TEXT NOT NULL
 );
 
+drop TABLE ui_map ;
+	
 CREATE TABLE ui_map (
 	id SERIAL PRIMARY KEY,
 	label TEXT NOT NULL,

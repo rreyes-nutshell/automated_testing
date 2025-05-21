@@ -6,12 +6,13 @@ def export_db_to_jsonl(path, conn):
 	debug_log("Entered")
 	cur = conn.cursor()
 	cur.execute("""
-		SELECT page_name, selector, url, category, captured_at, page_id,
-		       is_external, has_real_url, aria_label, title_attr
-		FROM ui_pages
-		WHERE is_skipped = false
-		ORDER BY page_name
-	""")
+				SELECT page_name, selector, url, category, captured_at, page_id,
+					   is_external, has_real_url, aria_label, title_attr,
+					   crawler_name, session_id
+				FROM ui_pages
+				WHERE is_skipped = false
+				ORDER BY page_name
+		""")
 	rows = cur.fetchall()
 	cur.close()
 
@@ -27,8 +28,10 @@ def export_db_to_jsonl(path, conn):
 				"is_external": row[6],
 				"has_real_url": row[7],
 				"aria_label": row[8],
-				"title_attr": row[9]
-			}
+								"title_attr": row[9],
+								"crawler_name": row[10],
+								"session_id": str(row[11]) if row[11] else None
+						}
 			f.write(json.dumps(data) + "\n")
 
 	debug_log(f"✅ Exported {len(rows)} records to {path}")
