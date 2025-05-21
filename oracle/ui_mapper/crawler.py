@@ -2,18 +2,21 @@ from utils.logging import debug_log
 from utils.db_utils import get_db_connection
 from oracle.login_steps import run_oracle_login_steps
 from oracle.ui_mapper.extractor import extract_nav_metadata
+from oracle.ui_mapper.db_writer import DBWriter
 from playwright.async_api import async_playwright
 import asyncio
 import os
 from datetime import datetime
+import uuid
 
-async def crawl_oracle_ui(username, password):
-	debug_log("Entered")
-	conn = get_db_connection()
-	cur = conn.cursor()
-	cur.execute("DELETE FROM ui_pages")
-	conn.commit()
-	cur.close()
+async def crawl_oracle_ui(username, password, crawler_name="default", session_id=None):
+        debug_log("Entered")
+        if session_id is None:
+                session_id = str(uuid.uuid4())
+
+        conn = get_db_connection()
+        cur = conn.cursor()
+        writer = DBWriter("oracle_ui_dump.jsonl")
 
 	async with async_playwright() as p:
 		browser = await p.chromium.launch(headless=os.getenv("HEADLESS", "true").lower() == "true")
@@ -41,17 +44,30 @@ async def crawl_oracle_ui(username, password):
 
 		await browser.close()
 
-		cur = conn.cursor()
-		for row in extracted:
-			cur.execute("""
-				INSERT INTO ui_pages (
-					page_name, selector, url, category, captured_at, page_id,
-					is_external, has_real_url, aria_label, title_attr
-				) VALUES (%s, %s, %s, %s, %s, %s, false, false, NULL, %s)
-			""", (
-				row["label"], row["selector"], row["url"], row["category"],
-				datetime.utcnow(), row.get("page_id"), row.get("page_title")
-			))
+                cur = conn.cursor()
+                for row in extracted:
+                        await writer.insert_entry({**row, "crawler_name": crawler_name, "session_id": session_id})
+                        cur.execute(
+                                """
+                                INSERT INTO ui_pages (
+                                        page_name, selector, url, category, captured_at, page_id,
+                                        crawler_name, session_id,
+                                        is_external, has_real_url, aria_label, title_attr
+                                ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, false, false, %s, %s)
+                                """,
+                                (
+                                        row["label"],
+                                        row["selector"],
+                                        row["url"],
+                                        row["category"],
+                                        datetime.utcnow(),
+                                        row.get("page_id"),
+                                        crawler_name,
+                                        session_id,
+                                        row.get("aria_label"),
+                                        row.get("title_attr"),
+                                ),
+                        )
 		conn.commit()
 		cur.close()
 		conn.close()
