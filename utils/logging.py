@@ -6,6 +6,11 @@ from datetime import datetime
 DEBUG_MODE = os.getenv("DEBUG_MODE", "false").lower() == "true"
 DEBUG_LEVEL = os.getenv("DEBUG_LEVEL", "normal").lower()
 
+
+
+DEBUG_MODE = "true"
+DEBUG_LEVEL = 'v'
+
 def debug_log(message):
 	if DEBUG_MODE:
 		# if DEBUG_LEVEL == "v":

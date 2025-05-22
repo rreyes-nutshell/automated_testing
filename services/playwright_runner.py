@@ -12,17 +12,17 @@ async def run_browser_script(steps, session_id=None, login_url=None, username=No
                              preview_mode=False, target_label=None, parent_label=None):
     timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
     debug_log("Entered")
-    debug_log(f"🧪 Preview Mode: {preview_mode}")
+    debug_log(f"🧙️ Preview Mode: {preview_mode}")
 
     if preview_mode:
         for step_num, step in enumerate(steps, 1):
-            debug_log(f"🗟️ [Preview] Step {step_num}: {step}")
-        debug_log("🛕️ Skipping execution due to preview mode")
+            debug_log(f"🖟️ [Preview] Step {step_num}: {step}")
+        debug_log("🕔️ Skipping execution due to preview mode")
         debug_log("Exited")
         return "Preview mode — no browser actions executed."
 
     try:
-        headless_mode = os.getenv("HEADLESS_MODE", "true").lower() == "true"
+        headless_mode = os.getenv("HEADLESS", "true").lower() == "true"
 
         async with async_playwright() as p:
             browser = await p.chromium.launch(headless=headless_mode)
@@ -63,7 +63,7 @@ async def run_browser_script(steps, session_id=None, login_url=None, username=No
                     selector = "a[title='Navigator']"
 
                 if selector and ":contains(" in selector:
-                    match = re.search(r":contains\\((.*?)\\)", selector)
+                    match = re.search(r":contains\((.*?)\)", selector)
                     if match:
                         label = match.group(1).strip("\"'")
                         debug_log(f"🔁 Rewriting selector '{selector}' to text='{label}'")
@@ -79,12 +79,20 @@ async def run_browser_script(steps, session_id=None, login_url=None, username=No
 
                 try:
                     if action == "goto":
+                        debug_log(f"🔗 GOTO Navigating to: {value}"  )
                         await page.goto(value)
                     elif action == "fill":
+                        debug_log(f"✏️ Filling selector '{selector}' with value '{value}'")
                         await page.fill(selector, value)
                     elif action == "click":
                         try:
-                            await page.click(selector)
+                            debug_log(f"🖱️ Clicking selector '{selector}'")
+                            element = page.locator(selector)
+                            await element.scroll_into_view_if_needed()
+                            await element.hover()
+                            await element.click()
+                            await page.wait_for_timeout(5000)
+                            debug_log(f"💼 Clicked selector '{selector}'")
                         except Exception as click_error:
                             debug_log(f"⚠️ Primary click failed for selector '{selector}': {click_error}")
                             if selector and selector.startswith("#"):
@@ -95,7 +103,7 @@ async def run_browser_script(steps, session_id=None, login_url=None, username=No
                                     debug_log(f"🔁 Retrying click with fallback text selector: text='{substring}'")
                                     try:
                                         await page.click(f"text='{substring}'")
-                                        debug_log(f"📛 Fallback click selector used: text='{substring}'")
+                                        debug_log(f"💼 Fallback click selector used: text='{substring}'")
                                         break
                                     except Exception:
                                         continue

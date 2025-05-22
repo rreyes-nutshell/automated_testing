@@ -1,47 +1,68 @@
+# extractor.py — Updated to store literal Playwright selector, not nth locator
+import asyncio
+from playwright.async_api import async_playwright
 from utils.logging import debug_log
+from utils.db_utils import get_db_connection
 
-async def extract_nav_metadata(page, selector, parent_label=None):
+async def extract_nav_metadata(session_id, page):
 	debug_log("Entered")
-	element = await page.query_selector(selector)
-	if not element:
-		return None
 
-		label = (await element.inner_text()).strip()
+	
+	nav_items = page.locator("a[id^='pt1:_UISnvr']")
+	count = await nav_items.count()
+
+	conn = get_db_connection()
+	cursor = conn.cursor()
+
+	cursor.execute("DELETE FROM ui_pages WHERE session_id = %s", (session_id,))
+
+	for i in range(count):
+		element = nav_items.nth(i)
 		href = await element.get_attribute("href")
-		url = href or page.url
-		title_div = await page.query_selector("div.pageTitle")
-		page_title = await title_div.inner_text() if title_div else None
-		aria_label = await element.get_attribute("aria-label")
-		title_attr = await element.get_attribute("title")
+		onclick = await element.get_attribute("onclick")
+		id_attr = await element.get_attribute("id")
 
-	is_actionable = bool(href and href != "#")
-	page_id = f"{parent_label.lower().replace(' ', '_')}::{label.lower().replace(' ', '_')}" if parent_label else None
+		# Skip empty or known structural elements
+		if not id_attr or "nvcl" in id_attr or "nvcil" in id_attr:
+			continue
 
-	entry = {
-		"label": label,
-		"parent_label": parent_label,
-		"selector": selector,
-		"action_type": "click",
-		"value": None,
-		"url": url,
-		"category": "Navigation",
-				"page_title": page_title,
-				"aria_label": aria_label,
-				"title_attr": title_attr,
-		"is_actionable": is_actionable,
-		"page_id": page_id,
-	}
+		# If it's not actually clickable, skip it
+		if (not href or href.strip() == "#") and not onclick:
+			continue
+		label = await element.inner_text()
+		href = await element.get_attribute("href")
+		id_attr = await element.get_attribute("id")
+		if id_attr:
+			# Build a direct ID-based selector string
+			selector = f"a#{id_attr.replace(':', '\\:')}"
+		else:
+			selector = await element.evaluate("el => el.tagName.toLowerCase()")  # fallback: tag name only
 
-	# Include parent hierarchy if visible breadcrumb exists
-	breadcrumbs = await page.query_selector_all("ol.breadcrumb li")
-	if breadcrumbs:
-		parts = []
-		for crumb in breadcrumbs:
-			crumb_text = await crumb.inner_text()
-			parts.append(crumb_text.strip())
-		if len(parts) >= 2:
-			entry["parent_label"] = parts[-2]  # one level up from current
+		fallback_locator = None
 
-	debug_log(f"Extracted {label} with parent {entry['parent_label']}")
+		cursor.execute("""
+			INSERT INTO ui_pages (
+				session_id, page_name, url, locator, fallback_locator,
+				category, page_id, aria_label, title_attr,
+				creation_date, created_by, last_update_date, last_updated_by
+			)
+			VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, NOW(), %s, NOW(), %s)
+		""", (
+			session_id,
+			label.strip(),
+			href,
+			selector,
+			fallback_locator,
+			await element.get_attribute("data-category"),
+			await element.get_attribute("id"),
+			await element.get_attribute("aria-label"),
+			await element.get_attribute("title"),
+			"system",
+			"system"
+		))
+
+	conn.commit()
+	cursor.close()
+	conn.close()
+
 	debug_log("Exited")
-	return entry

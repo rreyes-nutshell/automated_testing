@@ -16,39 +16,45 @@
 </head>
 <body class="bg-light">
 	<div class="container py-4">
-                <h2 class="mb-4">UI Page Mapping Admin</h2>
-                {% if session_id %}
-                <p class="text-muted">Current Session: {{ session_id }}</p>
-                {% endif %}
+		<h2 class="mb-4">UI Page Mapping Admin</h2>
+		{% if session_id %}
+		<p class="text-muted">Current Session: {{ session_id }}</p>
+		{% endif %}
 
-		<form class="row g-3 mb-4" method="GET" id="credentials-form">
+		<form class="row g-3 mb-4" method="POST" action="{{ url_for('ui_map_admin.run_crawler') }}" id="credentials-form">
+
 			<div class="col-auto">
 				<label for="username" class="form-label">Username</label>
-				<input type="text" id="username" name="username" class="form-control" placeholder="Enter Oracle username">
+				<input type="text" id="username" name="username" class="form-control" placeholder="Enter Oracle username" value="mgonzalez@mfa.org">
 			</div>
-                        <div class="col-auto">
-                                <label for="password" class="form-label">Password</label>
-                                <input type="password" id="password" name="password" class="form-control" placeholder="Enter Oracle password">
-                        </div>
-                        <div class="col-auto">
-                                <label for="crawler_name" class="form-label">Crawler Name</label>
-                                <input type="text" id="crawler_name" name="crawler_name" class="form-control" placeholder="Name this crawl">
-                        </div>
-                        <div class="col-auto">
-                                <label for="headerless" class="form-label">Headerless</label>
-                                <select id="headerless" name="headerless" class="form-select">
-                                        <option value="true" {% if headerless %}selected{% endif %}>True</option>
-                                        <option value="false" {% if not headerless %}selected{% endif %}>False</option>
+			<div class="col-auto">
+				<label for="password" class="form-label">Password</label>
+				<input type="password" id="password" name="password" class="form-control" placeholder="Enter Oracle password" value="Welcome!23">
+			</div>
+			<div class="col-auto">
+	<label for="login_url" class="form-label">Login URL</label>
+	<input type="text" id="login_url" name="login_url" class="form-control" value="https://login-ibnijb-dev1.fa.ocs.oraclecloud.com">
+</div>
+
+<div class="col-auto">
+	<label for="crawler_name" class="form-label">Crawler Name</label>
+				<input type="text" id="crawler_name" name="crawler_name" class="form-control" placeholder="Name this crawl">
+			</div>
+			<div class="col-auto">
+				<label for="headerless" class="form-label">Headerless</label>
+				<select id="headerless" name="headerless" class="form-select">
+					<option value="true" {% if headerless %}selected{% endif %}>True</option>
+					<option value="false" {% if not headerless %}selected{% endif %}>False</option>
 				</select>
 			</div>
 			<div class="col-auto d-flex align-items-end">
-				<button type="submit" formaction="{{ url_for('ui_map_admin.run_crawler') }}" formmethod="POST" class="btn btn-warning">🕷️ Run Crawler</button>
+				<button type="submit" class="btn btn-warning">🕷️ Run Crawler</button>
 			</div>
-                </form>
+		</form>
 
-                {% if session_id %}
-                <div class="alert alert-info">Session ID: {{ session_id }}</div>
-                {% endif %}
+		{% if session_id %}
+		<div class="alert alert-info">Session ID: {{ session_id }}</div>
+		{% endif %}
 
 		{% with messages = get_flashed_messages(with_categories=true) %}
 			{% if messages %}
@@ -89,50 +95,50 @@
 						<th>External</th>
 						<th>Real URL</th>
 						<th>ARIA</th>
-                                               <th>Title</th>
-                                               <th>Captured</th>
-                                               <th>Crawler</th>
-                                               <th>Session</th>
-                                        </tr>
-                                </thead>
+						<th>Title</th>
+						<th>Captured</th>
+						<th>Crawler</th>
+						<th>Session</th>
+					</tr>
+				</thead>
 				<tbody>
 					{% for page in pages %}
 					<tr>
 						<td>
 							<form method="post" action="/ui-map/run">
-								<input type="hidden" name="selector" value="{{ page[4] }}">
-								<input type="hidden" name="username" value="">
-								<input type="hidden" name="password" value="">
+								<input type="hidden" name="selector" value="{{ page.locator }}">
+								<input type="hidden" name="username" value="mgonzalez@mfa.org">
+								<input type="hidden" name="password" value="Welcome!23">
 								<input type="hidden" name="login_url" value="https://login-ibnijb-dev1.fa.ocs.oraclecloud.com">
 								<button type="submit" class="btn btn-sm btn-danger">Run 🔥</button>
 							</form>
 						</td>
 						<td>
-							<form action="{{ url_for('ui_mapper.toggle_skip', page_id=page[0]) }}" method="POST">
+							<form action="{{ url_for('ui_mapper.toggle_skip', page_id=page.id) }}" method="POST">
 								<button type="submit" class="btn btn-sm btn-outline-primary">Toggle</button>
 							</form>
 						</td>
 						<td>
-							{% if page[12] %}
+							{% if page.is_skipped %}
 								<span class="badge bg-danger">Excluded</span>
 							{% else %}
 								<span class="badge bg-success">Included</span>
 							{% endif %}
 						</td>
-                                                <td>{{ page[1] }}</td>
-                                                <td>{{ page[2] }}</td>
-                                                <td class="truncate" title="{{ page[3] }}">{{ page[3] }}</td>
-                                                <td class="truncate" title="{{ page[4] }}">{{ page[4] }}</td>
-                                                <td>{{ page[5] }}</td>
-                                                <td>{{ page[6] }}</td>
-                                                <td>{{ page[7] }}</td>
-                                                <td>{{ page[8] }}</td>
-                                                <td>{{ page[9] }}</td>
-                                                <td>{{ page[10] }}</td>
-                                                <td>{{ page[11] }}</td>
-                                                <td>{{ page[13] }}</td>
-                                                <td>{{ page[14] }}</td>
-                                        </tr>
+						<td>{{ page.page_name }}</td>
+						<td>{{ page.page_id }}</td>
+						<td class="truncate" title="{{ page.url }}">{{ page.url }}</td>
+						<td class="truncate" title="{{ page.locator }}">{{ page.locator }}</td>
+						<td>{{ page.category }}</td>
+						<td>{{ page.version }}</td>
+						<td>{{ page.is_external }}</td>
+						<td>{{ page.has_real_url }}</td>
+						<td>{{ page.aria_label }}</td>
+						<td>{{ page.title_attr }}</td>
+						<td>{{ page.captured_at }}</td>
+						<td>{{ page.crawler_name }}</td>
+						<td>{{ page.session_id }}</td>
+					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
@@ -150,12 +156,21 @@
 					{ targets: 0, orderable: false }
 				]
 			});
-		});
 
-		document.querySelectorAll('#uiTable form[action="/ui-map/run"]').forEach(form => {
-			form.addEventListener('submit', function () {
-				form.querySelector('input[name="username"]').value = document.getElementById('username').value;
-				form.querySelector('input[name="password"]').value = document.getElementById('password').value;
+			document.querySelectorAll('#uiTable form[action="/ui-map/run"]').forEach(form => {
+				form.addEventListener('submit', function () {
+				// Remove old hidden inputs if any
+				form.querySelectorAll('input[name="username"], input[name="password"], input[name="login_url"]').forEach(e => e.remove());
+
+				// Inject fresh values from the top form
+				['username', 'password', 'login_url'].forEach(id => {
+					const input = document.createElement('input');
+					input.type = 'hidden';
+					input.name = id;
+					input.value = document.getElementById(id).value;
+					form.appendChild(input);
+				});
+				});
 			});
 		});
 	</script>

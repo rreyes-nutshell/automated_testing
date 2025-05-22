@@ -6,11 +6,16 @@ from dotenv import load_dotenv
 import psycopg2
 
 # Load .env from instance/ folder
-base_dir = os.path.abspath(os.path.dirname(__file__))
-env_path = os.path.join(base_dir, "instance", ".env")
-if not os.path.exists(env_path):
-    env_path = os.path.join(base_dir, "..", "instance", ".env")
-load_dotenv(env_path)
+# base_dir = os.path.abspath(os.path.dirname(__file__))
+# env_path = os.path.join(base_dir, "instance", ".env")
+
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+# Load .env from the root
+load_dotenv(os.path.join(root_dir, '.env'))
+
+# if not os.path.exists(env_path):
+#     env_path = os.path.join(base_dir, "..", "instance", ".env")
+# load_dotenv(env_path)
 
 def init_db():
     print("📢 DATABASE_URL loaded as:", os.getenv("DATABASE_URL"))

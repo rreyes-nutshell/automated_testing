@@ -4,7 +4,13 @@ from routes import register_blueprints
 from utils.logging import debug_log
 from dotenv import load_dotenv
 
-load_dotenv(os.path.join(os.path.dirname(__file__), 'instance', '.env'))
+#load_dotenv(os.path.join(os.path.dirname(__file__), 'instance', '.env'))
+# Get absolute path to the project root (assuming this script is not in root)
+root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+# Load .env from the root
+load_dotenv(os.path.join(root_dir, '.env'))
+
 
 
 def create_app():
