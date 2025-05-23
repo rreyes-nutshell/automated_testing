@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>UI Navigation Tree</title>
+	<style>
+        ul { list-style-type: none; padding-left: 20px; }
+        li { margin: 6px 0; }
+        .tag { font-weight: bold; color: #4a90e2; margin-right: 6px; }
+        .label { color: #333; }
+	</style>
+<script>
+function filterTree() {
+	const filter = document.getElementById('treeFilter').value.toLowerCase();
+	document.querySelectorAll('li').forEach(li => {
+		const text = li.innerText.toLowerCase();
+		li.style.display = text.includes(filter) ? '' : 'none';
+	});
+}
+
+function toggleCollapse(event) {
+	const ul = event.currentTarget.parentElement.querySelector('ul');
+	if (ul) {
+		ul.style.display = ul.style.display === 'none' ? '' : 'none';
+	}
+	event.stopPropagation();
+}
+</script>
+</head>
+<body>
+	<h1>Navigation Tree (Session: {{ session_id }})</h1>
+	<input type="text" id="treeFilter" placeholder="Filter tree..." oninput="filterTree()" style="margin-bottom: 10px; padding: 4px; width: 300px;">
+	<div>
+	<h1>Navigation Tree (Session: {{ session_id }})</h1>
+	<div>
+{% macro render_node(node) -%}
+	<li onclick="toggleCollapse(event)">
+		<div>
+			<span class="tag">{{ node.tag }}</span>
+			<span class="label">{{ node.classification or 'item' }}: {{ node.label or '(no label)' }}</span>
+		</div>
+		{% if node.children %}
+			<ul>
+				{% for child in node.children %}
+					{{ render_node(child) }}
+				{% endfor %}
+			</ul>
+		{% endif %}
+	</li>
+{%- endmacro %}
+		<ul>
+			{% for node in tree %}
+				{{ render_node(node) }}
+			{% endfor %}
+		</ul>
+	</div>
+</body>
+</html>

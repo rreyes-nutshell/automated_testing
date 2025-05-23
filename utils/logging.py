@@ -13,12 +13,11 @@ DEBUG_LEVEL = 'v'
 
 def debug_log(message):
 	if DEBUG_MODE:
-		# if DEBUG_LEVEL == "v":
-		# 	print("DL Set to verbose")
-		# else:
-		# 	print("DL **NOT** Set to verbose")
-		caller = inspect.stack()[1].function
-		print(f"🐞 [{caller}] {message}", flush=True)
+		frame = inspect.stack()[1]
+		filename = os.path.basename(frame.filename)  # Gets just the file name, not full path
+		function_name = frame.function
+		caller = f"{filename}:{function_name}"
+		print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 🐞 [{caller}] {message}", flush=True)
 
 def is_verbose_debug_enabled():
 	return DEBUG_MODE and DEBUG_LEVEL == "v"
