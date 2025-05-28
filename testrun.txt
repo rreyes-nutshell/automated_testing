@@ -1,0 +1,1 @@
+python3 -m oracle.test_executor.executor > out.txt | tee out.txt

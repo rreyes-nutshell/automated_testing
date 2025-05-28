@@ -21,7 +21,7 @@
 			<p class="text-muted">Session ID: {{ session_id }}</p>
 		{% endif %}
 
-		<form class="row g-3 mb-4" method="post" id="credentials-form" action="{{ url_for('ui_map_admin.run_crawler') }}">
+		<form class="row g-3 mb-4" method="post" id="credentials-form" action="/ui-map/run-crawler">
 			<div class="col-auto">
 				<label for="username" class="form-label">Username</label>
 				<input type="text" id="username" name="username" class="form-control" placeholder="Enter Oracle username" required>
@@ -44,6 +44,14 @@
 			</div>
 		</form>
 
+		<form class="mb-4" method="post" action="/ui-map/import" enctype="multipart/form-data">
+			<div class="mb-3">
+				<label for="jsonlFile" class="form-label">Upload JSONL File</label>
+				<input class="form-control" type="file" name="file" id="jsonlFile" accept=".jsonl" required>
+			</div>
+			<button type="submit" class="btn btn-warning">📥 Import UI Map</button>
+		</form>
+
 		<table id="uiTable" class="table table-bordered table-hover">
 			<thead>
 				<tr>
@@ -54,17 +62,18 @@
 			</thead>
 			<tbody>
 				{% for page in pages %}
+
 				<tr>
 					<td>
 						<form method="post" action="/ui-map/run" style="display:inline;">
-							<input type="hidden" name="selector" value="{{ page.locator }}">
+							<input type="hidden" name="selector" value="{{ page.selector }}">
 							<input type="hidden" name="username" value="mgonzalez@mfa.org">
 							<input type="hidden" name="password" value="Welcome!23">
 							<input type="hidden" name="login_url" value="https://login-ibnijb-dev1.fa.ocs.oraclecloud.com">
 							<button type="submit" class="btn btn-sm btn-primary">Run 🔥</button>
 						</form>
 						<form method="post" action="/ui-map/crawl-path" style="display:inline;">
-							<input type="hidden" name="selector" value="{{ page.locator }}">
+							<input type="hidden" name="selector" value="{{ page.selector }}">
 							<input type="hidden" name="username" value="mgonzalez@mfa.org">
 							<input type="hidden" name="password" value="Welcome!23">
 							<input type="hidden" name="login_url" value="https://login-ibnijb-dev1.fa.ocs.oraclecloud.com">
@@ -72,7 +81,7 @@
 						</form>
 					</td>
 					<td>{{ page.label }}</td>
-					<td class="truncate" title="{{ page.locator }}">{{ page.locator }}</td>
+					<td class="truncate" title="{{ page.selector }}">{{ page.selector }}</td>
 				</tr>
 				{% endfor %}
 			</tbody>

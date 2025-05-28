@@ -1,5 +1,6 @@
 from playwright.async_api import async_playwright
 from utils.logging import debug_log, capture_screenshot, log_html_to_file
+from utils.selectors import ensure_escaped_selector
 from datetime import datetime
 from oracle.login_steps import run_oracle_login_steps
 from oracle.locators import LOCATORS
@@ -14,6 +15,13 @@ async def run_browser_script(steps, session_id=None, login_url=None, username=No
     debug_log("Entered")
     debug_log(f"🧙️ Preview Mode: {preview_mode}")
 
+    debug_log(f"🧩 Steps to execute: {len(steps)}"  )
+    debug_log(f"Target label: {target_label}")
+    debug_log(f"Parent label: {parent_label}")
+
+
+
+
     if preview_mode:
         for step_num, step in enumerate(steps, 1):
             debug_log(f"🖟️ [Preview] Step {step_num}: {step}")
@@ -25,7 +33,7 @@ async def run_browser_script(steps, session_id=None, login_url=None, username=No
         headless_mode = os.getenv("HEADLESS", "true").lower() == "true"
 
         async with async_playwright() as p:
-            browser = await p.chromium.launch(headless=headless_mode)
+            browser = await p.chromium.launch(headless=False)
             context = await browser.new_context()
             page = await context.new_page()
 
@@ -57,6 +65,9 @@ async def run_browser_script(steps, session_id=None, login_url=None, username=No
                 action = step.get("action")
                 selector = step.get("selector")
                 value = step.get("value")
+                debug_log(f"🔁 Step {step_num}: {action} - {selector} - {value}"    )
+                selector = ensure_escaped_selector(selector)
+                debug_log(f"🔁 Ensured selector: {selector}" )
 
                 if selector == ".button[title='Navigator']":
                     debug_log(f"🔁 Normalizing selector at step {step_num} from .button[title='Navigator'] to a[title='Navigator']")
@@ -147,3 +158,19 @@ async def run_browser_script(steps, session_id=None, login_url=None, username=No
     except Exception as e:
         debug_log(f"❌ Playwright error: {e}")
         return ""
+
+async def run_single_selector_step(selector, login_url, username, password, session_id="executor_test"):
+	debug_log("🎯 Running single selector through run_browser_script")
+	steps = [{
+		"action": "click",
+		"selector": selector
+	}]
+	return await run_browser_script(
+		steps=steps,
+		login_url=login_url,
+		username=username,
+		password=password,
+		session_id=session_id,
+		preview_mode=False
+	)
+

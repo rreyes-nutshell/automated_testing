@@ -9,7 +9,7 @@ OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
 OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral")  # Or "command-r" etc.
 
 
-def run_local_llm(prompt: str, timeout: int = 30) -> str:
+def run_local_llm(prompt: str, timeout: int = 60) -> str:
     debug_log("Entered")
     debug_log(f"📝 LLM prompt (length: {len(prompt)}): {prompt}")
     debug_log(f"📝 OLLAMA_HOST : {OLLAMA_HOST}")

@@ -24,7 +24,7 @@ def insert_crawl_session(username, is_superuser, session_note):
 	return session_db_id, crawl_uuid
 
 def insert_ui_path(crawl_session_id, path_name):
-	debug_log("Entered")
+	# debug_log("Entered")
 	conn = get_db_connection()
 	cur = conn.cursor()
 	cur.execute("""
@@ -36,14 +36,14 @@ def insert_ui_path(crawl_session_id, path_name):
 	conn.commit()
 	cur.close()
 	conn.close()
-	debug_log("Exited")
+	# debug_log("Exited")
 	return path_id
 
 
 import os
 
 async def extract_page_contents(page: Page, session_id: int, path_id: int):
-	debug_log("Entered")
+	# debug_log("Entered")
 	await page.wait_for_timeout(3000)
 	elements = page.locator("[role], [id], table, th, td, oj-table")
 	count = await elements.count()
@@ -89,10 +89,10 @@ async def extract_page_contents(page: Page, session_id: int, path_id: int):
 			debug_log(f"⚠️ Failed to extract element {i}: {e}")
 			continue
 
-	debug_log("Exited")
+	# debug_log("Exited")
 
 def insert_ui_path_item(ui_path_id, parent_id, seq, data):
-	debug_log("Entered")
+	# debug_log("Entered")
 	conn = get_db_connection()
 	cur = conn.cursor()
 	cur.execute("""
@@ -121,11 +121,11 @@ def insert_ui_path_item(ui_path_id, parent_id, seq, data):
 	conn.commit()
 	cur.close()
 	conn.close()
-	debug_log("Exited")
+	# debug_log("Exited")
 	return item_id
 
 def insert_user_visible_path(username, item_id, crawl_session_id, visible=True, reason=None):
-	debug_log("Entered")
+	# debug_log("Entered")
 	conn = get_db_connection()
 	cur = conn.cursor()
 	cur.execute("""
@@ -136,7 +136,7 @@ def insert_user_visible_path(username, item_id, crawl_session_id, visible=True, 
 	conn.commit()
 	cur.close()
 	conn.close()
-	debug_log("Exited")
+	# debug_log("Exited")
 
 async def extract_dom_info(el):
 	try:

@@ -1,9 +1,16 @@
 # ui_mapper/importer.py
 import json
-from datetime import datetime
-from utils.logging import debug_log
 
-def import_jsonl_to_db(path, conn):
+from datetime import datetime
+
+from utils.logging import debug_log
+from utils.db_utils import get_db_connection
+
+import os
+
+def import_jsonl_to_db(path, conn=None):
+	if conn is None:
+		conn = get_db_connection()
 	debug_log("Entered")
 	inserted = 0
 	skipped = 0
@@ -30,7 +37,7 @@ def import_jsonl_to_db(path, conn):
 				if not captured_at:
 					captured_at = datetime.utcnow().isoformat()
 
-				if not page_name or not url:
+				if not page_name or not selector:
 					skipped += 1
 					debug_log(f"⚠️ Skipping malformed line: {line.strip()}")
 					continue

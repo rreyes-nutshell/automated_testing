@@ -63,8 +63,7 @@ def show_ui_map():
 		ORDER BY session_id DESC, page_name ASC
 	""")
 
-	cols = [desc[0] for desc in cur.description]
-	pages = [dict(zip(cols, row)) for row in cur.fetchall()]
+	pages = cur.fetchall()
 	cur.close()
 	conn.close()
 

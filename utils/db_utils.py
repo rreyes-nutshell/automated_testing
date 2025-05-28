@@ -15,7 +15,7 @@ def _connect_via_url(database_url):
     return psycopg2.connect(database_url)
 
 def get_db_connection():
-    debug_log("Entered x")
+    # debug_log("Entered x")
     database_url = os.getenv("DATABASE_URL")
     # debug_log(f"DATABASE_URL loaded as: {database_url}")
     if database_url:
@@ -40,5 +40,5 @@ def get_db_connection():
     # debug_log(
     #     f"Connected to database {os.getenv('DB_NAME')} at {os.getenv('DB_HOST')}:{os.getenv('DB_PORT')}"
     # )
-    debug_log("Exited")
+    # debug_log("Exited")
     return conn
