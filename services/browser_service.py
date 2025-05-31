@@ -32,7 +32,7 @@ class BrowserService:
             Path(user_data).mkdir(parents=True, exist_ok=True)
 
             # Launch a persistent context so cookies & storage survive restarts
-            headless = os.getenv("HEADLESS", "true").lower() == "true"
+            headless = os.getenv("HEADLESS_MODE", "true").lower() == "true"
             self._context = await self._playwright.chromium.launch_persistent_context(
                 user_data_dir=user_data,
                 headless=headless,

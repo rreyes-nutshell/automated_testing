@@ -1,6 +1,273 @@
-2025-05-28 22:56:48 🐞 [executor.py:<module>] Loaded ORA_URL: https://login-ibnijb-dev1.fa.ocs.oraclecloud.com
-2025-05-28 22:56:48 🐞 [executor.py:<module>] Loaded ORA_USER: mgonzalez@mfa.org
-2025-05-28 22:56:48 🐞 [executor.py:<module>] Loaded ORA_PW: **********
-2025-05-28 22:56:48 🐞 [executor.py:main] Starting LLM-driven test chain
-2025-05-28 22:56:49 🐞 [login_steps.py:run_oracle_login_steps] Entered run_oracle_login_steps
-2025-05-28 22:56:49 🐞 [login_steps.py:run_oracle_login_steps] 🔗 Navigating to login_url: https://login-ibnijb-dev1.fa.ocs.oraclecloud.com
+2025-05-31 18:02:49 🐞 [executor.py:<module>] Loaded ORA_URL: https://login-ibnijb-dev1.fa.ocs.oraclecloud.com
+2025-05-31 18:02:49 🐞 [executor.py:<module>] Loaded ORA_USER: mgonzalez@mfa.org
+2025-05-31 18:02:49 🐞 [executor.py:<module>] Loaded ORA_PW: **********
+2025-05-31 18:02:49 🐞 [executor.py:main] Starting LLM-driven test chain
+2025-05-31 18:02:50 🐞 [login_steps.py:run_oracle_login_steps] Entered run_oracle_login_steps
+2025-05-31 18:02:50 🐞 [login_steps.py:run_oracle_login_steps] 🔗 Navigating to login_url: https://login-ibnijb-dev1.fa.ocs.oraclecloud.com
+2025-05-31 18:02:51 🐞 [login_steps.py:run_oracle_login_steps] 🔑 Username: mgonzalez@mfa.org
+2025-05-31 18:02:51 🐞 [login_steps.py:run_oracle_login_steps] 🔑 Password: **********
+2025-05-31 18:02:53 🐞 [login_steps.py:run_oracle_login_steps] ✅ Login form submitted
+2025-05-31 18:02:53 🐞 [login_steps.py:run_oracle_login_steps] 🍔 Clicked hamburger menu
+2025-05-31 18:02:54 🐞 [login_steps.py:run_oracle_login_steps] 📂 Clicked Show More
+2025-05-31 18:02:54 🐞 [login_steps.py:run_oracle_login_steps] Exited run_oracle_login_steps
+2025-05-31 18:02:57 🐞 [executor.py:extract_dom_elements] Entered extract_dom_elements
+2025-05-31 18:03:06 🐞 [executor.py:extract_dom_elements] Exited extract_dom_elements
+2025-05-31 18:03:06 🐞 [runtime_selector.py:split_instruction] Entered
+2025-05-31 18:03:06 🐞 [runtime_selector.py:split_instruction] 🧠 Step Split Prompt:
+
+You are an Oracle Cloud QA Test Planner.
+
+Given the visible UI labels and a test instruction, break the instruction into a numbered list of discrete UI steps. Each step should be a single user action. Use only labels from the visible list.
+
+Instruction:
+You are an Oracle Cloud QA Tester. First, click the 'Suppliers' link. After the Suppliers page loads,
+locate the first visible supplier name in any data grid and click it. Once the supplier detail screen appears,
+take a full-page screenshot and save it as 'supp.png' in the root directory.
+
+Visible labels:
+
+
+Return only the numbered list of steps. Do not explain. Do not add extra steps.
+
+2025-05-31 18:03:06 🐞 [llm_utils.py:run_local_llm] Entered
+2025-05-31 18:03:06 🐞 [llm_utils.py:run_local_llm] 📝 LLM prompt (length: 644): 
+You are an Oracle Cloud QA Test Planner.
+
+Given the visible UI labels and a test instruction, break the instruction into a numbered list of discrete UI steps. Each step should be a single user action. Use only labels from the visible list.
+
+Instruction:
+You are an Oracle Cloud QA Tester. First, click the 'Suppliers' link. After the Suppliers page loads,
+locate the first visible supplier name in any data grid and click it. Once the supplier detail screen appears,
+take a full-page screenshot and save it as 'supp.png' in the root directory.
+
+Visible labels:
+
+
+Return only the numbered list of steps. Do not explain. Do not add extra steps.
+
+2025-05-31 18:03:06 🐞 [llm_utils.py:run_local_llm] 📝 OLLAMA_HOST : http://localhost:11434
+2025-05-31 18:03:08 🐞 [llm_utils.py:run_local_llm] 🧮 Token stats — input: 165, output: 64
+2025-05-31 18:03:08 🐞 [llm_utils.py:run_local_llm] Exited
+2025-05-31 18:03:08 🐞 [runtime_selector.py:split_instruction] 🧠 Step Split LLM Response:
+1. Click the 'Suppliers' link
+  2. Locate the first visible supplier name in any data grid
+  3. Click the first visible supplier name
+  4. Take a full-page screenshot
+  5. Save the screenshot as 'supp.png' in the root directory
+2025-05-31 18:03:08 🐞 [runtime_selector.py:split_instruction] Exited
+2025-05-31 18:03:08 🐞 [executor.py:execute_instruction_steps] Entered execute_instruction_steps
+2025-05-31 18:03:08 🐞 [executor.py:execute_instruction_steps] 🔁 [execute] Step 1: 1. Click the 'Suppliers' link
+2025-05-31 18:03:08 🐞 [executor.py:find_instruction_target] Entered find_instruction_target
+2025-05-31 18:03:08 🐞 [executor.py:extract_dom_elements] Entered extract_dom_elements
+2025-05-31 18:03:17 🐞 [executor.py:extract_dom_elements] Exited extract_dom_elements
+2025-05-31 18:03:17 🐞 [executor.py:find_instruction_target] 🧱 DOM Preview: html.p_AFMaximized - Content is screen reader optimized.
+
+
+Show Less
+Home
+Sales
+Collapse Sales
+Analytics
+Payables
+Collaps
+2025-05-31 18:03:17 🐞 [executor.py:find_instruction_target] 🧱 DOM Preview: head - var AdfAssert = new Object();AdfAssert.DEBUG = false;AdfLogger.DEFAULT_LEVEL=AdfLogger.OFF;(AdfLogge
+2025-05-31 18:03:17 🐞 [executor.py:find_instruction_target] 🧱 DOM Preview: link - 
+2025-05-31 18:03:17 🐞 [executor.py:find_instruction_target] 🧱 DOM Preview: script - 
+2025-05-31 18:03:17 🐞 [executor.py:find_instruction_target] 🧱 DOM Preview: script - var AdfAssert = new Object();AdfAssert.DEBUG = false;
+2025-05-31 18:03:17 🐞 [executor.py:find_instruction_target] 🧱 DOM Preview: script - 
+2025-05-31 18:03:17 🐞 [executor.py:find_instruction_target] 🧱 DOM Preview: script - AdfLogger.DEFAULT_LEVEL=AdfLogger.OFF;(AdfLogger.LOGGER=new AdfLogger('global', new AdfBufferedLogWr
+2025-05-31 18:03:17 🐞 [executor.py:find_instruction_target] 🧱 DOM Preview: script - 
+2025-05-31 18:03:17 🐞 [executor.py:find_instruction_target] 🧱 DOM Preview: script - 
+2025-05-31 18:03:17 🐞 [executor.py:find_instruction_target] 🧱 DOM Preview: title - Welcome
+2025-05-31 18:03:18 🐞 [executor.py:find_instruction_target] 🧠 Instruction: 1. Click the 'Suppliers' link
+2025-05-31 18:03:18 🐞 [runtime_selector.py:select_click_target] Entered
+2025-05-31 18:03:18 🐞 [runtime_selector.py:select_click_target] 🧠 LLM Prompt:
+You are an expert Oracle Cloud test automation assistant.
+
+Your task is to find the best label from a list of visible elements that best matches a test instruction.
+
+Instruction:
+1. Click the 'Suppliers' link
+
+Here are the currently visible labels:
+- Access Accessibility Settings
+- Analytics
+- Asset Inquiry
+- Cancel
+- Close
+- Cloud Customer Connect
+- Collaboration Messaging
+- Download Desktop Integration Installer
+- Expand Fixed Assets
+- Expand General Accounting
+- Expand My Enterprise
+- Expand Others
+- Expand Payables
+- Expand Procurement
+- Expand Sales
+- Expand Tools
+- Export Management
+- Favorites and Recent Items
+- Feature Updates
+- File Import and Export
+- Financial Reporting Center
+- General Accounting Dashboard
+- Getting Started
+- Help: Welcome
+- Home
+- Import Management
+- Invoices
+- Journals
+- Marketplace
+- New Features
+- Notifications (1 unread)
+- OK
+- Offerings
+- PO Inquiry
+- Payables Dashboard
+- Payments
+- Reports and Analytics
+- Resize
+- Scheduled Processes
+- Set Preferences
+- Setup and Maintenance
+- Show Less
+- Skip to main content
+- Suppliers
+- Worklist
+
+Return ONLY the label that best matches the instruction. No explanations. No alternatives.
+If nothing matches, return an empty string.
+
+2025-05-31 18:03:18 🐞 [llm_utils.py:run_local_llm] Entered
+2025-05-31 18:03:18 🐞 [llm_utils.py:run_local_llm] 📝 LLM prompt (length: 1220): You are an expert Oracle Cloud test automation assistant.
+
+Your task is to find the best label from a list of visible elements that best matches a test instruction.
+
+Instruction:
+1. Click the 'Suppliers' link
+
+Here are the currently visible labels:
+- Access Accessibility Settings
+- Analytics
+- Asset Inquiry
+- Cancel
+- Close
+- Cloud Customer Connect
+- Collaboration Messaging
+- Download Desktop Integration Installer
+- Expand Fixed Assets
+- Expand General Accounting
+- Expand My Enterprise
+- Expand Others
+- Expand Payables
+- Expand Procurement
+- Expand Sales
+- Expand Tools
+- Export Management
+- Favorites and Recent Items
+- Feature Updates
+- File Import and Export
+- Financial Reporting Center
+- General Accounting Dashboard
+- Getting Started
+- Help: Welcome
+- Home
+- Import Management
+- Invoices
+- Journals
+- Marketplace
+- New Features
+- Notifications (1 unread)
+- OK
+- Offerings
+- PO Inquiry
+- Payables Dashboard
+- Payments
+- Reports and Analytics
+- Resize
+- Scheduled Processes
+- Set Preferences
+- Setup and Maintenance
+- Show Less
+- Skip to main content
+- Suppliers
+- Worklist
+
+Return ONLY the label that best matches the instruction. No explanations. No alternatives.
+If nothing matches, return an empty string.
+
+2025-05-31 18:03:18 🐞 [llm_utils.py:run_local_llm] 📝 OLLAMA_HOST : http://localhost:11434
+2025-05-31 18:03:19 🐞 [llm_utils.py:run_local_llm] 🧮 Token stats — input: 338, output: 3
+2025-05-31 18:03:19 🐞 [llm_utils.py:run_local_llm] Exited
+2025-05-31 18:03:19 🐞 [runtime_selector.py:select_click_target] 🧠 LLM Full Response:
+Suppliers
+2025-05-31 18:03:19 🐞 [runtime_selector.py:select_click_target] Exited
+2025-05-31 18:03:19 🐞 [runtime_selector.py:select_click_target] 🧩 Matched element (fallback aware): a#pt1:_UISnvr:0:nv_itemNode_procurement_suppliers.svg-func.svg-navmenu.size24.x3bz.x3c0.xko - Suppliers
+2025-05-31 18:03:19 🐞 [executor.py:find_instruction_target] 📬 LLM reasoning: a#pt1:_UISnvr:0:nv_itemNode_procurement_suppliers.svg-func.svg-navmenu.size24.x3bz.x3c0.xko - Suppliers
+2025-05-31 18:03:19 🐞 [executor.py:find_instruction_target] 📬 LLM selected: a#pt1:_UISnvr:0:nv_itemNode_procurement_suppliers.svg-func.svg-navmenu.size24.x3bz.x3c0.xko
+2025-05-31 18:03:19 🐞 [executor.py:find_instruction_target] 🧩 Matched element: a#pt1:_UISnvr:0:nv_itemNode_procurement_suppliers.svg-func.svg-navmenu.size24.x3bz.x3c0.xko - Suppliers
+2025-05-31 18:03:19 🐞 [executor.py:find_instruction_target] Exited find_instruction_target
+2025-05-31 18:03:19 🐞 [path_crawler.py:crawl_path_from_selector] Entered crawl_path_from_selector
+2025-05-31 18:03:19 🐞 [path_crawler.py:crawl_path_from_selector] username: mgonzalez@mfa.org
+2025-05-31 18:03:19 🐞 [path_crawler.py:crawl_path_from_selector] login_url: https://login-ibnijb-dev1.fa.ocs.oraclecloud.com
+2025-05-31 18:03:19 🐞 [path_crawler.py:crawl_path_from_selector] session_id: llm_test_session
+2025-05-31 18:03:19 🐞 [path_crawler.py:crawl_path_from_selector] 🔍 Navigating to selector: Suppliers
+2025-05-31 18:03:19 🐞 [path_crawler.py:crawl_path_from_selector] 🔍 Final selector being used for navigation: a#pt1:_UISnvr:0:nv_itemNode_procurement_suppliers.svg-func.svg-navmenu.size24.x3bz.x3c0.xko
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] Entered run_browser_script
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] 🧙️ Preview Mode: False
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] 🧩 Steps to execute: 4
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] Target label: None
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] Parent label: None
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] ✅ Reusing existing page/browser context
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] 🔁 Step 1: wait_for_selector - a#pt1:_UISnvr:0:nv_itemNode_procurement_suppliers.svg-func.svg-navmenu.size24.x3bz.x3c0.xko - None
+2025-05-31 18:03:19 🐞 [selectors.py:escape_css_selector] Original selector: a#pt1:_UISnvr:0:nv_itemNode_procurement_suppliers.svg-func.svg-navmenu.size24.x3bz.x3c0.xko
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] 🔁 Ensured selector: a\#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers\.svg-func\.svg-navmenu\.size24\.x3bz\.x3c0\.xko
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] 🔄 Simplifying selector from LLM 'a\#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers\.svg-func\.svg-navmenu\.size24\.x3bz\.x3c0\.xko' to 'a#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers'
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] 🔍 Waiting for selector: a#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers timeout 30000
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] ✅ Step succeeded: wait_for_selector - a#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers
+2025-05-31 18:03:19 🐞 [logging.py:capture_screenshot] 📸 Saving screenshot: logs/llm_test_session/20250531_180319_sess_llm_test_session_step_1_wait_for_selector.png
+2025-05-31 18:03:19 🐞 [logging.py:log_html_to_file] 📄 HTML snapshot saved: logs/llm_test_session/html_1_20250531_180319.html
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] 🔁 Step 2: click - a#pt1:_UISnvr:0:nv_itemNode_procurement_suppliers.svg-func.svg-navmenu.size24.x3bz.x3c0.xko - None
+2025-05-31 18:03:19 🐞 [selectors.py:escape_css_selector] Original selector: a#pt1:_UISnvr:0:nv_itemNode_procurement_suppliers.svg-func.svg-navmenu.size24.x3bz.x3c0.xko
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] 🔁 Ensured selector: a\#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers\.svg-func\.svg-navmenu\.size24\.x3bz\.x3c0\.xko
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] 🔄 Simplifying selector from LLM 'a\#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers\.svg-func\.svg-navmenu\.size24\.x3bz\.x3c0\.xko' to 'a#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers'
+2025-05-31 18:03:19 🐞 [playwright_runner.py:run_browser_script] 🖱️ Clicking selector 'a#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers'
+2025-05-31 18:03:24 🐞 [playwright_runner.py:run_browser_script] 💼 Clicked selector 'a#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers'
+2025-05-31 18:03:24 🐞 [playwright_runner.py:run_browser_script] ✅ Step succeeded: click - a#pt1\:_UISnvr\:0\:nv_itemNode_procurement_suppliers
+2025-05-31 18:03:24 🐞 [logging.py:capture_screenshot] 📸 Saving screenshot: logs/llm_test_session/20250531_180319_sess_llm_test_session_step_2_click.png
+2025-05-31 18:03:24 🐞 [logging.py:log_html_to_file] 📄 HTML snapshot saved: logs/llm_test_session/html_2_20250531_180324.html
+2025-05-31 18:03:24 🐞 [playwright_runner.py:run_browser_script] 🔁 Step 3: screenshot - None - None
+2025-05-31 18:03:24 🐞 [playwright_runner.py:run_browser_script] ✅ Step succeeded: screenshot - None
+2025-05-31 18:03:24 🐞 [logging.py:capture_screenshot] 📸 Saving screenshot: logs/llm_test_session/20250531_180319_sess_llm_test_session_step_3_screenshot.png
+2025-05-31 18:03:24 🐞 [logging.py:log_html_to_file] 📄 HTML snapshot saved: logs/llm_test_session/html_3_20250531_180324.html
+2025-05-31 18:03:24 🐞 [playwright_runner.py:run_browser_script] 🔁 Step 4: log_result - None - None
+2025-05-31 18:03:24 🐞 [playwright_runner.py:run_browser_script] ✅ Step succeeded: log_result - None
+2025-05-31 18:03:24 🐞 [logging.py:capture_screenshot] 📸 Saving screenshot: logs/llm_test_session/20250531_180319_sess_llm_test_session_step_4_log_result.png
+2025-05-31 18:03:24 🐞 [logging.py:log_html_to_file] 📄 HTML snapshot saved: logs/llm_test_session/html_4_20250531_180324.html
+2025-05-31 18:03:24 🐞 [playwright_runner.py:run_browser_script] Exited run_browser_script
+2025-05-31 18:03:24 🐞 [path_crawler.py:crawl_path_from_selector] ⚠️ Error navigating to selector: too many values to unpack (expected 3)
+2025-05-31 18:03:24 🐞 [path_crawler.py:crawl_path_from_selector] Exited crawl_path_from_selector
+2025-05-31 18:03:24 🐞 [executor.py:execute_instruction_steps] ✅ [execute] Completed Step 1
+2025-05-31 18:03:24 🐞 [executor.py:execute_instruction_steps] 🔁 [execute] Step 2: 2. Locate the first visible supplier name in any data grid
+2025-05-31 18:03:24 🐞 [executor.py:find_instruction_target] Entered find_instruction_target
+2025-05-31 18:03:24 🐞 [executor.py:extract_dom_elements] Entered extract_dom_elements
+2025-05-31 18:03:24 🐞 [executor.py:extract_dom_elements] DOM extraction failed: Page.query_selector_all: Target page, context or browser has been closed
+2025-05-31 18:03:24 🐞 [executor.py:execute_instruction_steps] ❌ [execute] Failed Step 2 (2. Locate the first visible supplier name in any data grid): No DOM elements found during scan
+2025-05-31 18:03:24 🐞 [executor.py:execute_instruction_steps] 🔁 [execute] Step 3: 3. Click the first visible supplier name
+2025-05-31 18:03:24 🐞 [executor.py:find_instruction_target] Entered find_instruction_target
+2025-05-31 18:03:24 🐞 [executor.py:extract_dom_elements] Entered extract_dom_elements
+2025-05-31 18:03:24 🐞 [executor.py:extract_dom_elements] DOM extraction failed: Page.query_selector_all: Target page, context or browser has been closed
+2025-05-31 18:03:24 🐞 [executor.py:execute_instruction_steps] ❌ [execute] Failed Step 3 (3. Click the first visible supplier name): No DOM elements found during scan
+2025-05-31 18:03:24 🐞 [executor.py:execute_instruction_steps] 🔁 [execute] Step 4: 4. Take a full-page screenshot
+2025-05-31 18:03:24 🐞 [executor.py:find_instruction_target] Entered find_instruction_target
+2025-05-31 18:03:24 🐞 [executor.py:extract_dom_elements] Entered extract_dom_elements
+2025-05-31 18:03:24 🐞 [executor.py:extract_dom_elements] DOM extraction failed: Page.query_selector_all: Target page, context or browser has been closed
+2025-05-31 18:03:24 🐞 [executor.py:execute_instruction_steps] ❌ [execute] Failed Step 4 (4. Take a full-page screenshot): No DOM elements found during scan
+2025-05-31 18:03:24 🐞 [executor.py:execute_instruction_steps] 🔁 [execute] Step 5: 5. Save the screenshot as 'supp.png' in the root directory
+2025-05-31 18:03:24 🐞 [executor.py:find_instruction_target] Entered find_instruction_target
+2025-05-31 18:03:24 🐞 [executor.py:extract_dom_elements] Entered extract_dom_elements
+2025-05-31 18:03:24 🐞 [executor.py:extract_dom_elements] DOM extraction failed: Page.query_selector_all: Target page, context or browser has been closed
+2025-05-31 18:03:24 🐞 [executor.py:execute_instruction_steps] ❌ [execute] Failed Step 5 (5. Save the screenshot as 'supp.png' in the root directory): No DOM elements found during scan
+2025-05-31 18:03:24 🐞 [executor.py:execute_instruction_steps] Exited execute_instruction_steps
+2025-05-31 18:03:24 🐞 [executor.py:main] 📄 Saved breadcrumb trail to breadcrumb_trail.txt
