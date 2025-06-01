@@ -6,6 +6,7 @@ venv/
 .env
 .env.*
 !.env.example
+.plawright
 
 # Logs and debug output
 logs/

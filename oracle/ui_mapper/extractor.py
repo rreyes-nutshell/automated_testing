@@ -24,7 +24,7 @@ def insert_crawl_session(username, is_superuser, session_note):
 	return session_db_id, crawl_uuid
 
 def insert_ui_path(crawl_session_id, path_name):
-	# debug_log("Entered")
+	debug_log("Entered with path_name: " + path_name)
 	conn = get_db_connection()
 	cur = conn.cursor()
 	cur.execute("""
@@ -36,13 +36,13 @@ def insert_ui_path(crawl_session_id, path_name):
 	conn.commit()
 	cur.close()
 	conn.close()
-	# debug_log("Exited")
+	debug_log("Exited")
 	return path_id
 
 
 import os
 
-async def extract_page_contents(page: Page, session_id: int, path_id: int):
+async def extract_page_contents(page: Page, session_id: int, path_id: str):
 	debug_log("Entered")
 	await page.wait_for_timeout(3000)
 	elements = page.locator("[role], [id], table, th, td, oj-table")
@@ -92,7 +92,7 @@ async def extract_page_contents(page: Page, session_id: int, path_id: int):
 	debug_log("Exited")
 
 def insert_ui_path_item(ui_path_id, parent_id, seq, data):
-	debug_log("Entered")
+	# debug_log("Entered")
 	conn = get_db_connection()
 	cur = conn.cursor()
 	cur.execute("""
@@ -102,14 +102,14 @@ def insert_ui_path_item(ui_path_id, parent_id, seq, data):
 			role, aria_label, aria_describedby,
 			href, dest_url, xpath, css_selector,
 			inner_text, outer_html, click_action, is_clickable,
-			classification, created_by
+			classification, created_by,crawler_session_id
 		) VALUES (
 			%(ui_path_id)s, %(parent_id)s, %(seq)s,
 			%(label)s, %(element_id)s, %(class_name)s, %(tag_name)s, %(name_attr)s,
 			%(role)s, %(aria_label)s, %(aria_describedby)s,
 			%(href)s, %(dest_url)s, %(xpath)s, %(css_selector)s,
 			%(inner_text)s, %(outer_html)s, %(click_action)s, %(is_clickable)s,
-			NULL, 'crawler'
+			NULL, 'crawler', %(ui_path_id)s
 		) RETURNING id;
 	""", {
 		'ui_path_id': ui_path_id,
@@ -121,7 +121,7 @@ def insert_ui_path_item(ui_path_id, parent_id, seq, data):
 	conn.commit()
 	cur.close()
 	conn.close()
-	debug_log("Exited")
+	# debug_log("Exited")
 	return item_id
 
 def insert_user_visible_path(username, item_id, crawl_session_id, visible=True, reason=None):
