@@ -1,0 +1,23 @@
+{
+  "name": "ns_aitester",
+  "version": "1.0.0",
+  "description": "1. Copy `instance/.env.example` to `instance/.env`. 2. Edit the values as needed for your environment.",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rreyes-nutshell/automated_testing.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/rreyes-nutshell/automated_testing/issues"
+  },
+  "homepage": "https://github.com/rreyes-nutshell/automated_testing#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.29"
+  }
+}

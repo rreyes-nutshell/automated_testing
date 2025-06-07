@@ -1,3 +1,4 @@
+from typing import List, Dict, Any
 from utils.logging import debug_log
 from ai_helpers.llm_utils import run_local_llm  # ✅ fixed
 from difflib import SequenceMatcher

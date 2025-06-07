@@ -1,3 +1,4 @@
+import sys
 import os
 import json
 import inspect
@@ -17,7 +18,8 @@ def debug_log(message):
 		filename = os.path.basename(frame.filename)  # Gets just the file name, not full path
 		function_name = frame.function
 		caller = f"{filename}:{function_name}"
-		print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 🐞 [{caller}] {message}", flush=True)
+		print(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} 🐞 [{caller}] {message}", flush=True, file=sys.stderr )
+		
 
 def is_verbose_debug_enabled():
 	return DEBUG_MODE and DEBUG_LEVEL == "v"
