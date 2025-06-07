@@ -1,3 +1,7 @@
+pytest>=8.0
+pytest-asyncio>=0.23
+anyio>=4.0         # underlying async lib that pytest-asyncio relies on
+playwright>=1.44   # already in prod list, fine to duplicate here
 python-dotenv
 psycopg2-binary
 playwright
