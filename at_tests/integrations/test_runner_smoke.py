@@ -1,45 +1,45 @@
-# at_tests/integrations/test_runner_smoke.py
-# <<08-JUN-2025:00:38>> - Minimal Playwright runner smoke-test
-
-from dotenv import load_dotenv, find_dotenv
-load_dotenv(find_dotenv(usecwd=True), override=False)          # pick up .env
+# <<08-JUN-2025:03:15>> - Updated to use ORA_URL and real selector-based login smoke
 
 import os
 import pytest
 from playwright.async_api import async_playwright
-
-# import path: services.playwright_runner_core
+from utils.logging import debug_log, load_env
 from services.playwright_runner_core import run_browser_script
 
 # --------------------------------------------------------------------------- #
-#  Env-driven login values (defaults keep test offline)
+#  Smoke Test Steps — now using selector map aware value
 # --------------------------------------------------------------------------- #
-LOGIN_URL = os.getenv("ORACLE_LOGIN_URL", "https://example.com/login")
-USERNAME  = os.getenv("ORACLE_USERNAME",  "dummy")
-PASSWORD  = os.getenv("ORACLE_PASSWORD",  "dummy")
+load_env()
+LOGIN_URL = os.getenv("ORA_URL", "https://example.com")
+USERNAME  = os.getenv("ORA_USER",  "dummy")
+PASSWORD  = os.getenv("ORA_PW",    "dummy")
 
-# Simple no-op step list – change as needed
 SMOKE_STEPS = [
-    {"action": "goto",             "value": "https://example.com"},
-    {"action": "wait_for_timeout", "value": "1000"},
+	{"action": "goto",             "value": "{login_url}"},
+	{"action": "wait_for_timeout", "value": "2000"},
+	{"action": "fill",             "selector": "username_input", "value": USERNAME},
+	{"action": "fill",             "selector": "password_input", "value": PASSWORD},
+	{"action": "click",            "selector": "sign_in_button"},
+	{"action": "wait_for_selector","selector": "hamburger_icon"},
 ]
 
 # --------------------------------------------------------------------------- #
-#  Smoke test
+#  Smoke Test
 # --------------------------------------------------------------------------- #
 @pytest.mark.asyncio
 async def test_smoke_runner():
-    async with async_playwright():
-        page, browser, logged_in = await run_browser_script(
-            steps=SMOKE_STEPS,
-            session_id="smoke",
-            login_url=LOGIN_URL,
-            username=USERNAME,
-            password=PASSWORD,
-            already_logged_in=True,      # skip real Oracle login for smoke
-        )
+	load_env()
+	async with async_playwright():
+		debug_log(f"Using login URL: {LOGIN_URL}")
+		page, browser, logged_in = await run_browser_script(
+			steps=SMOKE_STEPS,
+			session_id="smoke",
+			login_url=LOGIN_URL,
+			username=USERNAME,
+			password=PASSWORD,
+			preview_mode=False,
+		)
 
-        # Sanity assertions
-        assert browser is not None
-        assert page is not None
-        await browser.close()
+		assert logged_in is True
+		assert page is not None
+		await browser.close()

@@ -1,0 +1,35 @@
+# ===========================
+# 🧑‍💼 Login Page
+# ===========================
+username_input:
+  primary: css
+  css: "input[id='userid']"
+
+password_input:
+  primary: css
+  css: "input[type='password']"
+
+sign_in_button:
+  primary: css
+  css: "button#btnActive"
+  text: "Sign In"
+
+
+# ===========================
+# 📋 Navigation
+# ===========================
+navigator_button:
+  primary: css
+  css: "a[id^='pt1:_UIShome']"
+  xpath: "//a[contains(@id, '_UIShome')]"
+
+hamburger_icon:
+  primary: css
+  css: "a[id^='pt1:_UIShome']"
+
+# ===========================
+# 🚨 Error Banners
+# ===========================
+login_error_banner:
+  primary: css
+  css: "div[id*='msgErr']"

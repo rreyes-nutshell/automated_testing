@@ -618,7 +618,8 @@ async def run_browser_script(
                 # Wait for selector, text or CSS
                 elif action == "wait_for_selector":
                     debug_log(f"Waiting for selector: {selector}")
-                    timeout = step.get("timeout", 30000)
+                    # timeout = step.get("timeout", 30000)
+                    timeout = step.get("timeout", 5000)
                     if selector.startswith("text=") or ".nav-link.text-dark." in selector:
                         debug_log(f"Locator.wait_for for: {selector}")
                         await page.locator(selector).wait_for(

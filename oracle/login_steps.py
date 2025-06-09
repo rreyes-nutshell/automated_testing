@@ -138,75 +138,163 @@
 # ]
 
 # __all__ = ["run_oracle_login_steps", "oracle_login_steps"]
+# from utils.logging import debug_log, capture_screenshot, log_html_to_file
+# from oracle.locators import LOCATORS
+
+# async def run_oracle_login_steps(page, login_url, username, password, session_id=None, current_url=None):
+#     """
+#     Logs into Oracle using Playwright. Skips login if session cookies are already present.
+#     """
+#     debug_log("Entered run_oracle_login_steps")
+
+#     # Check for existing Oracle cookies to decide whether login is needed
+#     cookies = await page.context.cookies()
+#     if any("oraclecloud.com" in c.get("domain", "") for c in cookies):
+#         debug_log("🔐 Existing Oracle cookies found; skipping login steps")
+#         # NOTE: Commented out persistence flush and context close to keep browser visible
+#         # from pathlib import Path, os
+#         # state_path = Path(os.getenv("PLAYWRIGHT_USER_DATA_DIR", str(Path.home() / ".myapp_playwright_data"))) / "storage_state.json"
+#         # await page.context.storage_state(path=str(state_path))
+#         # debug_log(f"🔖 Storage state written to {state_path}")
+#         # await page.context.close()
+#         # debug_log("🚪 Closed context to flush persistent data")
+#         debug_log("Exited run_oracle_login_steps")
+#         return
+
+#     # Navigate to login URL
+#     debug_log(f"🔗 Navigating to login_url: {login_url}")
+#     await page.goto(login_url)
+#     await page.wait_for_selector(LOCATORS["User ID"], timeout=30000)
+
+#     try:
+#         # Fill in credentials
+#         await page.fill(LOCATORS["User ID"], username)
+#         debug_log(f"🔑 Username: {username}")
+
+#         await page.fill(LOCATORS["Password"], password)
+#         debug_log(f"🔑 Password: {'*' * len(password)}")
+
+#         # Submit the form
+#         await page.click(LOCATORS["Sign In Button"])
+#         await page.wait_for_load_state('networkidle')
+#         debug_log("✅ Login form submitted")
+
+#         # Post-login navigation: Hamburger > Show More
+#         await page.click(LOCATORS["Navigator"])
+#         debug_log("🍔 Clicked hamburger menu")
+#         await page.wait_for_timeout(1000)
+#         try:
+#             await page.wait_for_selector("text=Show More", timeout=3000)
+#             await page.click("text=Show More")
+#             debug_log("📂 Clicked Show More")
+#         except Exception:
+#             debug_log("⚠️ Show More link not found or already expanded")
+
+#     except Exception as e:
+#         debug_log(f"❌ Login step error: {e}")
+#         if session_id:
+#             await capture_screenshot(page, session_id, "login_error", 0)
+#             html_content = await page.content()
+#             await log_html_to_file("login_error", html_content, session_id)
+#         raise
+
+#     debug_log("Exited run_oracle_login_steps")
+
+# # Provide static login steps for script parser or dry-run
+# oracle_login_steps = [
+#     {"action": "goto", "target": "{login_url}"},
+#     {"action": "fill", "selector": "input[name='userid']", "value": "{username}"},
+#     {"action": "fill", "selector": "input[name='password']", "value": "{password}"},
+#     {"action": "click", "selector": "button[type='submit']"},
+#     {"action": "wait_for_selector", "selector": "a[title='Navigator']", "value": "visible"},
+# ]
+
+# __all__ = ["run_oracle_login_steps", "oracle_login_steps"]
+# <<07-JUN-2025:18:27>> - Added login error detection using login_error_banner semantic key
+# <<07-JUN-2025:19:10>> - Added wait before sign-in click to resolve Oracle render delay
+# <<07-JUN-2025:19:15>> - Updated to wait with state='attached' for sign-in button
+# <<07-JUN-2025:19:21>> - Added fallback screenshot if sign-in button never becomes visible
+# <<08-JUN-2025:21:55>> - Restored stable Oracle nav expansion in login
+
+# <<08-JUN-2025:21:55>> - Restored stable Oracle nav expansion in login
+
+# <<08-JUN-2025:21:55>> - Restored stable Oracle nav expansion in login
+# <<08-JUN-2025:21:55>> - Restored stable Oracle nav expansion in login
+# <<08-JUN-2025:21:55>> - Restored stable Oracle nav expansion in login
+
+# <<08-JUN-2025:22:23>> - Refactored to use get_by_role for robust login navigation
+
+# <<08-JUN-2025:22:23>> - Refactored to use get_by_role for robust login navigation
+
+# <<08-JUN-2025:22:23>> - Refactored to use get_by_role for robust login navigation
+
+# <<08-JUN-2025:22:23>> - Refactored to use get_by_role for robust login navigation
+
 from utils.logging import debug_log, capture_screenshot, log_html_to_file
-from oracle.locators import LOCATORS
+from utils.selector_resolver import get_selector
+from urllib.parse import urlparse
 
-async def run_oracle_login_steps(page, login_url, username, password, session_id=None, current_url=None):
-    """
-    Logs into Oracle using Playwright. Skips login if session cookies are already present.
-    """
-    debug_log("Entered run_oracle_login_steps")
+async def run_oracle_login_steps(page, login_url, username, password, session_id=None, current_url=None, crawler_name=None):
+	debug_log("Entered run_oracle_login_steps")
 
-    # Check for existing Oracle cookies to decide whether login is needed
-    cookies = await page.context.cookies()
-    if any("oraclecloud.com" in c.get("domain", "") for c in cookies):
-        debug_log("🔐 Existing Oracle cookies found; skipping login steps")
-        # NOTE: Commented out persistence flush and context close to keep browser visible
-        # from pathlib import Path, os
-        # state_path = Path(os.getenv("PLAYWRIGHT_USER_DATA_DIR", str(Path.home() / ".myapp_playwright_data"))) / "storage_state.json"
-        # await page.context.storage_state(path=str(state_path))
-        # debug_log(f"🔖 Storage state written to {state_path}")
-        # await page.context.close()
-        # debug_log("🚪 Closed context to flush persistent data")
-        debug_log("Exited run_oracle_login_steps")
-        return
+	cookies = await page.context.cookies()
+	if any("oraclecloud.com" in c.get("domain", "") for c in cookies):
+		debug_log("🔐 Existing Oracle cookies found; skipping login steps")
+		debug_log("Exited run_oracle_login_steps")
+		return
 
-    # Navigate to login URL
-    debug_log(f"🔗 Navigating to login_url: {login_url}")
-    await page.goto(login_url)
-    await page.wait_for_selector(LOCATORS["User ID"], timeout=30000)
+	debug_log(f"🔗 Navigating to login_url: {login_url}")
+	await page.goto(login_url)
 
-    try:
-        # Fill in credentials
-        await page.fill(LOCATORS["User ID"], username)
-        debug_log(f"🔑 Username: {username}")
+	try:
+		# Use robust role-based selectors
+		await page.get_by_role("textbox", name="User ID").fill(username)
+		debug_log(f"🔑 Username filled")
 
-        await page.fill(LOCATORS["Password"], password)
-        debug_log(f"🔑 Password: {'*' * len(password)}")
+		await page.get_by_role("textbox", name="Password").fill(password)
+		debug_log("🔑 Password filled")
 
-        # Submit the form
-        await page.click(LOCATORS["Sign In Button"])
-        await page.wait_for_load_state('networkidle')
-        debug_log("✅ Login form submitted")
+		await page.get_by_role("button", name="Sign In").click()
+		debug_log("✅ Sign In clicked")
 
-        # Post-login navigation: Hamburger > Show More
-        await page.click(LOCATORS["Navigator"])
-        debug_log("🍔 Clicked hamburger menu")
-        await page.wait_for_timeout(1000)
-        try:
-            await page.wait_for_selector("text=Show More", timeout=3000)
-            await page.click("text=Show More")
-            debug_log("📂 Clicked Show More")
-        except Exception:
-            debug_log("⚠️ Show More link not found or already expanded")
+		# Wait for nav to load, use direct role-based selector
+		await page.wait_for_timeout(3000)  # Give redirect time
+		debug_log(f"🌐 Current URL: {page.url}")
 
-    except Exception as e:
-        debug_log(f"❌ Login step error: {e}")
-        if session_id:
-            await capture_screenshot(page, session_id, "login_error", 0)
-            html_content = await page.content()
-            await log_html_to_file("login_error", html_content, session_id)
-        raise
+		await page.get_by_role("link", name="Navigator").click()
+		debug_log("🍔 Clicked hamburger menu")
 
-    debug_log("Exited run_oracle_login_steps")
+		await page.wait_for_timeout(1000)
+		await page.get_by_role("link", name="Show More").click()
+		debug_log("📂 Clicked Show More")
+		await page.wait_for_timeout(1000)
 
-# Provide static login steps for script parser or dry-run
+		# <<08-JUN-2025:22:45>> - Add recursive crawler entry hook here
+		from oracle.ui_mapper.recursive_crawler import begin_recursive_crawl
+
+		# <<08-JUN-2025:23:00>> - Ensure crawl session is initialized if missing
+		if session_id is None:
+			from oracle.ui_mapper.db_inserter import insert_crawl_session
+			session_id, _ = insert_crawl_session(username, is_superuser=True, session_note=crawler_name)
+
+		await begin_recursive_crawl(page, username=username, session_id=session_id, crawler_name=crawler_name)
+
+	except Exception as e:
+		debug_log(f"❌ Login step error: {e}")
+		if session_id:
+			await capture_screenshot(page, session_id, "login_error", 0)
+			html_content = await page.content()
+			await log_html_to_file("login_error", html_content, session_id)
+		raise
+
+	debug_log("Exited run_oracle_login_steps")
+
 oracle_login_steps = [
-    {"action": "goto", "target": "{login_url}"},
-    {"action": "fill", "selector": "input[name='userid']", "value": "{username}"},
-    {"action": "fill", "selector": "input[name='password']", "value": "{password}"},
-    {"action": "click", "selector": "button[type='submit']"},
-    {"action": "wait_for_selector", "selector": "a[title='Navigator']", "value": "visible"},
+	{"action": "goto", "target": "{login_url}"},
+	{"action": "fill", "selector": "username_input", "value": "{username}"},
+	{"action": "fill", "selector": "password_input", "value": "{password}"},
+	{"action": "click", "selector": "sign_in_button"},
+	{"action": "wait_for_selector", "selector": "navigator_button", "value": "visible"},
 ]
 
 __all__ = ["run_oracle_login_steps", "oracle_login_steps"]

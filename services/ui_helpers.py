@@ -15,7 +15,7 @@ from utils.logging import debug_log
 # Generic helper utilities (Oracle‑centric, but broadly usable)
 # ----------------------------------------------------------------------------
 
-DEFAULT_TIMEOUT = 30_000  # 30 seconds
+DEFAULT_TIMEOUT = 5_000  # 30 seconds
 
 # ----------------------------------------------------------------------------
 # Spinner / panel helpers

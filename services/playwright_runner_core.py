@@ -1,7 +1,4 @@
-# <<07-JUN-2025:23:05>> - Integrated ui_helpers, replaced inline spinner & selector logic.
-#               Imports helpers and uses wait_for_selector_flexible and other
-#               utilities. Maintained tab indentation and logging.
-# <<07-JUN-2025:22:45>> - Initial modularization of playwright_runner.py
+# <<08-JUN-2025:02:11>> - Merged selector support and enforced debug_log on all functions
 
 from __future__ import annotations
 
@@ -12,7 +9,9 @@ from typing import List, Dict, Tuple, Optional
 from dotenv import load_dotenv
 from playwright.async_api import Page, Browser, async_playwright
 
-from utils.logging import debug_log, capture_screenshot, log_html_to_file
+from utils.logging import debug_log, capture_screenshot, log_html_to_file, load_env
+from utils.selector_resolver import get_selector
+from utils.step_interpolation import interpolate_step_vars
 from oracle.login_steps import run_oracle_login_steps
 from oracle.navigation import (
 	load_ui_map,
@@ -20,7 +19,6 @@ from oracle.navigation import (
 	navigate_to as async_navigate_to,
 )
 
-# Newly extracted helpers
 from services.ui_helpers import (
 	wait_for_spinner,
 	expand_nav_panel_if_collapsed,
@@ -32,38 +30,21 @@ from services.ui_helpers import (
 )
 
 # ----------------------------------------------------------------------------
-# Environment helpers
-# ----------------------------------------------------------------------------
-
-def _load_env() -> bool:
-	"""Load environment variables using dotenv search and resolve HEADLESS_MODE.
-
-	Uses `find_dotenv()` so the runner works even when the current working
-	directory is inside nested test folders. Defaults to headless **true** when
-	no variable is found.
-	"""
-	from dotenv import find_dotenv
-
-	dotenv_path = find_dotenv(usecwd=True)
-	if dotenv_path:
-		load_dotenv(dotenv_path, override=False)
-		debug_log(f"Loaded .env from {dotenv_path}")
-	else:
-		debug_log("No .env file found via find_dotenv; relying on process envs")
-
-	return os.getenv("HEADLESS_MODE", "true").lower() == "true"
-
-
-# ----------------------------------------------------------------------------
 # Browser helpers
 # ----------------------------------------------------------------------------
 
+# <<08-JUN-2025:19:39>> Removed get_ui_db_connection in favor of shared db_utils routines
+
 async def _new_browser_context(headless: bool) -> Tuple[Browser, Page]:
 	"""Launch a fresh Chromium browser/context/page with given headless flag."""
+	debug_log("Entered _new_browser_context")
+	load_env()
 	p = await async_playwright().start()
 	browser = await p.chromium.launch(headless=headless)
 	context = await browser.new_context()
 	page = await context.new_page()
+	debug_log(f"New browser context created: headless={headless}, page={page.url}")
+	debug_log("Exited _new_browser_context")
 	return browser, page
 
 
@@ -86,7 +67,6 @@ async def run_browser_script(
 	already_logged_in: bool = False,
 ) -> Tuple[Optional[Page], Optional[Browser], bool]:
 	"""Executes a series of Playwright steps using helpers for resilience."""
-
 	timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
 	debug_log("Entered run_browser_script")
 
@@ -95,7 +75,7 @@ async def run_browser_script(
 			debug_log(f"[Preview] Step {idx}: {step}")
 		return None, None, False
 
-	headless_mode = _load_env()
+	headless_mode = load_env()
 	debug_log(f"Headless mode = {headless_mode}")
 
 	try:
@@ -106,8 +86,6 @@ async def run_browser_script(
 			await run_oracle_login_steps(page, login_url, username, password, session_id, page.url)
 			already_logged_in = True
 			await wait_for_spinner(page)
-
-			# Expand nav panel early for reliable selectability
 			await expand_nav_panel_if_collapsed(page)
 
 			if target_label:
@@ -118,7 +96,24 @@ async def run_browser_script(
 					await wait_for_spinner(page)
 
 		# Execute scripted steps
+		context_vars = {"login_url": login_url, "username": username, "password": password}
+		login_only_keys = {"username_input", "password_input", "sign_in_button", "login_error_banner"}
+		navigation_keys = {"navigator_button", "hamburger_icon"}
 		for idx, step in enumerate(steps, 1):
+			step = interpolate_step_vars(step, context_vars)
+
+			if already_logged_in and step.get("action") == "goto" and step.get("target") == login_url:
+				debug_log(f"Skipping redundant goto step {idx} to login_url since already_logged_in is True")
+				continue
+
+			if already_logged_in and step.get("selector") in login_only_keys:
+				debug_log(f"Skipping login-only selector '{step['selector']}' since already_logged_in is True")
+				continue
+
+			if step.get("selector") in navigation_keys:
+				debug_log(f"🔍 Preparing to interact with nav item: {step['selector']}")
+				await capture_screenshot(page, session_id, f"{timestamp}_before_nav_{idx}", idx)
+
 			await _execute_step(step, page, session_id, timestamp, idx)
 
 		return page, browser, already_logged_in
@@ -136,29 +131,32 @@ async def run_browser_script(
 
 async def _execute_step(step: Dict, page: Page, session_id: str, ts: str, idx: int):
 	"""Execute a single scripted action leveraging ui_helpers."""
+	debug_log("Entered _execute_step")
 	action   = step.get("action")
 	selector = step.get("selector")
 	value    = step.get("value")
 	context  = step.get("context")
 	row_name = step.get("rowName")
 
-	debug_log(f"Step {idx}: {action} sel={selector} val={value} ctx={context} row={row_name}")
+	resolved_selector = get_selector(selector) if selector else None
+	debug_log(f"Step {idx}: {action} sel={resolved_selector} val={value} ctx={context} row={row_name}")
 
 	try:
 		if action == "goto":
 			await page.goto(value)
 			await wait_for_spinner(page)
-		elif action == "fill":
-			await wait_for_selector_flexible(page, selector, context_section=context)
-			await page.fill(selector, value)
-		elif action == "click":
-			if "Export to Excel" in selector or "export-to-excel" in selector:
+		elif action == "fill" and resolved_selector:
+			await wait_for_selector_flexible(page, resolved_selector, context_section=context)
+			await page.fill(resolved_selector, value)
+		elif action == "click" and resolved_selector:
+			if "Export to Excel" in resolved_selector or "export-to-excel" in resolved_selector:
 				await click_export_to_excel(page)
 			else:
-				await wait_for_selector_flexible(page, selector, context_section=context)
-				await page.click(selector)
-		elif action == "wait_for_selector":
-			await wait_for_selector_flexible(page, selector, context_section=context, timeout=step.get("timeout", 30000))
+				await wait_for_selector_flexible(page, resolved_selector, context_section=context)
+				await page.click(resolved_selector)
+		elif action == "wait_for_selector" and resolved_selector:
+			# await wait_for_selector_flexible(page, resolved_selector, context_section=context, timeout=step.get("timeout", 30000))
+			await wait_for_selector_flexible(page, resolved_selector, context_section=context, timeout=step.get("timeout", 5000))
 		elif action == "wait_for_timeout":
 			await page.wait_for_timeout(int(value))
 		elif action == "assert":
@@ -168,7 +166,8 @@ async def _execute_step(step: Dict, page: Page, session_id: str, ts: str, idx: i
 		else:
 			debug_log(f"Unsupported action {action}")
 
-		await capture_screenshot(page, session_id, f"{ts}_step_{idx}_{action}", idx)
+		suffix = f"{ts}_step_{idx}_{action}"
+		await capture_screenshot(page, session_id, suffix, idx)
 		html = await page.content()
 		await log_html_to_file(idx, html, session_id)
 
@@ -178,3 +177,5 @@ async def _execute_step(step: Dict, page: Page, session_id: str, ts: str, idx: i
 		html = await page.content()
 		await log_html_to_file(f"{idx}_error", html, session_id)
 		raise
+	finally:
+		debug_log("Exited _execute_step")
