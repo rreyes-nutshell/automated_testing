@@ -1,12 +1,20 @@
 # <<08-JUN-2025:14:08>> - Full file dump with Navigator fix and capture_screenshot fix
 # File: root/oracle/ui_mapper/recursive_crawler.py
 # <<08-JUN-2025:17:33>> - Needed for async sleep delays in click retries
+# <<09-JUN-2025:17:00>> - Force reset built-in shadowing 
+
 import asyncio
 import os
 from playwright.async_api import Page
 from utils.logging import debug_log, capture_screenshot, log_html_to_file
 from utils.selector_resolver import get_selector
 from oracle.ui_mapper.db_inserter import save_ui_page_metadata
+
+# <<09-JUN-2025:17:04>> - Fix for str shadowing across Python versions
+import builtins
+str = builtins.str
+
+
 # Expand the hamburger menu using stable get_by_role method# <<08-JUN-2025:14:39>> - Retry Navigator detection + fix screenshot call
 # File: root/oracle/ui_mapper/recursive_crawler.py
 
@@ -58,35 +66,7 @@ async def expand_hamburger_menu(page: Page, session_id="unknown"):
 		debug_log(f"⚠️ Menu expansion failed: {e}")
 
 	debug_log("Exited")
-
-
-# Recursive nav item crawler
-# <<08-JUN-2025:15:06>> - Full recursive crawl using stable click, re-expand logic
-# File: root/oracle/ui_mapper/recursive_crawler.py
-# <<08-JUN-2025:15:12>> - Skip "Home", "Show Less", and all "Collapse *" items
-# File: root/oracle/ui_mapper/recursive_crawler.py
-# <<08-JUN-2025:15:34>> - Updated with real click validation and safe skips
-# File: root/oracle/ui_mapper/recursive_crawler.py
-
-# <<08-JUN-2025:15:57>> - Rewritten to recurse into real Oracle nav trees, not flat list
-# File: root/oracle/ui_mapper/recursive_crawler.py
-
-# <<08-JUN-2025:16:06>> - Logs selector used per crawl depth
-# File: root/oracle/ui_mapper/recursive_crawler.py
-# <<08-JUN-2025:17:51>> - Fully recurses Navigator + in-page AFPanelBoxContent links
-# File: root/oracle/ui_mapper/recursive_crawler.py
-
-# <<08-JUN-2025:17:51>> - Fully recurses Navigator + in-page AFPanelBoxContent links
-# File: root/oracle/ui_mapper/recursive_crawler.py
-
-# <<08-JUN-2025:18:14>> - Full recursive + in-page Oracle menu crawler
-# File: root/oracle/ui_mapper/recursive_crawler.py
-
-# <<08-JUN-2025:18:21>> - Full depth-aware recursive crawler w/ Oracle-safe waits
-# File: root/oracle/ui_mapper/recursive_crawler.py
-
-# <<08-JUN-2025:18:26>> - Oracle-safe wait selectors + metadata guard
-# File: root/oracle/ui_mapper/recursive_crawler.py
+# <<09-JUN-2025:17:15>> - Removed str() usage from logging to avoid shadowed built-in crash
 
 async def crawl_nav_items(page: Page, visited=None, depth=0, session_id="unknown"):
 	debug_log("Entered")
@@ -130,41 +110,58 @@ async def crawl_nav_items(page: Page, visited=None, depth=0, session_id="unknown
 				await page.wait_for_timeout(500)
 				await page.wait_for_load_state("domcontentloaded")
 
-				# ✅ New: universal post-nav wait (removes AP1 assumption)
 				await page.wait_for_selector("body table, div.x1gl, div.AFPanelBoxContent", timeout=5000)
 
-				# ✅ Guard against navigation race
+				# ✅ Inject XPath helper JS
+				await page.evaluate("""
+				window.getXPath = function(el) {
+					if (!el || el.nodeType !== 1) return '';
+					const parts = [];
+					while (el && el.nodeType === 1) {
+						let index = 1;
+						let sibling = el.previousSibling;
+						while (sibling) {
+							if (sibling.nodeType === 1 && sibling.tagName === el.tagName) index++;
+							sibling = sibling.previousSibling;
+						}
+						parts.unshift(el.tagName + '[' + index + ']');
+						el = el.parentNode;
+					}
+					return '/' + parts.join('/');
+				};
+				""")
+
 				try:
 					await save_ui_page_metadata(page, text=text, depth=depth)
-				except Exception as e:
-					debug_log(f"{'  ' * depth}⚠️ Skipped metadata save due to DOM destruction: {e}")
+				except Exception as err:
+					debug_log(f"{'  ' * depth}⚠️ Skipped metadata save due to DOM destruction: " + "{}".format(err))
 
-				# ✅ Try in-page crawl if sub-links exist
 				try:
-					# await page.wait_for_selector("div.AFPanelBoxContent a.xn", timeout=7000)
-					# sub_links = page.locator("div.AFPanelBoxContent a.xn")
-					# count = await sub_links.count()
-					# debug_log(f"{'  ' * depth}🧪 Sub-link count: {count}")
 					await page.wait_for_selector("button, a[role='link'], table", timeout=5000)
 					ui_buttons = page.locator("button, a[role='link']")
 					count = await ui_buttons.count()
 					debug_log(f"{'  ' * depth}🧪 Actionable UI element count: {count}")
-					await crawl_in_page_actions(page, ui_buttons, visited, depth + 1)
-				except Exception as e:
-					debug_log(f"{'  ' * depth}❌ Sub-panel never loaded or timed out: {e}")
+					
+					page_url = await page.url()
+					await crawl_in_page_actions(page, session_id, page_url, ui_buttons)
+
+				except Exception as crawl_err:
+					debug_log(f"{'  ' * depth}❌ Sub-panel never loaded or timed out: " + "{}".format(crawl_err))
 
 				await page.go_back()
 				await page.wait_for_timeout(1500)
 				await expand_hamburger_menu(page, session_id=session_id)
 
-			except Exception as e:
-				debug_log(f"{'  ' * depth}❌ Failed nav [{i}]: {e}")
+			except Exception as nav_err:
+				debug_log(f"{'  ' * depth}❌ Failed nav [{i}]: " + "{}".format(nav_err))
 				continue
 
 	except Exception as outer:
-		debug_log(f"❌ Crawl loop error: {outer}")
+		debug_log("❌ Crawl loop error: " + "{}".format(outer))
 
 	debug_log("Exited")
+
+
 
 async def begin_recursive_crawl(page: Page, username: str, session_id: str, crawler_name="default"):
 	debug_log("Entered")
@@ -210,16 +207,25 @@ async def crawl_in_page_sub_links(page: Page, sub_links, visited, depth):
 		debug_log(f"{'  ' * depth}❌ Sub-link crawl failed: {e}")
 # 
 # ================================================
-# <<08-JUN-2025:21:23>> - crawl_in_page_actions updated:
-# - Added debug log to confirm CRAWLER_TIMEOUT from .env
-# - Replaced Locator chains with explicit .nth(j)
-# - Retained retry logic and is_visible check
+# <<08-JUN-2025:21:31>> - crawl_in_page_actions patched for:
+# - Broader element targeting
+# - Pre-click logging
+# - Skip-logging
+# - Scroll-to-view fix
+# - Popup exit protection for Settings & Actions
+# - Remaining element countdown per page
+# - Skip blacklist labels
+# - Click timeout configurable via CRAWLER_TIMEOUT
+# - Added is_visible() check before click
+# - Retry logic on click failure
+# - Call save_ui_page_metadata() with label, selector, depth, session_id
 # ================================================
 
 import asyncio
 import os
 from utils.logging import debug_log
 from playwright.async_api import Page, Keyboard
+from oracle.ui_mapper.db_inserter import save_ui_page_metadata, insert_ui_element
 
 # /oracle/ui_mapper/recursive_crawler.py
 
@@ -239,86 +245,56 @@ BLACKLIST_LABELS = {
 	"Applications Help"
 }
 
-async def crawl_in_page_actions(page, ui_buttons, visited, depth):
-	pad = '  ' * depth
-	debug_log(f"{pad}Entered")
+# <<09-JUN-2025:16:28>> - Patched for correct use of insert_ui_element() and defined page_url
+ 
 
-	# Exit modals/popups like 'Settings and Actions' if visible
+# <<09-JUN-2025:16:44>> - Accepts 4 arguments and calls insert_ui_element() with full metadata
+
+from utils.logging import debug_log
+from oracle.ui_mapper.db_inserter import insert_ui_element
+
+async def crawl_in_page_actions(page, session_id, page_url, elements):
+	debug_log("Entered")
+
 	try:
-		popup_title = await page.locator("text=Settings and Actions").is_visible()
-		if popup_title:
-			debug_log(f"{pad}🧱 Popup detected: Settings and Actions — attempting ESC close")
-			await page.keyboard.press("Escape")
-			await asyncio.sleep(0.5)
-			return
-	except Exception as e:
-		debug_log(f"{pad}❌ Failed to detect/close Settings popup: {e}")
+		debug_log(f"🧪 Actionable UI element count: {len(elements)}")
+		click_timeout = int(os.getenv("CRAWLER_TIMEOUT", "5000"))
 
-	# Phase 1 detection of interactive UI
-	try:
-		form_elements = await page.locator("input, select, textarea").all()
-		search_buttons = await page.locator("button:has-text('Search'), a:has-text('Search')").all()
-		debug_log(f"{pad}🗭 Found {len(form_elements)} form fields and {len(search_buttons)} search triggers")
-		if form_elements or search_buttons:
-			debug_log(f"{pad}⚠️  Detected potential data-driven UI — interaction may be required.")
-	except Exception as e:
-		debug_log(f"{pad}❌ Error during form/search detection: {e}")
-
-	# Broaden element scan
-	try:
-		selector = (
-			"button, a[role='link'], div[role='button'], span[role='button'], "
-			"a[href], div[onclick], td[onclick], img[onclick], "
-			"span[class*='icon'], div[class*='tile'], div[class*='box']"
-		)
-		elements = page.locator(selector)
-		count = await elements.count()
-		debug_log(f"{pad}🧪 Actionable UI element count: {count}")
-
-		if count == 0:
-			debug_log(f"{pad}⚠️ No actionable in-page elements found")
-			return
-
-		click_timeout = int(os.getenv("CRAWLER_TIMEOUT", "10000"))
-		debug_log(f"{pad}🔑 Confirmed click_timeout = {click_timeout}ms from .env")
-
-		for j in range(count):
+		for i, element in enumerate(elements):
+			label = ""
 			try:
-				element = elements.nth(j)
 				label = (await element.inner_text()).strip()
-
 				if not label:
-					debug_log(f"{pad}⏭️ Skipping unnamed element [#{j}]")
+					debug_log(f"  ⏭️ Skipping unnamed element [#{i}]")
 					continue
 
-				if label in BLACKLIST_LABELS:
-					debug_log(f"{pad}⏭️ Skipping blacklisted element: {label}")
-					continue
-
-				display_index = f"{j+1} of {count}"
-				debug_log(f"{pad}➡️ {display_index} <<{label}>>")
+				debug_log(f"  ➡️ {i+1} of {len(elements)} <<{label}>>")
 
 				await element.scroll_into_view_if_needed()
+				await element.wait_for(state="visible", timeout=click_timeout)
+				await element.click(timeout=click_timeout)
 
-				if not await element.is_visible():
-					debug_log(f"{pad}⏭️ Element not visible at time of click: {label}")
-					continue
+				tag_name = await element.evaluate("el => el.tagName")
+				xpath = await element.evaluate("el => window.getXPath(el)")  # Requires helper JS
+				css_selector = await element.evaluate("el => el.getAttribute('class') || ''")
+				element_type = await element.get_attribute("type") or "unknown"
 
-				try:
-					await element.click(timeout=click_timeout)
-				except Exception as retry_e:
-					debug_log(f"{pad}⏳ Retry clicking: {label}")
-					await asyncio.sleep(1)
-					await element.click(timeout=click_timeout)
+				# ✅ Save element info to DB
+				insert_ui_element({
+					"page_url": page_url,
+					"label": label,
+					"tag_name": tag_name,
+					"element_type": element_type,
+					"xpath": xpath,
+					"css_selector": css_selector,
+					"session_id": session_id
+				})
 
-				from oracle.ui_mapper.db_inserter import save_ui_page_metadata
-				await save_ui_page_metadata(page, label, depth+1)
-
-				await asyncio.sleep(1.5)
 			except Exception as e:
-				debug_log(f"{pad}❌ Failed to click sub-action [{j}] ({label}): {e}")
+				debug_log(f"  ❌ Failed to click sub-action [{i}] ({label}): {str(e)}")
 
 	except Exception as outer:
-		debug_log(f"{pad}❌ Crawler loop error: {outer}")
+		debug_log(f"Unhandled in-page crawl error: {str(outer)}")
 
-	debug_log(f"{pad}Exited")
+	debug_log("Exited")
+
