@@ -171,7 +171,7 @@
 #                             raise Exception("Skip CSS click for export")
 #                         except Exception as e_btn:
 #                             # If controlled skip, re-raise; otherwise, fall back to CSS
-#                             if str(e_btn) == "Skip CSS click for export":
+#                             if e_btn == "Skip CSS click for export":
 #                                 raise
 #                             debug_log(f"⚠️ Role-based export click failed: {e_btn}, falling back to CSS")
 #                     # <<end 04-JUN-2025:07:30>>
@@ -261,7 +261,7 @@
 #                             debug_log("💼 Role-based wait succeeded for 'Export to Excel'")
 #                             raise Exception("Skip CSS wait for export")
 #                         except Exception as e_btn:
-#                             if str(e_btn) == "Skip CSS wait for export":
+#                             if e_btn == "Skip CSS wait for export":
 #                                 raise
 #                             debug_log(f"⚠️ Role-based export wait failed: {e_btn}, falling back to CSS")
 #                     # <<end 04-JUN-2025:07:30>>
@@ -320,7 +320,7 @@
 
 #             except Exception as e:
 #                 # Handle controlled skips for select-all and export
-#                 if str(e) in (
+#                 if e in (
 #                     "Skip CSS click for select-all",
 #                     "Skip CSS click for export",
 #                     "Skip CSS wait for export"

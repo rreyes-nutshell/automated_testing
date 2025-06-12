@@ -1,0 +1,3 @@
+/fscmUI/faces/AtkHomePageWelcome::Journals
+/fscmUI/faces/AtkHomePageWelcome::Payables Dashboard
+/fscmUI/faces/AtkHomePageWelcome::Welcome, Maribel Gonzalez

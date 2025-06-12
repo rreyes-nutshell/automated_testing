@@ -1,0 +1,1 @@
+/Users/rkrey/sandbox/automated_testing/.venv/bin/python: Error while finding module specification for 'oracle.ui_mapper.nav_crawler' (ModuleNotFoundError: No module named 'oracle')

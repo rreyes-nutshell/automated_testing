@@ -28,16 +28,16 @@ def extract_instruction_blocks(xlsx_path):
 
 				temp_block = {
 					"sheet": sheet_name,
-					"step_id": str(id_col).strip() if id_col else None,
-					"action": str(action_col).strip() if action_col else "",
-					"steps": [str(nav_col).strip()] if nav_col else [],
-					"expected": str(expected_col).strip() if expected_col else ""
+					"step_id": id_col.strip() if id_col else None,
+					"action": action_col.strip() if action_col else "",
+					"steps": [nav_col.strip()] if nav_col else [],
+					"expected": expected_col.strip() if expected_col else ""
 				}
 			else:
 				if nav_col:
-					temp_block["steps"].append(str(nav_col).strip())
+					temp_block["steps"].append(nav_col.strip())
 				if expected_col:
-					temp_block["expected"] = str(expected_col).strip()
+					temp_block["expected"] = expected_col.strip()
 
 		# save final block if valid and not a header
 		if temp_block["step_id"] and temp_block["step_id"].lower() != "step ref":

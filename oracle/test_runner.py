@@ -61,7 +61,7 @@
 #         base_steps = []
 #         try:
 #             jsonl_path = Path(__file__).resolve().parent.parent / "oracle_ui_dump.jsonl"
-#             nav_map = load_ui_map(str(jsonl_path))
+#             nav_map = load_ui_map(jsonl_path)
 #             debug_log("🧭 UI map loaded — building JSONL nav")
 #             if target_label:
 #                 page = find_page_id_by_label(nav_map, target_label, parent_label, require_actionable=True)
@@ -135,9 +135,9 @@
 
 #         # 8) Serialize result safely
 #         try:
-#             serializable_result = result if isinstance(result, (str, int, float, bool, list, dict)) else str(result)
+#             serializable_result = result if isinstance(result, (str, int, float, bool, list, dict)) else result
 #         except Exception:
-#             serializable_result = str(result)
+#             serializable_result = result
 
 #         return jsonify({"status": "✅ Executed", "result": serializable_result})
 
@@ -215,7 +215,7 @@ async def run_test_script():
         base_steps = []
         try:
             jsonl_path = Path(__file__).resolve().parent.parent / "oracle_ui_dump.jsonl"
-            nav_map = load_ui_map(str(jsonl_path))
+            nav_map = load_ui_map(jsonl_path)
             debug_log("🧭 UI map loaded — building JSONL nav")
             if target_label:
                 page = find_page_id_by_label(nav_map, target_label, parent_label, require_actionable=True)
@@ -289,9 +289,9 @@ async def run_test_script():
 
         # 8) Serialize result safely
         try:
-            serializable_result = result if isinstance(result, (str, int, float, bool, list, dict)) else str(result)
+            serializable_result = result if isinstance(result, (str, int, float, bool, list, dict)) else result
         except Exception:
-            serializable_result = str(result)
+            serializable_result = result
 
         return jsonify({"status": "✅ Executed", "result": serializable_result})
 

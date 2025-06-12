@@ -1,34 +1,1155 @@
-2025-06-09 10:34:14 🐞 [logging.py:load_env] Loaded .env from /Users/rkrey/sandbox/automated_testing/.env
 🔧 Running nav_crawler...
-2025-06-09 10:34:14 🐞 [nav_crawler.py:main] Entered main
-2025-06-09 10:34:14 🐞 [logging.py:load_env] Loaded .env from /Users/rkrey/sandbox/automated_testing/.env
-2025-06-09 10:34:14 🐞 [nav_crawler.py:main] HEADLESS_MODE=False
-2025-06-09 10:34:15 🐞 [login_steps.py:run_oracle_login_steps] Entered run_oracle_login_steps
-2025-06-09 10:34:15 🐞 [login_steps.py:run_oracle_login_steps] 🔗 Navigating to login_url: https://login-ibnijb-dev1.fa.ocs.oraclecloud.com
-2025-06-09 10:34:17 🐞 [login_steps.py:run_oracle_login_steps] 🔑 Username filled
-2025-06-09 10:34:17 🐞 [login_steps.py:run_oracle_login_steps] 🔑 Password filled
-2025-06-09 10:34:18 🐞 [login_steps.py:run_oracle_login_steps] ✅ Sign In clicked
-2025-06-09 10:34:21 🐞 [login_steps.py:run_oracle_login_steps] 🌐 Current URL: https://ibnijb-dev1.fa.ocs.oraclecloud.com/fscmUI/faces/AtkHomePageWelcome?_adf.ctrl-state=wwyik6iij_1&_adf.no-new-window-redirect=true&_afrLoop=40130359358646146&_afrWindowMode=2&_afrWindowId=null&_afrFS=16&_afrMT=screen&_afrMFW=1280&_afrMFH=720&_afrMFDW=1280&_afrMFDH=720&_afrMFC=8&_afrMFCI=0&_afrMFM=0&_afrMFR=96&_afrMFG=0&_afrMFS=0&_afrMFO=0
-2025-06-09 10:34:21 🐞 [login_steps.py:run_oracle_login_steps] 🍔 Clicked hamburger menu
-2025-06-09 10:34:22 🐞 [login_steps.py:run_oracle_login_steps] 📂 Clicked Show More
-2025-06-09 10:34:23 🐞 [db_inserter.py:insert_crawl_session] Entered
-2025-06-09 10:34:23 🐞 [db_inserter.py:insert_crawl_session] Exited
-2025-06-09 10:34:23 🐞 [recursive_crawler.py:begin_recursive_crawl] Entered
-2025-06-09 10:34:23 🐞 [recursive_crawler.py:expand_hamburger_menu] Entered
-2025-06-09 10:34:23 🐞 [recursive_crawler.py:expand_hamburger_menu] 📂 Menu already expanded, skipping Navigator click.
-2025-06-09 10:34:24 🐞 [recursive_crawler.py:crawl_nav_items] Entered
-2025-06-09 10:34:24 🐞 [recursive_crawler.py:crawl_nav_items] 📁 Using selector: a:visible
-2025-06-09 10:34:24 🐞 [recursive_crawler.py:crawl_nav_items] 🔍 Found 41 nav items at depth 0
-2025-06-09 10:34:24 🐞 [recursive_crawler.py:crawl_nav_items] ➡️ Visiting: Payables Dashboard
-2025-06-09 10:34:26 🐞 [db_inserter.py:save_ui_page_metadata] Entered
-2025-06-09 10:34:26 🐞 [db_inserter.py:save_ui_page_metadata] Exited
-2025-06-09 10:34:26 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 Actionable UI element count: 40
-2025-06-09 10:34:26 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel never loaded or timed out: 'str' object is not callable
-2025-06-09 10:34:28 🐞 [recursive_crawler.py:expand_hamburger_menu] Entered
-2025-06-09 10:34:29 🐞 [recursive_crawler.py:expand_hamburger_menu] 📂 Clicked Navigator
-2025-06-09 10:34:29 🐞 [recursive_crawler.py:expand_hamburger_menu] Exited
-2025-06-09 10:34:29 🐞 [recursive_crawler.py:crawl_nav_items] ➡️ Visiting: Invoices
-2025-06-09 10:34:30 🐞 [db_inserter.py:save_ui_page_metadata] Entered
-2025-06-09 10:34:30 🐞 [db_inserter.py:save_ui_page_metadata] Exited
-2025-06-09 10:34:30 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 Actionable UI element count: 2
-2025-06-09 10:34:30 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel never loaded or timed out: 'str' object is not callable
+v.py:load_env] Loaded .env from /Users/rkrey/sandbox/automated_testing/.env
+2025-06-11 20:36:40 🐞 [env.py:load_env] Loaded Environment Variables:
+2025-06-11 20:36:40 🐞 [env.py:load_env] TMPDIR=/var/folders/br/3_dtnfx56117lxhths_g5pcw0000gn/T/
+2025-06-11 20:36:40 🐞 [env.py:load_env] XPC_FLAGS=0x0
+2025-06-11 20:36:40 🐞 [env.py:load_env] TERM=xterm-256color
+2025-06-11 20:36:40 🐞 [env.py:load_env] SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.ReMIWq2NdH/Listeners
+2025-06-11 20:36:40 🐞 [env.py:load_env] SECURITYSESSIONID=186a3
+2025-06-11 20:36:40 🐞 [env.py:load_env] XPC_SERVICE_NAME=0
+2025-06-11 20:36:40 🐞 [env.py:load_env] TERM_PROGRAM=Apple_Terminal
+2025-06-11 20:36:40 🐞 [env.py:load_env] TERM_PROGRAM_VERSION=455.1
+2025-06-11 20:36:40 🐞 [env.py:load_env] TERM_SESSION_ID=57BCBEC5-8FCA-49B9-82EF-DEFF42B6E94B
+2025-06-11 20:36:40 🐞 [env.py:load_env] SHELL=/bin/zsh
+2025-06-11 20:36:40 🐞 [env.py:load_env] HOME=/Users/rkrey
+2025-06-11 20:36:40 🐞 [env.py:load_env] LOGNAME=rkrey
+2025-06-11 20:36:40 🐞 [env.py:load_env] USER=rkrey
+2025-06-11 20:36:40 🐞 [env.py:load_env] PATH=/Users/rkrey/sandbox/automated_testing/.venv/bin:/usr/local/opt/python/libexec/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Applications/VMware Fusion.app/Contents/Public:/Users/rkrey/.cargo/bin
+2025-06-11 20:36:40 🐞 [env.py:load_env] SHLVL=1
+2025-06-11 20:36:40 🐞 [env.py:load_env] PWD=/Users/rkrey/sandbox/automated_testing
+2025-06-11 20:36:40 🐞 [env.py:load_env] OLDPWD=/Users/rkrey/sandbox/automated_testing/dom_dumps
+2025-06-11 20:36:40 🐞 [env.py:load_env] HOMEBREW_PREFIX=/opt/homebrew
+2025-06-11 20:36:40 🐞 [env.py:load_env] HOMEBREW_CELLAR=/opt/homebrew/Cellar
+2025-06-11 20:36:40 🐞 [env.py:load_env] HOMEBREW_REPOSITORY=/opt/homebrew
+2025-06-11 20:36:40 🐞 [env.py:load_env] INFOPATH=/opt/homebrew/share/info:
+2025-06-11 20:36:40 🐞 [env.py:load_env] VIRTUAL_ENV=/Users/rkrey/sandbox/automated_testing/.venv
+2025-06-11 20:36:40 🐞 [env.py:load_env] VIRTUAL_ENV_PROMPT=.venv
+2025-06-11 20:36:40 🐞 [env.py:load_env] PS1=(.venv) %n@%m %1~ %# 
+2025-06-11 20:36:40 🐞 [env.py:load_env] LANG=en_US.UTF-8
+2025-06-11 20:36:40 🐞 [env.py:load_env] FLASK_SECRET_KEY=supersecret
+2025-06-11 20:36:40 🐞 [env.py:load_env] DEBUG_MODE=true
+2025-06-11 20:36:40 🐞 [env.py:load_env] DB_HOST=localhost
+2025-06-11 20:36:40 🐞 [env.py:load_env] DB_PORT=5432
+2025-06-11 20:36:40 🐞 [env.py:load_env] DB_NAME=ns_ai_tester
+2025-06-11 20:36:40 🐞 [env.py:load_env] UI_DB_NAME=ns_autotester
+2025-06-11 20:36:40 🐞 [env.py:load_env] DB_USER=nsadmin
+2025-06-11 20:36:40 🐞 [env.py:load_env] DB_PASSWORD=nsadmin
+2025-06-11 20:36:40 🐞 [env.py:load_env] OLLAMA_URL=http://172.192.1.12:11434
+2025-06-11 20:36:40 🐞 [env.py:load_env] OLLAMA_HOST=http://172.192.1.12:11434
+2025-06-11 20:36:40 🐞 [env.py:load_env] OLLAMA_PORT=11434
+2025-06-11 20:36:40 🐞 [env.py:load_env] FLASK_HOST=127.0.0.1
+2025-06-11 20:36:40 🐞 [env.py:load_env] FLASK_PORT=5050
+2025-06-11 20:36:40 🐞 [env.py:load_env] HEADLESS_MODE=false
+2025-06-11 20:36:40 🐞 [env.py:load_env] ORA_URL=https://login-ibnijb-dev1.fa.ocs.oraclecloud.com
+2025-06-11 20:36:40 🐞 [env.py:load_env] ORA_USER=mgonzalez@mfa.org
+2025-06-11 20:36:40 🐞 [env.py:load_env] ORA_PW=Welcome!23
+2025-06-11 20:36:40 🐞 [env.py:load_env] PLAYWRIGHT_USER_DATA_DIR=/Users/rkrey/Documents/PythonProjects/NS_AITester/.playwright
+2025-06-11 20:36:40 🐞 [env.py:load_env] CLEAR_COOKIES_ON_STARTUP=true
+2025-06-11 20:36:40 🐞 [env.py:load_env] SELECTOR_MAP_FILE=utils/selector_map.yaml
+2025-06-11 20:36:40 🐞 [env.py:load_env] MAX_RECURSION=15
+2025-06-11 20:36:40 🐞 [env.py:load_env] CRAWLER_TIMEOUT=5000
+2025-06-11 20:36:40 🐞 [env.py:load_env] TRUNC_TABLES=true
+2025-06-11 20:36:40 🐞 [env.py:load_env] Exited
+🔧 Running nav_crawler...
+2025-06-11 20:36:40 🐞 [nav_crawler.py:main] Entered main
+2025-06-11 20:36:40 🐞 [env.py:load_env] Entered
+2025-06-11 20:36:40 🐞 [env.py:load_env] Loaded .env from /Users/rkrey/sandbox/automated_testing/.env
+2025-06-11 20:36:40 🐞 [env.py:load_env] Loaded Environment Variables:
+2025-06-11 20:36:40 🐞 [env.py:load_env] TMPDIR=/var/folders/br/3_dtnfx56117lxhths_g5pcw0000gn/T/
+2025-06-11 20:36:40 🐞 [env.py:load_env] XPC_FLAGS=0x0
+2025-06-11 20:36:40 🐞 [env.py:load_env] TERM=xterm-256color
+2025-06-11 20:36:40 🐞 [env.py:load_env] SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.ReMIWq2NdH/Listeners
+2025-06-11 20:36:40 🐞 [env.py:load_env] SECURITYSESSIONID=186a3
+2025-06-11 20:36:40 🐞 [env.py:load_env] XPC_SERVICE_NAME=0
+2025-06-11 20:36:40 🐞 [env.py:load_env] TERM_PROGRAM=Apple_Terminal
+2025-06-11 20:36:40 🐞 [env.py:load_env] TERM_PROGRAM_VERSION=455.1
+2025-06-11 20:36:40 🐞 [env.py:load_env] TERM_SESSION_ID=57BCBEC5-8FCA-49B9-82EF-DEFF42B6E94B
+2025-06-11 20:36:40 🐞 [env.py:load_env] SHELL=/bin/zsh
+2025-06-11 20:36:40 🐞 [env.py:load_env] HOME=/Users/rkrey
+2025-06-11 20:36:40 🐞 [env.py:load_env] LOGNAME=rkrey
+2025-06-11 20:36:40 🐞 [env.py:load_env] USER=rkrey
+2025-06-11 20:36:40 🐞 [env.py:load_env] PATH=/Users/rkrey/sandbox/automated_testing/.venv/bin:/usr/local/opt/python/libexec/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/Library/Apple/usr/bin:/Applications/VMware Fusion.app/Contents/Public:/Users/rkrey/.cargo/bin
+2025-06-11 20:36:40 🐞 [env.py:load_env] SHLVL=1
+2025-06-11 20:36:40 🐞 [env.py:load_env] PWD=/Users/rkrey/sandbox/automated_testing
+2025-06-11 20:36:40 🐞 [env.py:load_env] OLDPWD=/Users/rkrey/sandbox/automated_testing/dom_dumps
+2025-06-11 20:36:40 🐞 [env.py:load_env] HOMEBREW_PREFIX=/opt/homebrew
+2025-06-11 20:36:40 🐞 [env.py:load_env] HOMEBREW_CELLAR=/opt/homebrew/Cellar
+2025-06-11 20:36:40 🐞 [env.py:load_env] HOMEBREW_REPOSITORY=/opt/homebrew
+2025-06-11 20:36:40 🐞 [env.py:load_env] INFOPATH=/opt/homebrew/share/info:
+2025-06-11 20:36:40 🐞 [env.py:load_env] VIRTUAL_ENV=/Users/rkrey/sandbox/automated_testing/.venv
+2025-06-11 20:36:40 🐞 [env.py:load_env] VIRTUAL_ENV_PROMPT=.venv
+2025-06-11 20:36:40 🐞 [env.py:load_env] PS1=(.venv) %n@%m %1~ %# 
+2025-06-11 20:36:40 🐞 [env.py:load_env] LANG=en_US.UTF-8
+2025-06-11 20:36:40 🐞 [env.py:load_env] FLASK_SECRET_KEY=supersecret
+2025-06-11 20:36:40 🐞 [env.py:load_env] DEBUG_MODE=true
+2025-06-11 20:36:40 🐞 [env.py:load_env] DB_HOST=localhost
+2025-06-11 20:36:40 🐞 [env.py:load_env] DB_PORT=5432
+2025-06-11 20:36:40 🐞 [env.py:load_env] DB_NAME=ns_ai_tester
+2025-06-11 20:36:40 🐞 [env.py:load_env] UI_DB_NAME=ns_autotester
+2025-06-11 20:36:40 🐞 [env.py:load_env] DB_USER=nsadmin
+2025-06-11 20:36:40 🐞 [env.py:load_env] DB_PASSWORD=nsadmin
+2025-06-11 20:36:40 🐞 [env.py:load_env] OLLAMA_URL=http://172.192.1.12:11434
+2025-06-11 20:36:40 🐞 [env.py:load_env] OLLAMA_HOST=http://172.192.1.12:11434
+2025-06-11 20:36:40 🐞 [env.py:load_env] OLLAMA_PORT=11434
+2025-06-11 20:36:40 🐞 [env.py:load_env] FLASK_HOST=127.0.0.1
+2025-06-11 20:36:40 🐞 [env.py:load_env] FLASK_PORT=5050
+2025-06-11 20:36:40 🐞 [env.py:load_env] HEADLESS_MODE=false
+2025-06-11 20:36:40 🐞 [env.py:load_env] ORA_URL=https://login-ibnijb-dev1.fa.ocs.oraclecloud.com
+2025-06-11 20:36:40 🐞 [env.py:load_env] ORA_USER=mgonzalez@mfa.org
+2025-06-11 20:36:40 🐞 [env.py:load_env] ORA_PW=Welcome!23
+2025-06-11 20:36:40 🐞 [env.py:load_env] PLAYWRIGHT_USER_DATA_DIR=/Users/rkrey/Documents/PythonProjects/NS_AITester/.playwright
+2025-06-11 20:36:40 🐞 [env.py:load_env] CLEAR_COOKIES_ON_STARTUP=true
+2025-06-11 20:36:40 🐞 [env.py:load_env] SELECTOR_MAP_FILE=utils/selector_map.yaml
+2025-06-11 20:36:40 🐞 [env.py:load_env] MAX_RECURSION=15
+2025-06-11 20:36:40 🐞 [env.py:load_env] CRAWLER_TIMEOUT=5000
+2025-06-11 20:36:40 🐞 [env.py:load_env] TRUNC_TABLES=true
+2025-06-11 20:36:40 🐞 [env.py:load_env] Exited
+2025-06-11 20:36:40 🐞 [nav_crawler.py:main] ⚠️ TRUNC_TABLES is enabled — truncating ui_pages and ui_elements
+2025-06-11 20:36:40 🐞 [nav_crawler.py:main] HEADLESS_MODE=False
+2025-06-11 20:36:41 🐞 [login_steps.py:run_oracle_login_steps] Entered run_oracle_login_steps
+2025-06-11 20:36:41 🐞 [login_steps.py:run_oracle_login_steps] 🔗 Navigating to login_url: https://login-ibnijb-dev1.fa.ocs.oraclecloud.com
+2025-06-11 20:36:42 🐞 [login_steps.py:run_oracle_login_steps] 🔑 Username filled
+2025-06-11 20:36:42 🐞 [login_steps.py:run_oracle_login_steps] 🔑 Password filled
+2025-06-11 20:36:43 🐞 [login_steps.py:run_oracle_login_steps] ✅ Sign In clicked
+2025-06-11 20:36:46 🐞 [login_steps.py:run_oracle_login_steps] 🌐 Current URL: https://ibnijb-dev1.fa.ocs.oraclecloud.com/fscmUI/faces/AtkHomePageWelcome?_adf.ctrl-state=1itfgbg60_1&_adf.no-new-window-redirect=true&_afrLoop=40339304993797840&_afrWindowMode=2&_afrWindowId=null&_afrFS=16&_afrMT=screen&_afrMFW=1280&_afrMFH=720&_afrMFDW=1280&_afrMFDH=720&_afrMFC=10&_afrMFCI=0&_afrMFM=0&_afrMFR=96&_afrMFG=0&_afrMFS=0&_afrMFO=0
+2025-06-11 20:36:46 🐞 [login_steps.py:run_oracle_login_steps] 🍔 Clicked hamburger menu
+2025-06-11 20:36:47 🐞 [login_steps.py:run_oracle_login_steps] 📂 Clicked Show More
+2025-06-11 20:36:48 🐞 [recursive_crawler.py:begin_recursive_crawl] Entered begin_recursive_crawl
+2025-06-11 20:36:48 🐞 [db_inserter.py:get_crawl_session_id_by_name] Entered
+2025-06-11 20:36:48 🐞 [db_inserter.py:get_crawl_session_id_by_name] Exited
+2025-06-11 20:36:48 🐞 [db_inserter.py:insert_crawl_session] Entered
+2025-06-11 20:36:48 🐞 [db_inserter.py:insert_crawl_session] Exited
+2025-06-11 20:36:48 🐞 [recursive_crawler.py:begin_recursive_crawl] Using crawler_name: Finance Nav Crawl
+2025-06-11 20:36:48 🐞 [db_inserter.py:insert_ui_path] Entered
+2025-06-11 20:36:48 🐞 [recursive_crawler.py:expand_hamburger_menu] Entered
+2025-06-11 20:36:48 🐞 [recursive_crawler.py:expand_hamburger_menu] 📂 Menu already expanded, skipping Navigator click.
+2025-06-11 20:36:49 🐞 [recursive_crawler.py:expand_hamburger_menu] Exited
+2025-06-11 20:36:49 🐞 [recursive_crawler.py:crawl_nav_items] Entered
+2025-06-11 20:36:49 🐞 [recursive_crawler.py:crawl_nav_items] 📁 Using selector: a:visible
+2025-06-11 20:36:49 🐞 [recursive_crawler.py:crawl_nav_items] 🔍 Found 41 nav items at depth 0
+2025-06-11 20:36:49 🐞 [url_utils.py:get_stable_url_signature] Entered
+2025-06-11 20:36:49 🐞 [url_utils.py:get_stable_url_signature] No stable query parameters found, returning base path
+2025-06-11 20:36:49 🐞 [db_inserter.py:save_ui_page_metadata] Entered
+2025-06-11 20:36:49 🐞 [db_inserter.py:save_ui_page_metadata] UI page metadata saved: Finance Nav Crawl, /fscmUI/faces/AtkHomePageWelcome, Welcome, Maribel Gonzalez
+2025-06-11 20:36:49 🐞 [db_inserter.py:save_ui_page_metadata] Exited
+2025-06-11 20:36:49 🐞 [recursive_crawler.py:crawl_nav_items] 📝 Saved DOM for: Welcome, Maribel Gonzalez
+2025-06-11 20:36:50 🐞 [recursive_crawler.py:crawl_nav_items] ⏵ Expanding: Payables Dashboard
+2025-06-11 20:36:50 🐞 [modal_handler.py:dismiss_modal_if_present] 🔐 Ignoring modal 'text='Press escape to exit this popup.'' to keep burger nav safe
+2025-06-11 20:36:50 🐞 [modal_handler.py:dismiss_modal_if_present] 🔐 Ignoring modal 'text='Press escape to exit this popup.'' to keep burger nav safe
+2025-06-11 20:36:51 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 [TEST] checking in-page actions...
+2025-06-11 20:36:51 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.count: Execution context was destroyed, most likely because of a navigation
+2025-06-11 20:36:51 🐞 [recursive_crawler.py:crawl_nav_items] ⏵ Expanding: View
+2025-06-11 20:36:52 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 [TEST] checking in-page actions...
+2025-06-11 20:36:52 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 Actionable UI element count: 0
+2025-06-11 20:36:52 🐞 [recursive_crawler.py:crawl_nav_items] 🔍 crawl_in_page_actions type: <class 'function'>
+2025-06-11 20:36:52 🐞 [recursive_crawler.py:crawl_in_page_actions] Entered
+2025-06-11 20:36:52 🐞 [recursive_crawler.py:crawl_in_page_actions] 📥 Saving metadata (in-page): https://ibnijb-dev1.fa.ocs.oraclecloud.com/fscmUI/faces/AtkHomePageWelcome?_adf.ctrl-state=1itfgbg60_1&_adf.no-new-window-redirect=true&_afrLoop=40339304993797840&_afrWindowMode=2&_afrWindowId=null&_afrFS=16&_afrMT=screen&_afrMFW=1280&_afrMFH=720&_afrMFDW=1280&_afrMFDH=720&_afrMFC=10&_afrMFCI=0&_afrMFM=0&_afrMFR=96&_afrMFG=0&_afrMFS=0&_afrMFO=0 — Payables Dashboard
+2025-06-11 20:36:52 🐞 [db_inserter.py:save_ui_page_metadata] Entered
+2025-06-11 20:36:52 🐞 [db_inserter.py:save_ui_page_metadata] UI page metadata saved: Finance Nav Crawl, https://ibnijb-dev1.fa.ocs.oraclecloud.com/fscmUI/faces/AtkHomePageWelcome?_adf.ctrl-state=1itfgbg60_1&_adf.no-new-window-redirect=true&_afrLoop=40339304993797840&_afrWindowMode=2&_afrWindowId=null&_afrFS=16&_afrMT=screen&_afrMFW=1280&_afrMFH=720&_afrMFDW=1280&_afrMFDH=720&_afrMFC=10&_afrMFCI=0&_afrMFM=0&_afrMFR=96&_afrMFG=0&_afrMFS=0&_afrMFO=0, Payables Dashboard
+2025-06-11 20:36:52 🐞 [db_inserter.py:save_ui_page_metadata] Exited
+2025-06-11 20:36:52 🐞 [recursive_crawler.py:crawl_in_page_actions] 📋 Locator text snapshot (first 5): []
+2025-06-11 20:36:52 🐞 [recursive_crawler.py:crawl_in_page_actions] 🕪 Actionable UI element count: 0 (processing max 0)
+2025-06-11 20:36:52 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:36:52 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:36:52 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:36:52 🐞 [visited_debugger.py:dump_visited] Entered
+2025-06-11 20:36:52 🐞 [visited_debugger.py:dump_visited] 📝 Visited labels written to visited_labels.txt
+2025-06-11 20:36:52 🐞 [visited_debugger.py:dump_visited] Exited
+2025-06-11 20:36:52 🐞 [recursive_crawler.py:crawl_in_page_actions] Exited
+2025-06-11 20:36:54 🐞 [recursive_crawler.py:crawl_nav_items] ⏵ Expanding: Item: Rejected (109)
+2025-06-11 20:36:55 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 [TEST] checking in-page actions...
+2025-06-11 20:36:55 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 Actionable UI element count: 179
+2025-06-11 20:36:55 🐞 [recursive_crawler.py:crawl_nav_items] 🔍 crawl_in_page_actions type: <class 'function'>
+2025-06-11 20:36:55 🐞 [recursive_crawler.py:crawl_in_page_actions] Entered
+2025-06-11 20:36:55 🐞 [recursive_crawler.py:crawl_in_page_actions] 📥 Saving metadata (in-page): https://ibnijb-dev1.fa.ocs.oraclecloud.com/fscmUI/faces/AtkHomePageWelcome?_adf.ctrl-state=1itfgbg60_1&_adf.no-new-window-redirect=true&_afrLoop=40339304993797840&_afrWindowMode=2&_afrWindowId=null&_afrFS=16&_afrMT=screen&_afrMFW=1280&_afrMFH=720&_afrMFDW=1280&_afrMFDH=720&_afrMFC=10&_afrMFCI=0&_afrMFM=0&_afrMFR=96&_afrMFG=0&_afrMFS=0&_afrMFO=0 — Payables Dashboard
+2025-06-11 20:36:55 🐞 [db_inserter.py:save_ui_page_metadata] Entered
+2025-06-11 20:36:55 🐞 [db_inserter.py:save_ui_page_metadata] UI page metadata saved: Finance Nav Crawl, https://ibnijb-dev1.fa.ocs.oraclecloud.com/fscmUI/faces/AtkHomePageWelcome?_adf.ctrl-state=1itfgbg60_1&_adf.no-new-window-redirect=true&_afrLoop=40339304993797840&_afrWindowMode=2&_afrWindowId=null&_afrFS=16&_afrMT=screen&_afrMFW=1280&_afrMFH=720&_afrMFDW=1280&_afrMFDH=720&_afrMFC=10&_afrMFCI=0&_afrMFM=0&_afrMFR=96&_afrMFG=0&_afrMFS=0&_afrMFO=0, Payables Dashboard
+2025-06-11 20:36:55 🐞 [db_inserter.py:save_ui_page_metadata] Exited
+2025-06-11 20:36:55 🐞 [recursive_crawler.py:crawl_in_page_actions] 📋 Locator text snapshot (first 5): ['Skip to main content', 'Navigator', 'Home', 'Favorites and Recent Items', 'Watchlist']
+2025-06-11 20:36:55 🐞 [recursive_crawler.py:crawl_in_page_actions] 🕪 Actionable UI element count: 179 (processing max 179)
+2025-06-11 20:36:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Skip to main content
+2025-06-11 20:36:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Maribel Gonzale...
+2025-06-11 20:36:55 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Item: Requiring My Approval (0)
+2025-06-11 20:36:55 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:36:55 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:36:55 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:36:55 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:36:55 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:36:56 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Item: Pending Approval from Others (0)
+2025-06-11 20:36:56 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Item: Rejected (109)
+2025-06-11 20:36:56 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:36:56 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:36:56 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:36:56 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:36:56 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:36:57 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Item: Invoices on Hold (54)
+2025-06-11 20:36:57 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:36:57 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:36:57 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:36:58 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:36:58 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:36:59 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Item: Installments on Hold (0)
+2025-06-11 20:36:59 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:36:59 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:36:59 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:36:59 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:36:59 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:37:00 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: View
+2025-06-11 20:37:00 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:37:00 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:37:00 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:37:04 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:37:04 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:37:05 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Release
+2025-06-11 20:37:05 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:37:05 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:37:05 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:37:05 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:37:05 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:37:06 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Detach
+2025-06-11 20:37:06 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:37:06 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:37:06 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Invoice Number
+Sort Ascending
+2025-06-11 20:37:07 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Installment Number
+Sort Ascending
+2025-06-11 20:37:07 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Due Date
+Sort Ascending
+2025-06-11 20:37:07 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Amount
+Sort Ascending
+2025-06-11 20:37:07 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Hold Reason
+Sort Ascending
+2025-06-11 20:37:07 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Hold Date
+Sort Ascending
+2025-06-11 20:37:07 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Held By
+Sort Ascending
+2025-06-11 20:37:07 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Business Unit
+Sort Ascending
+2025-06-11 20:37:07 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:37:07 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:37:07 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Selected Item: Requiring Attention (0)
+2025-06-11 20:37:07 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:37:07 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:37:07 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:37:07 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:37:07 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:37:08 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Item: Recently Completed (0)
+2025-06-11 20:37:08 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:37:08 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:37:08 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:37:08 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:37:08 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:37:09 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Item: Recently Terminated (0)
+2025-06-11 20:37:09 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:37:09 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:37:09 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:37:09 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:37:09 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:37:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Detach
+2025-06-11 20:37:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:37:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:37:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:37:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:37:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Detach
+2025-06-11 20:37:10 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Cancel Stop Request
+2025-06-11 20:37:10 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:37:10 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:37:10 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:37:10 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:37:10 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:37:11 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Void Payment
+2025-06-11 20:37:11 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:37:11 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:37:11 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:37:11 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:37:11 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Payment Number
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Payment Date
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Amount
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Stop Request Date
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Payment Method
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Bank Account
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Bank Name
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Payee
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Business Unit
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Detach
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Supplier or Party
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Supplier Site
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: On Hold Since
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Hold Reason
+Sort Ascending
+2025-06-11 20:37:12 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:37:13 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:37:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [107] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(107)
+
+2025-06-11 20:37:23 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [108] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(108)
+
+2025-06-11 20:37:28 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [109] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(109)
+
+2025-06-11 20:37:33 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [110] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(110)
+
+2025-06-11 20:37:38 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [111] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(111)
+
+2025-06-11 20:37:43 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [112] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(112)
+
+2025-06-11 20:37:48 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [113] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(113)
+
+2025-06-11 20:37:53 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [114] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(114)
+
+2025-06-11 20:37:58 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [115] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(115)
+
+2025-06-11 20:38:03 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [116] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(116)
+
+2025-06-11 20:38:08 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [117] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(117)
+
+2025-06-11 20:38:13 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [118] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(118)
+
+2025-06-11 20:38:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [119] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(119)
+
+2025-06-11 20:38:23 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [120] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(120)
+
+2025-06-11 20:38:28 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [121] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(121)
+
+2025-06-11 20:38:33 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [122] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(122)
+
+2025-06-11 20:38:38 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [123] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(123)
+
+2025-06-11 20:38:43 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [124] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(124)
+
+2025-06-11 20:38:48 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [125] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(125)
+
+2025-06-11 20:38:53 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [126] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(126)
+
+2025-06-11 20:38:58 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [127] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(127)
+
+2025-06-11 20:39:03 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [128] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(128)
+
+2025-06-11 20:39:08 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [129] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(129)
+
+2025-06-11 20:39:13 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [130] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(130)
+
+2025-06-11 20:39:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [131] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(131)
+
+2025-06-11 20:39:23 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [132] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(132)
+
+2025-06-11 20:39:28 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [133] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(133)
+
+2025-06-11 20:39:33 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [134] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(134)
+
+2025-06-11 20:39:38 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [135] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(135)
+
+2025-06-11 20:39:43 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [136] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(136)
+
+2025-06-11 20:39:48 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [137] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(137)
+
+2025-06-11 20:39:53 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [138] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(138)
+
+2025-06-11 20:39:58 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [139] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(139)
+
+2025-06-11 20:40:03 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [140] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(140)
+
+2025-06-11 20:40:08 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [141] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(141)
+
+2025-06-11 20:40:13 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [142] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(142)
+
+2025-06-11 20:40:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [143] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(143)
+
+2025-06-11 20:40:23 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [144] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(144)
+
+2025-06-11 20:40:28 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [145] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(145)
+
+2025-06-11 20:40:33 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [146] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(146)
+
+2025-06-11 20:40:38 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [147] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(147)
+
+2025-06-11 20:40:43 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [148] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(148)
+
+2025-06-11 20:40:48 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [149] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(149)
+
+2025-06-11 20:40:53 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [150] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(150)
+
+2025-06-11 20:40:58 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [151] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(151)
+
+2025-06-11 20:41:03 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [152] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(152)
+
+2025-06-11 20:41:08 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [153] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(153)
+
+2025-06-11 20:41:13 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [154] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(154)
+
+2025-06-11 20:41:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [155] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(155)
+
+2025-06-11 20:41:23 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [156] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(156)
+
+2025-06-11 20:41:28 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [157] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(157)
+
+2025-06-11 20:41:33 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [158] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(158)
+
+2025-06-11 20:41:38 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [159] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(159)
+
+2025-06-11 20:41:43 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [160] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(160)
+
+2025-06-11 20:41:48 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [161] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(161)
+
+2025-06-11 20:41:53 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [162] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(162)
+
+2025-06-11 20:41:58 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [163] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(163)
+
+2025-06-11 20:42:03 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [164] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(164)
+
+2025-06-11 20:42:08 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [165] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(165)
+
+2025-06-11 20:42:13 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [166] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(166)
+
+2025-06-11 20:42:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [167] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(167)
+
+2025-06-11 20:42:23 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [168] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(168)
+
+2025-06-11 20:42:28 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [169] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(169)
+
+2025-06-11 20:42:33 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [170] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(170)
+
+2025-06-11 20:42:38 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [171] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(171)
+
+2025-06-11 20:42:43 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [172] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(172)
+
+2025-06-11 20:42:48 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [173] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(173)
+
+2025-06-11 20:42:53 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [174] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(174)
+
+2025-06-11 20:42:58 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [175] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(175)
+
+2025-06-11 20:43:03 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [176] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(176)
+
+2025-06-11 20:43:08 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [177] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(177)
+
+2025-06-11 20:43:13 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [178] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(178)
+
+2025-06-11 20:43:13 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:43:13 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:43:13 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:43:13 🐞 [visited_debugger.py:dump_visited] Entered
+2025-06-11 20:43:13 🐞 [visited_debugger.py:dump_visited] 📝 Visited labels written to visited_labels.txt
+2025-06-11 20:43:13 🐞 [visited_debugger.py:dump_visited] Exited
+2025-06-11 20:43:13 🐞 [recursive_crawler.py:crawl_in_page_actions] Exited
+2025-06-11 20:43:13 🐞 [recursive_crawler.py:crawl_nav_items] ⏵ Expanding: Item: Invoices on Hold (54)
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 [TEST] checking in-page actions...
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 Actionable UI element count: 142
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_nav_items] 🔍 crawl_in_page_actions type: <class 'function'>
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_in_page_actions] Entered
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_in_page_actions] 📥 Saving metadata (in-page): https://ibnijb-dev1.fa.ocs.oraclecloud.com/fscmUI/faces/AtkHomePageWelcome?_adf.ctrl-state=1itfgbg60_1&_adf.no-new-window-redirect=true&_afrLoop=40339304993797840&_afrWindowMode=2&_afrWindowId=null&_afrFS=16&_afrMT=screen&_afrMFW=1280&_afrMFH=720&_afrMFDW=1280&_afrMFDH=720&_afrMFC=10&_afrMFCI=0&_afrMFM=0&_afrMFR=96&_afrMFG=0&_afrMFS=0&_afrMFO=0 — Payables Dashboard
+2025-06-11 20:43:14 🐞 [db_inserter.py:save_ui_page_metadata] Entered
+2025-06-11 20:43:14 🐞 [db_inserter.py:save_ui_page_metadata] UI page metadata saved: Finance Nav Crawl, https://ibnijb-dev1.fa.ocs.oraclecloud.com/fscmUI/faces/AtkHomePageWelcome?_adf.ctrl-state=1itfgbg60_1&_adf.no-new-window-redirect=true&_afrLoop=40339304993797840&_afrWindowMode=2&_afrWindowId=null&_afrFS=16&_afrMT=screen&_afrMFW=1280&_afrMFH=720&_afrMFDW=1280&_afrMFDH=720&_afrMFC=10&_afrMFCI=0&_afrMFM=0&_afrMFR=96&_afrMFG=0&_afrMFS=0&_afrMFO=0, Payables Dashboard
+2025-06-11 20:43:14 🐞 [db_inserter.py:save_ui_page_metadata] Exited
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_in_page_actions] 📋 Locator text snapshot (first 5): ['Skip to main content', 'Navigator', 'Home', 'Favorites and Recent Items', 'Watchlist']
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_in_page_actions] 🕪 Actionable UI element count: 142 (processing max 142)
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Skip to main content
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Maribel Gonzale...
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Item: Pending Approval from Others (0)
+2025-06-11 20:43:14 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Selected Item: Invoices on Hold (54)
+2025-06-11 20:43:14 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:43:14 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:43:14 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:43:14 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:43:14 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:43:15 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Detach
+2025-06-11 20:43:15 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:43:15 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next 16
+2025-06-11 20:43:16 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Invoice Number
+Sort Ascending
+2025-06-11 20:43:16 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Line
+Sort Ascending
+2025-06-11 20:43:16 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Due Date
+Sort Ascending
+2025-06-11 20:43:16 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Invoice Amount
+Sort Ascending
+2025-06-11 20:43:16 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Hold Reason
+Sort Ascending
+2025-06-11 20:43:16 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Hold Date
+Sort Ascending
+2025-06-11 20:43:16 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Held By
+Sort Ascending
+2025-06-11 20:43:16 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Assigned To
+Sort Ascending
+2025-06-11 20:43:16 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Business Unit
+Sort Ascending
+2025-06-11 20:43:16 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Q24175-1
+2025-06-11 20:43:16 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:43:16 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:43:16 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:43:16 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:43:16 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:43:17 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: 252666622
+2025-06-11 20:43:17 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:43:17 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:43:17 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:43:17 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:43:17 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Line
+Sort Ascending
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Type
+Sort Ascending
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Amount
+Sort Ascending
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Tax Rate Name
+Sort Ascending
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Tax Amount
+Sort Ascending
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: OK
+2025-06-11 20:43:18 🐞 [modal_handler.py:dismiss_modal_if_present] 🔐 Ignoring modal 'text='Press escape to exit this popup.'' to keep burger nav safe
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions] ❌ Standard click failed for [OK]: Locator.click: Element is outside of the viewport
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(76)
+    - locator resolved to <button _afrpdo="ok" type="button" class="xuz p_AFTextOnly" onclick="this.focus();return false;" id="_FOpt1:_FOr1:0:_FONSr2:0:_FOTsr1:0:pt1:Payab1:0:r1:0:d4::ok">OK</button>
+  - attempting click action
+    - scrolling into view if needed
+    - done scrolling
+
+2025-06-11 20:43:18 🐞 [recursive_crawler.py:crawl_in_page_actions] ✅ Fallback mouse click succeeded
+2025-06-11 20:43:18 🐞 [modal_handler.py:dismiss_modal_if_present] 🔐 Ignoring modal 'text='Press escape to exit this popup.'' to keep burger nav safe
+2025-06-11 20:43:18 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:43:18 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:43:18 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:43:18 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:43:18 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:43:24 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [78] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(78)
+
+2025-06-11 20:43:29 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [79] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(79)
+
+2025-06-11 20:43:34 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [80] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(80)
+
+2025-06-11 20:43:39 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [81] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(81)
+
+2025-06-11 20:43:44 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [82] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(82)
+
+2025-06-11 20:43:50 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [83] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(83)
+
+2025-06-11 20:43:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [84] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(84)
+
+2025-06-11 20:44:00 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [85] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(85)
+
+2025-06-11 20:44:05 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [86] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(86)
+
+2025-06-11 20:44:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [87] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(87)
+
+2025-06-11 20:44:15 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [88] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(88)
+
+2025-06-11 20:44:20 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [89] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(89)
+
+2025-06-11 20:44:25 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [90] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(90)
+
+2025-06-11 20:44:30 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [91] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(91)
+
+2025-06-11 20:44:35 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [92] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(92)
+
+2025-06-11 20:44:40 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [93] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(93)
+
+2025-06-11 20:44:45 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [94] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(94)
+
+2025-06-11 20:44:50 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [95] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(95)
+
+2025-06-11 20:44:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [96] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(96)
+
+2025-06-11 20:45:00 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [97] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(97)
+
+2025-06-11 20:45:05 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [98] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(98)
+
+2025-06-11 20:45:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [99] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(99)
+
+2025-06-11 20:45:15 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [100] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(100)
+
+2025-06-11 20:45:20 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [101] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(101)
+
+2025-06-11 20:45:25 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [102] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(102)
+
+2025-06-11 20:45:30 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [103] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(103)
+
+2025-06-11 20:45:35 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [104] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(104)
+
+2025-06-11 20:45:40 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [105] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(105)
+
+2025-06-11 20:45:45 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [106] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(106)
+
+2025-06-11 20:45:50 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [107] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(107)
+
+2025-06-11 20:45:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [108] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(108)
+
+2025-06-11 20:46:00 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [109] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(109)
+
+2025-06-11 20:46:05 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [110] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(110)
+
+2025-06-11 20:46:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [111] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(111)
+
+2025-06-11 20:46:15 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [112] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(112)
+
+2025-06-11 20:46:20 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [113] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(113)
+
+2025-06-11 20:46:25 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [114] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(114)
+
+2025-06-11 20:46:30 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [115] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(115)
+
+2025-06-11 20:46:35 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [116] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(116)
+
+2025-06-11 20:46:40 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [117] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(117)
+
+2025-06-11 20:46:45 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [118] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(118)
+
+2025-06-11 20:46:50 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [119] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(119)
+
+2025-06-11 20:46:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [120] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(120)
+
+2025-06-11 20:47:00 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [121] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(121)
+
+2025-06-11 20:47:05 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [122] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(122)
+
+2025-06-11 20:47:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [123] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(123)
+
+2025-06-11 20:47:15 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [124] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(124)
+
+2025-06-11 20:47:20 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [125] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(125)
+
+2025-06-11 20:47:25 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [126] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(126)
+
+2025-06-11 20:47:30 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [127] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(127)
+
+2025-06-11 20:47:35 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [128] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(128)
+
+2025-06-11 20:47:40 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [129] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(129)
+
+2025-06-11 20:47:45 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [130] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(130)
+
+2025-06-11 20:47:50 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [131] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(131)
+
+2025-06-11 20:47:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [132] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(132)
+
+2025-06-11 20:48:00 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [133] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(133)
+
+2025-06-11 20:48:05 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [134] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(134)
+
+2025-06-11 20:48:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [135] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(135)
+
+2025-06-11 20:48:15 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [136] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(136)
+
+2025-06-11 20:48:20 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [137] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(137)
+
+2025-06-11 20:48:25 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [138] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(138)
+
+2025-06-11 20:48:30 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [139] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(139)
+
+2025-06-11 20:48:35 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [140] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(140)
+
+2025-06-11 20:48:40 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [141] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(141)
+
+2025-06-11 20:48:40 🐞 [modal_handler.py:dismiss_modal_if_present] 🔐 Ignoring modal 'text='Press escape to exit this popup.'' to keep burger nav safe
+2025-06-11 20:48:40 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:48:40 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ✅ Clicked center of menu overlay (div[id*="menu"]) to dismiss
+2025-06-11 20:48:40 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:48:40 🐞 [visited_debugger.py:dump_visited] Entered
+2025-06-11 20:48:40 🐞 [visited_debugger.py:dump_visited] 📝 Visited labels written to visited_labels.txt
+2025-06-11 20:48:40 🐞 [visited_debugger.py:dump_visited] Exited
+2025-06-11 20:48:40 🐞 [recursive_crawler.py:crawl_in_page_actions] Exited
+2025-06-11 20:48:40 🐞 [modal_handler.py:dismiss_modal_if_present] 🔐 Ignoring modal 'text='Press escape to exit this popup.'' to keep burger nav safe
+2025-06-11 20:48:40 🐞 [recursive_crawler.py:crawl_nav_items] ⏵ Expanding: Journals
+2025-06-11 20:48:40 🐞 [modal_handler.py:dismiss_modal_if_present] 🔐 Ignoring modal 'text='Press escape to exit this popup.'' to keep burger nav safe
+2025-06-11 20:48:40 🐞 [modal_handler.py:dismiss_modal_if_present] 🔐 Ignoring modal 'text='Press escape to exit this popup.'' to keep burger nav safe
+2025-06-11 20:48:41 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 [TEST] checking in-page actions...
+2025-06-11 20:48:42 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.count: Execution context was destroyed, most likely because of a navigation
+2025-06-11 20:48:42 🐞 [recursive_crawler.py:crawl_nav_items] ⏵ Expanding: M09-05 Spreadsheet A 300000004005502 1215025 N
+2025-06-11 20:48:43 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 [TEST] checking in-page actions...
+2025-06-11 20:48:43 🐞 [recursive_crawler.py:crawl_nav_items] 🧪 Actionable UI element count: 42
+2025-06-11 20:48:43 🐞 [recursive_crawler.py:crawl_nav_items] 🔍 crawl_in_page_actions type: <class 'function'>
+2025-06-11 20:48:43 🐞 [recursive_crawler.py:crawl_in_page_actions] Entered
+2025-06-11 20:48:43 🐞 [recursive_crawler.py:crawl_in_page_actions] 📥 Saving metadata (in-page): https://ibnijb-dev1.fa.ocs.oraclecloud.com/fscmUI/faces/AtkHomePageWelcome?_adf.ctrl-state=1itfgbg60_1&_adf.no-new-window-redirect=true&_afrLoop=40339304993797840&_afrWindowMode=2&_afrWindowId=null&_afrFS=16&_afrMT=screen&_afrMFW=1280&_afrMFH=720&_afrMFDW=1280&_afrMFDH=720&_afrMFC=10&_afrMFCI=0&_afrMFM=0&_afrMFR=96&_afrMFG=0&_afrMFS=0&_afrMFO=0 — Journals
+2025-06-11 20:48:43 🐞 [db_inserter.py:save_ui_page_metadata] Entered
+2025-06-11 20:48:43 🐞 [db_inserter.py:save_ui_page_metadata] UI page metadata saved: Finance Nav Crawl, https://ibnijb-dev1.fa.ocs.oraclecloud.com/fscmUI/faces/AtkHomePageWelcome?_adf.ctrl-state=1itfgbg60_1&_adf.no-new-window-redirect=true&_afrLoop=40339304993797840&_afrWindowMode=2&_afrWindowId=null&_afrFS=16&_afrMT=screen&_afrMFW=1280&_afrMFH=720&_afrMFDW=1280&_afrMFDH=720&_afrMFC=10&_afrMFCI=0&_afrMFM=0&_afrMFR=96&_afrMFG=0&_afrMFS=0&_afrMFO=0, Journals
+2025-06-11 20:48:43 🐞 [db_inserter.py:save_ui_page_metadata] Exited
+2025-06-11 20:48:43 🐞 [recursive_crawler.py:crawl_in_page_actions] 📋 Locator text snapshot (first 5): ['Skip to main content', 'Navigator', 'Home', 'Favorites and Recent Items', 'Watchlist']
+2025-06-11 20:48:43 🐞 [recursive_crawler.py:crawl_in_page_actions] 🕪 Actionable UI element count: 42 (processing max 42)
+2025-06-11 20:48:43 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Skip to main content
+2025-06-11 20:48:43 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Maribel Gonzale...
+2025-06-11 20:48:43 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Selected Item: Requiring Attention
+2025-06-11 20:48:43 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:48:43 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:48:43 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:48:43 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:48:43 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:48:44 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Item: Incomplete
+2025-06-11 20:48:44 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:48:44 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:48:44 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:48:44 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:48:44 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:48:45 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Item: Import Errors
+2025-06-11 20:48:46 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:48:46 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:48:46 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:48:46 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:48:46 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:48:47 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: View
+2025-06-11 20:48:47 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:48:47 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:48:47 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:48:51 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:48:51 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:48:52 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Format
+2025-06-11 20:48:52 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:48:52 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:48:52 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:48:53 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:48:53 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:48:54 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Detach
+2025-06-11 20:48:54 🐞 [recursive_crawler.py:crawl_in_page_actions] ➡️ Visiting nav item: Wrap
+2025-06-11 20:48:54 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:48:54 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:48:54 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:48:54 🐞 [db_inserter.py:insert_ui_element] Entered insert_ui_element
+2025-06-11 20:48:54 🐞 [db_inserter.py:insert_ui_element] Exited insert_ui_element
+2025-06-11 20:48:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:48:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:48:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Process ID
+Sort Ascending
+2025-06-11 20:48:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Ledger
+Sort Ascending
+2025-06-11 20:48:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Source
+Sort Ascending
+2025-06-11 20:48:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Group ID
+Sort Ascending
+2025-06-11 20:48:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Import Date
+Sort Ascending
+2025-06-11 20:48:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Imported By
+Sort Ascending
+2025-06-11 20:48:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Previous
+2025-06-11 20:48:55 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping blacklisted label: Next
+2025-06-11 20:49:00 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [39] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(39)
+
+2025-06-11 20:49:05 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [40] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(40)
+
+2025-06-11 20:49:10 🐞 [recursive_crawler.py:crawl_in_page_actions]   ⏭️ Skipping element [41] — inner_text failed: Locator.inner_text: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("button:visible, a:visible, input:visible").nth(41)
+
+2025-06-11 20:49:10 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Entered
+2025-06-11 20:49:10 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] ⏭️ Skipping known nav container: div[id*="pt1"]
+2025-06-11 20:49:10 🐞 [modal_handler.py:dismiss_oracle_menu_overlay] Exited
+2025-06-11 20:49:10 🐞 [visited_debugger.py:dump_visited] Entered
+2025-06-11 20:49:10 🐞 [visited_debugger.py:dump_visited] 📝 Visited labels written to visited_labels.txt
+2025-06-11 20:49:10 🐞 [visited_debugger.py:dump_visited] Exited
+2025-06-11 20:49:10 🐞 [recursive_crawler.py:crawl_in_page_actions] Exited
+2025-06-11 20:49:10 🐞 [recursive_crawler.py:crawl_nav_items] ⏵ Expanding: Wrap
+2025-06-11 20:49:15 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.click: Timeout 5000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(18)
+    - locator resolved to <a class="xri" role="button" aria-disabled="true" onclick="this.focus();return false" aria-describedby="_FOpt1:_FOr1:0:_FONSr2:0:_FOTsr1:0:ap1:Journ1:0:r4:0:AT2:_ATp:_wrpTbr_afrdescBy">…</a>
+  - attempting click action
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+    - waiting 20ms
+    2 × waiting for element to be visible, enabled and stable
+      - element is not enabled
+    - retrying click action
+      - waiting 100ms
+    10 × waiting for element to be visible, enabled and stable
+       - element is not enabled
+     - retrying click action
+       - waiting 500ms
+
+2025-06-11 20:49:45 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(22)
+
+2025-06-11 20:50:15 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(23)
+
+2025-06-11 20:50:45 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(24)
+
+2025-06-11 20:51:15 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(25)
+
+2025-06-11 20:51:45 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(26)
+
+2025-06-11 20:52:15 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(27)
+
+2025-06-11 20:52:45 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(28)
+
+2025-06-11 20:53:15 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(29)
+
+2025-06-11 20:53:45 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(30)
+
+2025-06-11 20:54:15 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(31)
+
+2025-06-11 20:54:45 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(32)
+
+2025-06-11 20:55:15 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(33)
+
+2025-06-11 20:55:45 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(34)
+
+2025-06-11 20:56:15 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(35)
+
+2025-06-11 20:56:45 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(36)
+
+2025-06-11 20:57:15 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(37)
+
+2025-06-11 20:57:45 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(38)
+
+2025-06-11 20:58:15 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(39)
+
+2025-06-11 20:58:45 🐞 [recursive_crawler.py:crawl_nav_items] ❌ Sub-panel error: Locator.inner_text: Timeout 30000ms exceeded.
+Call log:
+  - waiting for locator("a:visible").nth(40)
+
+2025-06-11 20:58:45 🐞 [visited_debugger.py:dump_visited] Entered
+2025-06-11 20:58:45 🐞 [visited_debugger.py:dump_visited] 📝 Visited labels written to visited_labels.txt
+2025-06-11 20:58:45 🐞 [visited_debugger.py:dump_visited] Exited
+2025-06-11 20:58:45 🐞 [recursive_crawler.py:crawl_nav_items] Exited
+2025-06-11 20:58:45 🐞 [recursive_crawler.py:begin_recursive_crawl] Exited begin_recursive_crawl
+2025-06-11 20:58:45 🐞 [login_steps.py:run_oracle_login_steps] Exited run_oracle_login_steps
+2025-06-11 20:58:45 🐞 [db_inserter.py:insert_crawl_session] Entered
+2025-06-11 20:58:45 🐞 [db_inserter.py:insert_crawl_session] ⚠️ Session 'Finance Nav Crawl' already exists. Returning existing id: 1
+2025-06-11 20:58:45 🐞 [nav_crawler.py:main] 🧭 Extracting nav metadata now...
+2025-06-11 20:59:00 🐞 [nav_crawler.py:main] ⚠️ Timeout waiting for nav container: Page.wait_for_selector: Timeout 15000ms exceeded.
+Call log:
+  - waiting for locator("#pt1\\:_UISnvr") to be visible
+
+2025-06-11 20:59:00 🐞 [nav_crawler.py:main] 📊 Total nav items found: 0
+2025-06-11 20:59:00 🐞 [nav_crawler.py:main] ⚠️ No nav items found. Check page state or selector.
+2025-06-11 20:59:00 🐞 [db_inserter.py:insert_crawl_session] Entered
+2025-06-11 20:59:01 🐞 [db_inserter.py:insert_crawl_session] ⚠️ Session 'Finance Nav Crawl' already exists. Returning existing id: 1
+2025-06-11 20:59:01 🐞 [db_inserter.py:insert_ui_path] Entered
+2025-06-11 20:59:01 🐞 [extractor.py:extract_nav_metadata] 📊 Found 0 top-level nav items
+2025-06-11 20:59:01 🐞 [extractor.py:extract_nav_metadata] Exited extract_nav_metadata
+2025-06-11 20:59:01 🐞 [nav_crawler.py:main] ✅ Crawl completed
+2025-06-11 20:59:01 🐞 [nav_crawler.py:main] Exited main

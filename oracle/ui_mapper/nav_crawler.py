@@ -1,39 +1,90 @@
-# ------------------------------
-# nav_crawler.py
-# ------------------------------
+# <<10-JUN-2025:22:48>> - Cleaned up session insert logic to prevent duplicate session error and preserved full truncate flow
 
-from utils.logging import debug_log
-from .db_inserter import insert_ui_path_item, insert_user_visible_path, insert_crawl_session, insert_ui_path
-from .dom_extractor import extract_dom_info
+import asyncio
+import argparse
+import os
+from playwright.async_api import async_playwright
+from oracle.login_steps import run_oracle_login_steps
+from oracle.ui_mapper.extractor import extract_nav_metadata
+from utils.logging import debug_log 
+from utils.env import load_env
+from utils.db_utils import get_db_connection
+from oracle.ui_mapper.db_inserter import insert_crawl_session
 
-async def extract_nav_metadata(page, username: str, is_superuser: bool, session_note: str = None):
-	debug_log("Entered")
-	session_db_id, _ = insert_crawl_session(username, is_superuser, session_note)
-	path_id = insert_ui_path(session_db_id, path_name="Top Nav Crawl")
+async def main():
+	debug_log("Entered main")
+	load_env()
 
-	nav_items = page.locator("a[id^='pt1:_UISnvr']")
-	count = await nav_items.count()
-	for i in range(count):
+	parser = argparse.ArgumentParser(description="Oracle Nav Crawler")
+	parser.add_argument("--crawler-name", type=str, required=True, help="Session name for crawl")
+	args = parser.parse_args()
+	crawler_name = args.crawler_name
+
+	TRUNC_TABLES = os.getenv("TRUNC_TABLES", "false").lower() == "true"
+
+	if TRUNC_TABLES:
+		debug_log("⚠️ TRUNC_TABLES is enabled — truncating ui_pages and ui_elements")
+		conn = get_db_connection()
+		cur = conn.cursor()
+		cur.execute("""
+		TRUNCATE 
+			ui_automation.ui_path_items,
+			ui_automation.ui_paths,
+			ui_automation.ui_elements,
+			ui_automation.ui_pages,
+			ui_automation.ui_trap_pages,
+			ui_automation.ui_crawl_sessions
+		RESTART IDENTITY CASCADE;
+		""")
+		conn.commit()
+		cur.close()
+		conn.close()
+
+	username = os.getenv("ORA_USER")
+	password = os.getenv("ORA_PW")
+	login_url = os.getenv("ORA_URL")
+	headless_mode = os.getenv("HEADLESS_MODE", "true").lower() == "true"
+	debug_log(f"HEADLESS_MODE={headless_mode}")
+
+	if not all([username, password, login_url]):
+		debug_log("❌ Missing ORA_USER, ORA_PW, or ORA_URL — aborting.")
+		return
+
+	async with async_playwright() as p:
+		browser = await p.chromium.launch(headless=headless_mode)
+		context = await browser.new_context()
+		page = await context.new_page()
+
+		await run_oracle_login_steps(page, login_url, username, password, crawler_name=crawler_name)
+
+		# ✅ Insert session once
+		session_id = insert_crawl_session(crawler_name)
+
+		debug_log("🧭 Extracting nav metadata now...")
+
 		try:
-			element = nav_items.nth(i)
-			if not await element.is_visible():
-				continue
+			await page.wait_for_selector("#pt1\\:_UISnvr", timeout=15000)
+			nav_container = page.locator("#pt1\\:_UISnvr")
+			await nav_container.scroll_into_view_if_needed()
 		except Exception as e:
-			debug_log(f"⚠️ Skipped nav item {i}: {e}")
-			continue
-		id_attr = await element.get_attribute("id")
-		if not id_attr or "nvcl" in id_attr or "nvcil" in id_attr:
-			continue
+			debug_log(f"⚠️ Timeout waiting for nav container: {e}")
 
-		href = await element.get_attribute("href")
-		onclick = await element.get_attribute("onclick")
-		if (not href or href.strip() == "#") and not onclick:
-			continue
+		nav_items = page.locator("a[id^='pt1:_UISnvr']")
+		nav_count = await nav_items.count()
+		debug_log(f"📊 Total nav items found: {nav_count}")
+		if nav_count == 0:
+			debug_log("⚠️ No nav items found. Check page state or selector.")
 
-		dom_data = await extract_dom_info(element)
-		item_id = insert_ui_path_item(path_id, parent_id=None, seq=i, data=dom_data)
-		if not is_superuser:
-			insert_user_visible_path(username, item_id, session_db_id, visible=True)
+		await extract_nav_metadata(
+			page=page,
+			username=username,
+			is_superuser=True,
+			session_note=crawler_name
+		)
+		debug_log("✅ Crawl completed")
 
-	debug_log("Exited")
+	debug_log("Exited main")
 
+if __name__ == "__main__":
+	print("🔧 Running nav_crawler...", flush=True)
+	asyncio.run(main())

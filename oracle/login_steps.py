@@ -82,7 +82,7 @@
 #         # Persist storage state and close context to flush cookies
 #         from pathlib import Path, os
 #         state_path = Path(os.getenv("PLAYWRIGHT_USER_DATA_DIR", str(Path.home() / ".myapp_playwright_data"))) / "storage_state.json"
-#         await page.context.storage_state(path=str(state_path))
+#         await page.context.storage_state(path=state_path)
 #         debug_log(f"🔖 Storage state written to {state_path}")
 #         await page.context.close()
 #         debug_log("🚪 Closed context to flush persistent data")
@@ -154,7 +154,7 @@
 #         # NOTE: Commented out persistence flush and context close to keep browser visible
 #         # from pathlib import Path, os
 #         # state_path = Path(os.getenv("PLAYWRIGHT_USER_DATA_DIR", str(Path.home() / ".myapp_playwright_data"))) / "storage_state.json"
-#         # await page.context.storage_state(path=str(state_path))
+#         # await page.context.storage_state(path=state_path)
 #         # debug_log(f"🔖 Storage state written to {state_path}")
 #         # await page.context.close()
 #         # debug_log("🚪 Closed context to flush persistent data")
@@ -229,6 +229,7 @@
 # <<08-JUN-2025:22:23>> - Refactored to use get_by_role for robust login navigation
 
 # <<08-JUN-2025:22:23>> - Refactored to use get_by_role for robust login navigation
+# <<09-JUN-2025:12:38>> - Oracle login and optional recursive crawl launcher
 
 from utils.logging import debug_log, capture_screenshot, log_html_to_file
 from utils.selector_resolver import get_selector
@@ -257,8 +258,7 @@ async def run_oracle_login_steps(page, login_url, username, password, session_id
 		await page.get_by_role("button", name="Sign In").click()
 		debug_log("✅ Sign In clicked")
 
-		# Wait for nav to load, use direct role-based selector
-		await page.wait_for_timeout(3000)  # Give redirect time
+		await page.wait_for_timeout(3000)
 		debug_log(f"🌐 Current URL: {page.url}")
 
 		await page.get_by_role("link", name="Navigator").click()
@@ -269,15 +269,13 @@ async def run_oracle_login_steps(page, login_url, username, password, session_id
 		debug_log("📂 Clicked Show More")
 		await page.wait_for_timeout(1000)
 
-		# <<08-JUN-2025:22:45>> - Add recursive crawler entry hook here
+		# <<09-JUN-2025:12:38>> - Begin recursive crawl with passed crawler_name
 		from oracle.ui_mapper.recursive_crawler import begin_recursive_crawl
 
-		# <<08-JUN-2025:23:00>> - Ensure crawl session is initialized if missing
-		if session_id is None:
-			from oracle.ui_mapper.db_inserter import insert_crawl_session
-			session_id, _ = insert_crawl_session(username, is_superuser=True, session_note=crawler_name)
+		if crawler_name:
+			# Stays generic — no insert_crawl_session logic
+			await begin_recursive_crawl(page, crawler_name=crawler_name)
 
-		await begin_recursive_crawl(page, username=username, session_id=session_id, crawler_name=crawler_name)
 
 	except Exception as e:
 		debug_log(f"❌ Login step error: {e}")

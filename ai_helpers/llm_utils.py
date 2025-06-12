@@ -181,6 +181,7 @@
 
 # ai_helpers/llm_utils.py
 # ai_helpers/llm_utils.py
+import os
 from typing import List, Dict, Any
 import json
 import re
@@ -188,57 +189,94 @@ from utils.logging import debug_log
 import subprocess
 import shlex
 
-def run_local_llm(prompt: str, timeout: int = 30) -> str:
-    """
-    <<01-JUN-2025:12:55>> - Synchronously invoke a local LLM process (Ollama) to generate a raw text response.
-    Automatically pull the Mistral model if not present, then retry.
-    """
-    debug_log("Entered")
-    model_name = "mistral"
-    def invoke():
-        cmd = f"ollama run {model_name} {shlex.quote(prompt)}"
-        return subprocess.run(
-            shlex.split(cmd),
-            stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE,
-            text=True,
-            timeout=timeout
-        )
+# def run_local_llm(prompt: str, timeout: int = 30) -> str:
+#     """
+#     <<01-JUN-2025:12:55>> - Synchronously invoke a local LLM process (Ollama) to generate a raw text response.
+#     Automatically pull the Mistral model if not present, then retry.
+#     """
+#     debug_log("Entered")
+#     model_name = "mistral"
+#     def invoke():
+#         cmd = f"ollama run {model_name} {shlex.quote(prompt)}"
+#         return subprocess.run(
+#             shlex.split(cmd),
+#             stdout=subprocess.PIPE,
+#             stderr=subprocess.PIPE,
+#             text=True,
+#             timeout=timeout
+#         )
 
-    try:
-        result = invoke()
-        if result.returncode != 0:
-            stderr = result.stderr.strip()
-            if "pull model manifest" in stderr.lower() or "model not found" in stderr.lower():
-                debug_log(f"[run_local_llm] Model '{model_name}' not found locally. Pulling model...")
-                pull_cmd = f"ollama pull {model_name}"
-                pull_result = subprocess.run(
-                    shlex.split(pull_cmd),
-                    stdout=subprocess.PIPE,
-                    stderr=subprocess.PIPE,
-                    text=True,
-                    timeout=timeout
-                )
-                if pull_result.returncode != 0:
-                    debug_log(f"[run_local_llm] ❌ Failed to pull model '{model_name}': {pull_result.stderr.strip()}")
-                    return ""
-                result = invoke()
-                if result.returncode != 0:
-                    debug_log(f"[run_local_llm] ❌ LLM process error after pull: {result.stderr.strip()}")
-                    return ""
-            else:
-                debug_log(f"[run_local_llm] ❌ LLM process error: {stderr}")
-                return ""
-        raw_output = result.stdout.strip()
+#     try:
+#         result = invoke()
+#         if result.returncode != 0:
+#             stderr = result.stderr.strip()
+#             if "pull model manifest" in stderr.lower() or "model not found" in stderr.lower():
+#                 debug_log(f"[run_local_llm] Model '{model_name}' not found locally. Pulling model...")
+#                 pull_cmd = f"ollama pull {model_name}"
+#                 pull_result = subprocess.run(
+#                     shlex.split(pull_cmd),
+#                     stdout=subprocess.PIPE,
+#                     stderr=subprocess.PIPE,
+#                     text=True,
+#                     timeout=timeout
+#                 )
+#                 if pull_result.returncode != 0:
+#                     debug_log(f"[run_local_llm] ❌ Failed to pull model '{model_name}': {pull_result.stderr.strip()}")
+#                     return ""
+#                 result = invoke()
+#                 if result.returncode != 0:
+#                     debug_log(f"[run_local_llm] ❌ LLM process error after pull: {result.stderr.strip()}")
+#                     return ""
+#             else:
+#                 debug_log(f"[run_local_llm] ❌ LLM process error: {stderr}")
+#                 return ""
+#         raw_output = result.stdout.strip()
 
-    except subprocess.TimeoutExpired:
-        debug_log(f"[run_local_llm] ❌ Ollama CLI timed out after {timeout} seconds")
-        raw_output = ""
-    except Exception as e:
-        debug_log(f"[run_local_llm] ❌ Exception when invoking LLM: {e}")
-        raw_output = ""
-    debug_log("Exited")
-    return raw_output
+#     except subprocess.TimeoutExpired:
+#         debug_log(f"[run_local_llm] ❌ Ollama CLI timed out after {timeout} seconds")
+#         raw_output = ""
+#     except Exception as e:
+#         debug_log(f"[run_local_llm] ❌ Exception when invoking LLM: {e}")
+#         raw_output = ""
+#     debug_log("Exited")
+#     return raw_output
+
+
+from typing import Dict
+import requests
+from utils.logging import debug_log
+from utils.env import load_env
+
+def run_remote_llm(prompt: str, timeout: int = 30) -> str:
+	"""
+	<<10-JUN-2025:16:40>> - Calls remote Ollama instance over HTTP and returns the generated response.
+	"""
+	debug_log("Entered")
+	load_env()  # Ensure environment variables are loaded
+	OLLAMA_HOST = os.getenv("OLLAMA_HOST", "http://localhost:11434")
+	OLLAMA_MODEL = os.getenv("OLLAMA_MODEL", "mistral")  # Or "command-r" etc.
+
+	url = f"{OLLAMA_HOST}/api/generate"
+	payload = { 
+		"model": OLLAMA_MODEL,
+		"prompt": prompt,
+		"stream": False  # set to True if you want token streaming (requires different handling)
+	}
+
+	try:
+		response = requests.post(url, json=payload, timeout=timeout)
+		response.raise_for_status()
+		output = response.json().get("response", "").strip()
+	except requests.exceptions.RequestException as e:
+		debug_log(f"[run_remote_llm] ❌ Request error: {e}")
+		output = ""
+	except Exception as e:
+		debug_log(f"[run_remote_llm] ❌ Unexpected error: {e}")
+		output = ""
+
+	debug_log("Exited")
+	return output
+
 
 
 # def sanitize_llm_json(raw: str) -> list:

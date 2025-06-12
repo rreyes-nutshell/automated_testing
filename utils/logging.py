@@ -36,7 +36,7 @@ def log_step_to_file(step_num, step_data, session_id=None):
 
 	if is_verbose_debug_enabled():
 		timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-		filename = f"step_{str(step_num).replace('.', '_')}_{timestamp}.json"
+		filename = f"step_{step_num.replace('.', '_')}_{timestamp}.json"
 		filepath = os.path.join(dir_path, filename)
 		debug_log("Logging step to file")
 		with open(filepath, "w") as f:
@@ -56,7 +56,7 @@ async def log_html_to_file(step_num, html, session_id=None):
 	dir_path = f"logs/{session_id}"
 	os.makedirs(dir_path, exist_ok=True)
 	timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-	filename = f"html_{str(step_num).replace('.', '_')}_{timestamp}.html"
+	filename = f"html_{step_num.replace('.', '_')}_{timestamp}.html"
 	filepath = os.path.join(dir_path, filename)
 	with open(filepath, "w", encoding="utf-8") as f:
 		f.write(html)
@@ -66,15 +66,23 @@ async def log_html_to_file(step_num, html, session_id=None):
 # Environment helpers
 # ----------------------------------------------------------------------------
 
-def load_env() -> bool:
-	"""Load environment variables using dotenv and recompute debug flags."""
-	dotenv_path = find_dotenv(usecwd=True)
-	if dotenv_path:
-		load_dotenv(dotenv_path, override=False)
-		debug_log(f"Loaded .env from {dotenv_path}")
-	else:
-		debug_log("No .env file found via find_dotenv; relying on process envs")
+# def load_env() -> bool:
+# 	"""Load environment variables using dotenv and recompute debug flags."""
+# 	dotenv_path = find_dotenv(usecwd=True)
+# 	if dotenv_path:
+# 		load_dotenv(dotenv_path, override=False)
+# 		debug_log(f"Loaded .env from {dotenv_path}")
+# 	else:
+# 		debug_log("No .env file found via find_dotenv; relying on process envs")
 
-	get_debug_flags()  # Refresh DEBUG_MODE/DEBUG_LEVEL
+# 	get_debug_flags()  # Refresh DEBUG_MODE/DEBUG_LEVEL
 
-	return os.getenv("HEADLESS_MODE", "true").lower() == "true"
+# 	return os.getenv("HEADLESS_MODE", "true").lower() == "true"
+# <<11-JUN-2025:22:55>> - Added slugify utility for safe filename generation
+import re
+
+def slugify(text):
+	"""Convert text to filesystem-safe slug"""
+	text = text.lower()
+	text = re.sub(r'[^a-z0-9]+', '-', text)
+	return text.strip('-')

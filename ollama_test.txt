@@ -1,0 +1,4 @@
+curl http://172.19.1.12:11434/api/generate -d '{
+  "model": "mistral",
+  "prompt": "What is 2 + 2?"
+}'

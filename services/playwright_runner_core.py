@@ -8,8 +8,8 @@ from typing import List, Dict, Tuple, Optional
 
 from dotenv import load_dotenv
 from playwright.async_api import Page, Browser, async_playwright
-
-from utils.logging import debug_log, capture_screenshot, log_html_to_file, load_env
+from utils.env import load_env
+from utils.logging import debug_log, capture_screenshot, log_html_to_file 
 from utils.selector_resolver import get_selector
 from utils.step_interpolation import interpolate_step_vars
 from oracle.login_steps import run_oracle_login_steps

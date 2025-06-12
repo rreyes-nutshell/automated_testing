@@ -59,7 +59,7 @@ def index_testcases_from_xlsx(xlsx_path: str, sheet_name: str = None):
             # a) Unique ID: use 'Test ID' if present, else combine sheet name and row index
             raw_id = row.get("Test ID", None)
             if pd.notna(raw_id):
-                test_id = str(raw_id).strip()
+                test_id = raw_id.strip()
             else:
                 test_id = f"{sn}_row_{idx}"
 
