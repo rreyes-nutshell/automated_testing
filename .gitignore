@@ -12,10 +12,11 @@ venv/
 logs/
 *.log
 *.sqlite3
-
+dom_dumps/*
 # VSCode config
 .vscode/
 *.patch
+crawl_out.txt
 
 # OS junk
 .DS_Store

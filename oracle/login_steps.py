@@ -230,13 +230,18 @@
 
 # <<08-JUN-2025:22:23>> - Refactored to use get_by_role for robust login navigation
 # <<09-JUN-2025:12:38>> - Oracle login and optional recursive crawl launcher
-
+# <<09-JUN-2025:12:38>> - Oracle login and optional recursive crawl launcher
+import os
 from utils.logging import debug_log, capture_screenshot, log_html_to_file
 from utils.selector_resolver import get_selector
 from urllib.parse import urlparse
 
 async def run_oracle_login_steps(page, login_url, username, password, session_id=None, current_url=None, crawler_name=None):
 	debug_log("Entered run_oracle_login_steps")
+	if not username:
+		username = os.getenv("ORA_USER")
+	if not password:
+		password = os.getenv("ORA_PASS")
 
 	cookies = await page.context.cookies()
 	if any("oraclecloud.com" in c.get("domain", "") for c in cookies):
@@ -269,13 +274,25 @@ async def run_oracle_login_steps(page, login_url, username, password, session_id
 		debug_log("📂 Clicked Show More")
 		await page.wait_for_timeout(1000)
 
+		# <<12-JUN-2025:20:56>> - Add first launched burger label to burgers_visited
+		from utils.skip_rules import should_skip_label
+		burgers_visited = set()
+		try:
+			icons = page.locator("a[id^='pt1:_UISnvr']")
+			first_label = await icons.nth(0).inner_text()
+			first_label = first_label.strip()
+			if not should_skip_label(first_label, visited=burgers_visited):
+				# burgers_visited.add(first_label)
+				debug_log(f"✅ Added initial burger label to visited: {first_label}")
+		except Exception as prelaunch_err:
+			debug_log(f"⚠️ Failed to mark initial burger label visited: {prelaunch_err}")
+
 		# <<09-JUN-2025:12:38>> - Begin recursive crawl with passed crawler_name
 		from oracle.ui_mapper.recursive_crawler import begin_recursive_crawl
 
 		if crawler_name:
 			# Stays generic — no insert_crawl_session logic
-			await begin_recursive_crawl(page, crawler_name=crawler_name)
-
+			await begin_recursive_crawl(page, crawler_name=crawler_name, burgers_visited=burgers_visited)
 
 	except Exception as e:
 		debug_log(f"❌ Login step error: {e}")

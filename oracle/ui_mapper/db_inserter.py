@@ -137,6 +137,7 @@ def insert_ui_path(session_name, path_name):
 # <<09-JUN-2025:14:08>> - Updated to accept session_id and path_id explicitly
 # <<09-JUN-2025:16:47>> - Updated to accept both session_id and session_name
 # <<09-JUN-2025:16:56>> - Adjusted to accept correct params: page, session_id, session_name, path_id, page_url, label
+
 def save_ui_page_metadata(
 	page,
 	session_id,
@@ -145,7 +146,9 @@ def save_ui_page_metadata(
 	page_url,
 	page_title,
 	page_heading,
-	page_description
+	page_description,
+	parent_url_signature=None,
+	depth=0
 ):
 	debug_log("Entered")
 	try:
@@ -161,6 +164,8 @@ def save_ui_page_metadata(
 				page_title,
 				page_heading,
 				page_description,
+				parent_url_signature,
+				depth,
 				created_at
 			) VALUES (
 				%(session_id)s,
@@ -170,6 +175,8 @@ def save_ui_page_metadata(
 				%(page_title)s,
 				%(page_heading)s,
 				%(page_description)s,
+				%(parent_url_signature)s,
+				%(depth)s,
 				now()
 			);
 		"""
@@ -181,7 +188,9 @@ def save_ui_page_metadata(
 			"url": page_url,
 			"page_title": page_title,
 			"page_heading": page_heading,
-			"page_description": page_description
+			"page_description": page_description,
+			"parent_url_signature": parent_url_signature,
+			"depth": depth
 		}
 
 		cur.execute(sql, params)
@@ -193,6 +202,7 @@ def save_ui_page_metadata(
 	except Exception as e:
 		debug_log(f"DB Insert error in save_ui_page_metadata: {e}")
 	debug_log("Exited")
+
 
 # <<09-JUN-2025:13:13>> - Updated to use session_name for FK join to crawl_sessions
 

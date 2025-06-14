@@ -1,35 +1,30 @@
-# ===========================
-# 🧑‍💼 Login Page
-# ===========================
+# === Oracle Navigation Selectors ===
+
+hamburger_menu_button: button[title="Navigator"]
+hamburger_nav_icons: div[class*="fusionAppsNav"] a[role="link"]
+
+# === Oracle Login Page ===
+
 username_input:
   primary: css
-  css: "input[id='userid']"
+  css: input[id='userid']
 
 password_input:
   primary: css
-  css: "input[type='password']"
+  css: input[type='password']
 
 sign_in_button:
   primary: css
-  css: "button#btnActive"
-  text: "Sign In"
+  css: button#btnActive
+  text: Sign In
 
-
-# ===========================
-# 📋 Navigation
-# ===========================
-navigator_button:
-  primary: css
-  css: "a[id^='pt1:_UIShome']"
-  xpath: "//a[contains(@id, '_UIShome')]"
-
-hamburger_icon:
-  primary: css
-  css: "a[id^='pt1:_UIShome']"
-
-# ===========================
-# 🚨 Error Banners
-# ===========================
 login_error_banner:
   primary: css
-  css: "div[id*='msgErr']"
+  css: div[id*=msgErr]
+
+# === General Oracle Navigation Elements ===
+
+navigator_button:
+  primary: css
+  css: a[id^='pt1:_UIShome']
+  xpath: //a[contains(@id, '_UIShome')]

@@ -62,6 +62,20 @@ async def main():
 
 		debug_log("🧭 Extracting nav metadata now...")
 
+		# <<12-JUN-2025:12:39>> - Ensure Oracle base URL is fully reloaded before extracting
+		await page.goto(login_url)
+		await page.wait_for_load_state("networkidle")
+		# <<12-JUN-2025:12:44>> - Commented duplicate expand_hamburger_menu call to prevent double toggle
+		from oracle.ui_mapper.recursive_crawler import expand_hamburger_menu
+		await expand_hamburger_menu(page)
+		await page.wait_for_selector("#pt1\:_UISnvr", timeout=20000)
+		debug_log("✅ Oracle nav container loaded")
+        
+		# <<12-JUN-2025:12:41>> - Expand hamburger menu after returning to base URL
+		# <<12-JUN-2025:12:44>> - Commented duplicate expand_hamburger_menu call to prevent double toggle
+		from oracle.ui_mapper.recursive_crawler import expand_hamburger_menu
+		await expand_hamburger_menu(page)
+
 		try:
 			await page.wait_for_selector("#pt1\\:_UISnvr", timeout=15000)
 			nav_container = page.locator("#pt1\\:_UISnvr")
@@ -75,12 +89,12 @@ async def main():
 		if nav_count == 0:
 			debug_log("⚠️ No nav items found. Check page state or selector.")
 
-		await extract_nav_metadata(
-			page=page,
-			username=username,
-			is_superuser=True,
-			session_note=crawler_name
-		)
+		try:
+			burgers_visited = set()
+			await extract_nav_metadata(page=page, session_name=crawler_name, burgers_visited=burgers_visited)
+
+		except Exception as meta_err:
+			debug_log(f"❌ extract_nav_metadata crashed: {meta_err}")
 		debug_log("✅ Crawl completed")
 
 	debug_log("Exited main")

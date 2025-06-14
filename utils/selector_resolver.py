@@ -1,4 +1,4 @@
-### <<07-JUN-2025:18:45>> - Added load_env to ensure .env values are available before selector_map_file is resolved
+# <<07-JUN-2025:18:45>> - Added load_env to ensure .env values are available before selector_map_file is resolved
 
 import os
 import yaml
@@ -30,7 +30,13 @@ def get_selector(key_or_selector):
 
 	# Fallback priority: primary > css > xpath > text > raw
 	entry = selector_map.get(key_or_selector)
-	if isinstance(entry, dict):
+
+	if isinstance(entry, str):
+		debug_log(f"Resolved selector for '{key_or_selector}': {entry}")
+		debug_log("Exited")
+		return entry
+
+	elif isinstance(entry, dict):
 		primary = entry.get("primary")
 		if primary and primary in entry:
 			resolved = entry[primary]
@@ -52,6 +58,10 @@ def get_selector(key_or_selector):
 			debug_log(f"Resolved selector for '{key_or_selector}': {resolved}")
 			debug_log("Exited")
 			return resolved
+		else:
+			debug_log(f"⚠️ Key '{key_or_selector}' found in map but structure is unrecognized. Returning raw key.")
+			debug_log("Exited")
+			return key_or_selector
 
 	# Warn on missing semantic key fallback
 	if key_or_selector in selector_map:

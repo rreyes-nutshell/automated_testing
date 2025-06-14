@@ -10,85 +10,51 @@ from utils.logging import debug_log
 
 # <<10-JUN-2025:02:05>> - Refactored modal handler to avoid dismissing legitimate Oracle nav containers and centralize visibility checks
 # <<10-JUN-2025:02:32>> - Smart modal handler: tries Escape, falls back to click if still visible
+# <<12-JUN-2025:11:31>> - Final trap-breaking patch: force ESC even for previously ignored modals
+
+import os
+from utils.logging import debug_log
+
+# <<12-JUN-2025:11:38>> - Skip all modal logic if Oracle burger nav is visible (prevents premature escape)
+
 async def dismiss_modal_if_present(page):
-	# debug_log("Entered")
-
-	safe_to_ignore = [
-		"text='Change Data Access Set'",
-		"text='Press escape to exit this popup.'"
-	]
-
-	for selector in safe_to_ignore:
-		if await page.locator(selector).is_visible():
-			debug_log(f"🔐 Ignoring modal '{selector}' to keep burger nav safe")
+	try:
+		# 🍔 Detect Oracle left nav (burger menu) and skip all modal dismissal
+		burger = page.locator("div[id*='_UISnvr']")
+		if await burger.is_visible():
+			debug_log("🍔 Oracle hamburger nav is open — skipping modal escape to avoid breaking crawl")
 			return
 
-
-
-
-
-
-	try:
-		# Target Oracle sticky modals with Escape + fallback click
+		# Check for known modals
 		text_locator = page.locator("text='Press escape to exit this popup.'").first
 		if await text_locator.is_visible():
 			debug_log("🛑 Modal detected — attempting Escape")
 			await page.keyboard.press("Escape")
 			await page.wait_for_timeout(300)
 
-		try:
-			cancel_popup = page.locator("text='Change Data Access Set'")
-			if await cancel_popup.is_visible():
-				debug_log("🧾 Oracle data access popup detected — clicking Cancel")
+		# Check for Oracle access dialog
+		cancel_popup = page.locator("text='Change Data Access Set'")
+		if await cancel_popup.is_visible():
+			debug_log("🧾 Oracle data access popup detected — clicking Cancel")
+			cancel_button = page.locator("text='Cancel'").first
+			if await cancel_button.is_visible():
+				await cancel_button.click()
+				await page.wait_for_timeout(500)
+				debug_log("✅ Clicked Cancel to dismiss data access popup")
+				return
 
-				cancel_button = page.locator("text='Cancel'").first
-				if await cancel_button.is_visible():
-					await cancel_button.click()
-					await page.wait_for_timeout(500)
-					debug_log("✅ Clicked Cancel to dismiss data access popup")
-					return
-		except Exception as e:
-			debug_log(f"⚠️ Failed to dismiss data access popup: {e}")
-
-			# Recheck if still visible after Escape
-			if await text_locator.is_visible():
-				debug_log("⚠️ Modal still present — attempting click fallback")
-				box = await text_locator.bounding_box()
-				if not box:
-					element = await text_locator.evaluate_handle(
-						"""node => {
-							let el = node;
-							while (el && (!el.offsetWidth || !el.offsetHeight)) {
-								el = el.parentElement;
-							}
-							return el;
-						}"""
-					)
-					box = await element.bounding_box()
-
-				if box:
-					click_x = box['x'] + box['width'] / 2
-					click_y = box['y'] + box['height'] / 2
-					await page.mouse.click(click_x, click_y)
-					await page.wait_for_timeout(300)
-					debug_log("✅ Clicked modal container after failed Escape")
-					return
-
-		# Optionally handle other modal selectors or fallbacks here
+		# Generic fallback for any role=dialog modal
+		modal_count = await page.locator('div[role=dialog]').count()
+		if modal_count > 0:
+			debug_log("🔐 Generic dialog modal detected — attempting Escape fallback")
+			await page.keyboard.press("Escape")
+			await page.wait_for_timeout(500)
 
 	except Exception as e:
 		debug_log(f"❌ dismiss_modal_if_present failed: {e}")
 
-	# debug_log("Exited")
 
 
-
-
-# 
-# <<10-JUN-2025:21:54>> - Forces a click inside Oracle dropdown menu to dismiss lingering menu overlays
-
-# <<10-JUN-2025:00:45>> - Skip dismissing legit Oracle nav containers like _UISnvr
-# <<10-JUN-2025:01:14>> - Skip Oracle nav containers like _UISnvr when dismissing overlays
 async def dismiss_oracle_menu_overlay(page):
 	debug_log("Entered")
 	try:
@@ -100,7 +66,6 @@ async def dismiss_oracle_menu_overlay(page):
 		]
 
 		for selector in menu_candidates:
-			# ⛔ Skip Oracle nav menu containers
 			if "_UISnvr" in selector or "pt1" in selector:
 				debug_log(f"⏭️ Skipping known nav container: {selector}")
 				continue

@@ -15,15 +15,92 @@ from oracle.ui_mapper.db_inserter import save_ui_page_metadata, insert_ui_path, 
 from utils.skip_rules import should_skip_label
 from oracle.ui_mapper.db_inserter import insert_crawl_session, get_crawl_session_id_by_name
 from utils.modal_handler import dismiss_modal_if_present, dismiss_oracle_menu_overlay
-
-
+from oracle.ui_mapper.burger_launcher import launch_next_unclicked_icon
+from utils.nav_helpers import post_login_nav_ready
 # from oracle.ui_mapper.recursive_crawler import crawl_nav_items, expand_hamburger_menu
- 
+
   
 
 # <<09-JUN-2025:17:04>> - Fix for str shadowing across Python versions
 import builtins
 str = builtins.str
+
+# <<09-JUN-2025:14:07>> - Handles session creation by crawler_name, only if not already found
+# <<12-JUN-2025:21:03>> - Added burgers_visited to support tracking clicked icons across recursive sessions
+
+# <<13-JUN-2025:17:46>> - Added burger traversal loop with crawl_nav_items integration
+# <<13-JUN-2025:18:22>> - Added URL change verification before triggering crawl_nav_items
+# <<13-JUN-2025:19:21>> - Removed premature hamburger reopen before page crawl
+# <<13-JUN-2025:19:56>> - Shared visited state and prevented redundant burger launches
+# <<13-JUN-2025:20:13>> - Improved post-traversal menu reopen logic and step 2–4 flow
+# <<13-JUN-2025:22:06>> - Added start_index resume to avoid re-launching same burger on every trap
+
+
+async def begin_recursive_crawl(page: Page, crawler_name=None, burgers_visited=None):
+	debug_log("Entered begin_recursive_crawl")
+
+	if not crawler_name:
+		debug_log("❌ No crawler_name provided — aborting.")
+		debug_log("Exited begin_recursive_crawl")
+		return
+
+	# if burgers_visited is None:
+	# 	burgers_visited = set()
+
+	visited = {}
+	start_index = 0  # 🧠 Start from index 0
+
+	session_id = get_crawl_session_id_by_name(crawler_name)
+	if not session_id:
+		session_id = insert_crawl_session(session_name=crawler_name)
+
+	if not session_id:
+		debug_log("❌ Could not create crawl session — aborting.")
+		debug_log("Exited begin_recursive_crawl")
+		return
+
+	debug_log(f"Using crawler_name: {crawler_name}")
+	path_id = insert_ui_path(crawler_name, path_name="Full Recursive Crawl")
+
+	await post_login_nav_ready(page=page, burgers_visited=burgers_visited)
+
+	while True:
+		item_label, start_index = await launch_next_unclicked_icon(
+			page=page,
+			burgers_visited=burgers_visited,
+			start_index=start_index
+		)
+
+		if not item_label:
+			debug_log("✅ All burger icons processed — exiting loop.")
+			break
+
+		if item_label in burgers_visited:
+			debug_log(f"🛑 Icon '{item_label}' already marked visited — skipping.")
+			continue
+
+		await page.wait_for_timeout(1500)
+
+		try:
+			await crawl_nav_items(
+				page=page,
+				path_id=path_id,
+				item_label=item_label,
+				session_id=session_id,
+				session_name=crawler_name,
+				visited=visited,
+				burgers_visited=burgers_visited
+			)
+		except Exception as trap_flag:
+			if "TRAP_DETECTED" in str(trap_flag):
+				debug_log("🛑 Trap triggered reset to homepage")
+				await page.goto(os.getenv("ORA_URL"))
+				await post_login_nav_ready(page=page, burgers_visited=burgers_visited)
+
+	debug_log("Exited begin_recursive_crawl")
+
+
+
 
 
 # Expand the hamburger menu using stable get_by_role method# <<08-JUN-2025:14:39>> - Retry Navigator detection + fix screenshot call
@@ -39,12 +116,14 @@ str = builtins.str
 # File: root/oracle/ui_mapper/recursive_crawler.py
 
 # <<09-JUN-2025:13:40>> - Updated to include visibility check and retry logic for Navigator expansion
+# <<13-JUN-2025:20:41>> - Improved hamburger expansion with icon reload wait and return signal
+# <<13-JUN-2025:20:41>> - Improved hamburger expansion with icon reload wait and return signal
 
 async def expand_hamburger_menu(page: Page, session_id="unknown"):
 	debug_log("Entered")
 
 	try:
-		# Check if already expanded based on "Collapse" text visibility
+		# Check if already expanded based on "Collapse" indicators
 		already_expanded = (
 			await page.get_by_text("Collapse Tools").is_visible() or
 			await page.get_by_text("Collapse Others").is_visible() or
@@ -52,11 +131,11 @@ async def expand_hamburger_menu(page: Page, session_id="unknown"):
 		)
 		if already_expanded:
 			debug_log("📂 Menu already expanded, skipping Navigator click.")
-			await page.wait_for_timeout(1000)  # let DOM settle before crawling
+			await page.wait_for_timeout(1000)
 			debug_log("Exited")
-			return
+			return True
 
-		# Retry Navigator click if needed
+		# Try up to 3 times to open Navigator
 		retries = 3
 		for attempt in range(retries):
 			try:
@@ -72,17 +151,28 @@ async def expand_hamburger_menu(page: Page, session_id="unknown"):
 		else:
 			raise TimeoutError("Navigator button never became visible.")
 
-		# Optional Show More link expansion
-		show_more_link = page.get_by_role("link", name="Show More")
-		if await show_more_link.is_visible():
-			await show_more_link.click()
-			await page.wait_for_timeout(1000)
-			debug_log("📂 Clicked Show More")
+		# Try to expand Show More if available
+		try:
+			show_more_link = page.get_by_role("link", name="Show More")
+			if await show_more_link.is_visible():
+				await show_more_link.click()
+				await page.wait_for_timeout(1000)
+				debug_log("📂 Clicked Show More")
+		except Exception as sm_err:
+			debug_log(f"⚠️ Show More check failed: {sm_err}")
+
+		# Wait for burger icon DOM to load
+		await page.wait_for_selector("a[id^='pt1:_UISnvr']", timeout=1000)
+		debug_log("🍔 Burger icons now visible")
 
 	except Exception as e:
 		debug_log(f"⚠️ Menu expansion failed: {e}")
+		debug_log("Exited")
+		return False
 
 	debug_log("Exited")
+	return True
+
 
 # <<09-JUN-2025:17:15>> - Removed  usage from logging to avoid shadowed built-in crash
 
@@ -108,21 +198,24 @@ async def expand_hamburger_menu(page: Page, session_id="unknown"):
 # <<11-JUN-2025:18:30>> - Matched crawl_nav_items to use same visited namespacing as crawl_in_page_actions
 # <<11-JUN-2025:19:45>> - Synced modal handling and visited labeling with latest recursion logic
 # <<11-JUN-2025:21:00>> - Added DOM snapshot archival using page.content() per page navigation
+# ------------------------------
+# recursive_crawler.py - crawl_nav_items debug instrumentation
+# ------------------------------
 async def crawl_nav_items(
-	page: Page,
+	page,
 	path_id,
 	item_label,
-	visited=None,
+	visited,
 	depth=0,
 	session_id="unknown",
-	session_name="unknown"
+	session_name="unknown",
+	burgers_visited=None
 ):
-	debug_log("Entered")
-	visited = visited or {}
+	debug_log(f"🔍 crawl_nav_items START for: {item_label}")
+
+	burgers_visited = burgers_visited or set()
 
 	selector = "a:visible"
-	debug_log(f"{'  ' * depth}📁 Using selector: {selector}")
-
 	nav_items = page.locator(selector)
 	count = await nav_items.count()
 	debug_log(f"{'  ' * depth}🔍 Found {count} nav items at depth {depth}")
@@ -139,8 +232,12 @@ async def crawl_nav_items(
 		pass
 
 	heading_key = f"{stable_url}::{page_heading or 'unknown'}"
-	if heading_key not in visited:
-		visited[heading_key] = set()
+
+	if heading_key in visited and visited[heading_key]:
+		debug_log(f"🛑 Page '{heading_key}' already visited — skipping.")
+		return
+
+	visited.setdefault(heading_key, set())
 
 	save_ui_page_metadata(
 		page=page,
@@ -153,18 +250,22 @@ async def crawl_nav_items(
 		session_id=session_id
 	)
 
-	# ✅ Save raw DOM snapshot for this page
 	try:
 		html = await page.content()
 		from pathlib import Path
 		Path("dom_dumps").mkdir(parents=True, exist_ok=True)
- 
 		slug = slugify(page_heading or stable_url)
 		with open(f"dom_dumps/{session_id}_{slug}.html", "w") as f:
 			f.write(html)
 		debug_log(f"📝 Saved DOM for: {page_heading or stable_url}")
 	except Exception as snap_err:
 		debug_log(f"❌ Failed DOM snapshot: {snap_err}")
+
+	if item_label and item_label not in burgers_visited:
+		burgers_visited.add(item_label)
+		debug_log(f"📓 burgers_visited updated: {sorted(list(burgers_visited))}")
+
+	# existing loop to crawl nav items...
 
 	for i in range(count):
 		try:
@@ -177,7 +278,7 @@ async def crawl_nav_items(
 
 			child_panel = element.locator("xpath=..//following-sibling::div[contains(@class, 'subnav')]")
 			if await child_panel.is_hidden():
-				debug_log(f"{'  ' * depth}⏵ Expanding: {label}")
+				debug_log(f"{'  ' * depth}⎵ Expanding: {label}")
 				await dismiss_modal_if_present(page)
 				await element.scroll_into_view_if_needed()
 				await element.wait_for(state="visible", timeout=5000)
@@ -196,62 +297,41 @@ async def crawl_nav_items(
 
 			await dismiss_modal_if_present(page)
 
-			debug_log(f"🔍 crawl_in_page_actions type: {type(crawl_in_page_actions)}")
+			try:
+				await crawl_in_page_actions(
+					page=page,
+					session_id=session_id,
+					session_name=session_name,
+					page_url=page_url,
+					stable_url=stable_url,
+					locator=locator,
+					visited=visited,
+					path_id=path_id,
+					burgers_visited=burgers_visited
+				)
 
-			await crawl_in_page_actions(
-				page=page,
-				session_id=session_id,
-				session_name=session_name,
-				page_url=page_url,
-				stable_url=stable_url,
-				locator=locator,
-				visited=visited,
-				path_id=path_id
-			)
+			except Exception as trap_flag:
+				if "TRAP_DETECTED" in str(trap_flag):
+					debug_log("🛑 Trap triggered reset to homepage")
+					await page.goto(os.getenv("ORA_URL"))  # << same as login redirect
+					await post_login_nav_ready(page)
 
 			await dismiss_modal_if_present(page)
 
 		except Exception as crawl_err:
 			debug_log(f"{'  ' * depth}❌ Sub-panel error: {crawl_err}")
 
+	if len(page.context.pages) > 1:
+		try:
+			original = page.context.pages[0]
+			debug_log(f"📑 Closing tab: {page.url}")
+			await page.close()
+			page = original
+		except Exception as tab_err:
+			debug_log(f"⚠️ Failed to close extra tab: {tab_err}")
+
 	dump_visited(visited)
-	debug_log("Exited")
-
-
-
-
-# <<09-JUN-2025:14:07>> - Handles session creation by crawler_name, only if not already found
-async def begin_recursive_crawl(page: Page, crawler_name=None):
-	debug_log("Entered begin_recursive_crawl")
-
-
-	if not crawler_name:
-		debug_log("❌ No crawler_name provided — aborting.")
-		debug_log("Exited begin_recursive_crawl")
-		return
-
-	# Try to reuse existing session_id if name exists
-	session_id = get_crawl_session_id_by_name(crawler_name)
-	if not session_id:
-		session_id = insert_crawl_session(session_name=crawler_name)
-
-	if not session_id:
-		debug_log("❌ Could not create crawl session — aborting.")
-		debug_log("Exited begin_recursive_crawl")
-		return
-	debug_log(f"Using crawler_name: {crawler_name}")
-	path_id = insert_ui_path(crawler_name, path_name="Full Recursive Crawl")
-
-	item_label = "Top Level"
-	await expand_hamburger_menu(page)
-	# await crawl_nav_items(page, path_id=path_id, item_label=item_label, visited=set(), depth=0, session_id=session_id)
-	await crawl_nav_items(page,path_id=path_id,item_label=item_label,session_id=session_id,session_name=crawler_name)
-
-
-
-	debug_log("Exited begin_recursive_crawl")
-
-
+	debug_log(f"✅ crawl_nav_items END for: {item_label}")
 
 # 
 # ================================================
@@ -318,7 +398,7 @@ from utils.modal_handler import dismiss_modal_if_present, dismiss_oracle_menu_ov
 
 # <<11-JUN-2025:21:34>> - Rewritten to detect trap screens after clicking
 
-async def crawl_in_page_actions(page, session_id, session_name, page_url, stable_url, locator, visited, path_id):
+async def crawl_in_page_actions(page, session_id, session_name, page_url, stable_url, locator, visited, path_id,burgers_visited=None):  # <- add this line):
 	debug_log("Entered")
 
 	CRAWLER_TIMEOUT = int(os.getenv("CRAWLER_TIMEOUT", "5000"))
@@ -373,6 +453,10 @@ async def crawl_in_page_actions(page, session_id, session_name, page_url, stable
 		try:
 			element = locator.nth(i)
 			try:
+				if not await element.is_visible() or not await element.is_enabled():
+					debug_log(f"  ⏭️ Skipping element [{i}] — not visible or not enabled")
+					continue
+
 				label = await element.inner_text(timeout=CRAWLER_TIMEOUT)
 				label = label.strip() if label else None
 			except Exception as inner_err:
@@ -413,20 +497,29 @@ async def crawl_in_page_actions(page, session_id, session_name, page_url, stable
 			await dismiss_modal_if_present(page=page)
 			await dismiss_oracle_menu_overlay(page=page)
 
-			# 🧠 POST-CLICK TRAP DETECTION
-			no_title = not await page.query_selector("h1, h2")
-			no_nav = await page.locator("aside, nav").count() == 0
-			no_actions = await page.locator("button, a").count() < 3
-			if no_title and no_nav and no_actions:
-				debug_log(f"🔒 Post-click trap detected — {page.url} (label: {label})")
-				insert_ui_page_trap({
-					"session_id": session_id,
-					"path_id": path_id,
-					"url": page.url,
-					"label": label,
-					"trap_reason": "Post-click: No title, nav, or actions"
-				})
-				continue
+			try:
+				no_title = not await page.query_selector("h1, h2")
+				no_nav = await page.locator("aside, nav").count() == 0
+				no_actions = await page.locator("button, a").count() < 3
+
+				debug_log(f"🛡️ Trap check — no_title: {no_title}, no_nav: {no_nav}, no_actions: {no_actions}")
+
+				if no_nav and sum([no_title, no_actions]) >= 1:
+					debug_log(f"🔒 Partial trap detected (missing nav): {page.url} (label: {label})")
+					insert_ui_page_trap({
+						"session_id": session_id,
+						"path_id": path_id,
+						"url": page.url,
+						"label": label,
+						"trap_reason": "Partial: No nav, plus missing title or actions"
+					})
+					await dismiss_modal_if_present(page)
+					await dismiss_oracle_menu_overlay(page)
+					raise Exception("TRAP_DETECTED")
+
+					
+			except Exception as trap_err:
+				debug_log(f"⚠️ Trap check error: {trap_err}")
 
 			visited[heading_key].add(label)
 
